@@ -116,7 +116,7 @@ data = np.random.normal(mu, sigma, n)
 plt.hist(data)
 stats.describe(data)[0:2] # [0] : nobs, [1] : minmax
 ```
-![hist0](https://github.com/kimpro82/My_Practice/blob/master/images/Generate_Limited_Range_ND_hist_0.png)
+![hist0](../images/Generate_Limited_Range_ND_hist_0.png)
 > (1000, (16.763171096395133, 76.969552776105601))
 
 #### Method 1. Trim with rack of amount
@@ -127,7 +127,7 @@ data1 = data[(data >= llimit) & (data <= rlimit)]
 plt.hist(data1)
 stats.describe(data1)[0:2]
 ```
-![hist1](https://github.com/kimpro82/My_Practice/blob/master/images/Generate_Limited_Range_ND_hist_1.png)
+![hist1](../images/Generate_Limited_Range_ND_hist_1.png)
 > (991, (25.600374595125377, 74.942171158969671))
 
 #### Method 2. Check each one trial
@@ -144,7 +144,7 @@ while amount < n :
 plt.hist(data2)
 stats.describe(data2)[0:2]
 ```
-![hist2](https://github.com/kimpro82/My_Practice/blob/master/images/Generate_Limited_Range_ND_hist_2.png)
+![hist2](../images/Generate_Limited_Range_ND_hist_2.png)
 > (1000, (25.987274047611137, 73.473315070409228))
 
 #### Method 3. Generate one round and fill the lack
@@ -162,7 +162,7 @@ while amount < n :
 plt.hist(data3)
 stats.describe(data3)[0:2]
 ```
-![hist3](https://github.com/kimpro82/My_Practice/blob/master/images/Generate_Limited_Range_ND_hist_3.png)
+![hist3](../images/Generate_Limited_Range_ND_hist_3.png)
 > (1000, (25.600374595125377, 74.942171158969671))
 
 
