@@ -1,6 +1,4 @@
 # generating a player who has locatiion (a,b) and its trace data
- 
- 
 class player :
     
     name = ''
