@@ -4,7 +4,7 @@ import binascii
 
 # 1. check if the file exists and its length
 
-saveFileName = "s1Save.gk"
+saveFileName = "save1.gk"
 # print(os.path.isfile(saveFileName))           # check if the save file exists
 
 filelenth = os.path.getsize(saveFileName)
