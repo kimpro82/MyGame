@@ -5,6 +5,10 @@ Game is to handle data
 - Player2.py (2019.12.15)
 - Player.py (2019.03.12) - maybe?
 
+## GK4 ERP
+a great journey to construct GK4(Genghis Khan Ⅳ, KOEI, 1998) ERP
+- GK4_Provinces.py (2021.03.17)
+
 ## RTK2 ERP
 a great journey to construct RTK2(Romance of The Three Kingdoms II, KOEI, 1989) ERP
 - RTK2_Call_General_Taiki.py (2020.03.01)
