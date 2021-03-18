@@ -43,7 +43,7 @@ with open(path,'rb') as f:
 
 # 4. read provinces' data
 
-print("#", "이름           ", "소속국#", "규모", "방어", "금", "식량", "상비군", "부상병")
+print("#", "이름", "소속국#", "규모", "방어", "금", "식량", "상비군", "부상병")
 
 for i in list(range(0, province_num)) :
 

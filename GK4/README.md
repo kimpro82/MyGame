@@ -49,7 +49,7 @@ with open(path,'rb') as f:
 
 #### 4. read provinces' data
 ```python
-print("#", "이름           ", "소속국#", "규모", "방어", "금", "식량", "상비군", "부상병")
+print("#", "이름", "소속국#", "규모", "방어", "금", "식량", "상비군", "부상병")
 
 for i in list(range(0, province_num)) :
 
@@ -66,7 +66,7 @@ for i in list(range(0, province_num)) :
     print(province_data[i][30] + province_data[i][31]*256, " ", end='')     # province soldiers
     print(province_data[i][32] + province_data[i][33]*256)                  # province injured soldiers
 ```
-> \# 이름            소속국# 규모 방어 금 식량 상비군 부상병  
+> \# 이름 소속국# 규모 방어 금 식량 상비군 부상병  
 > 0  런던                  0  6  600  5500  15000  6500  0  
 > 1  파리                  1  5  500  6500  17000  8000  0  
 > 2  쾰른                  2  4  400  8170  8373  6200  0  
