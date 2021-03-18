@@ -43,16 +43,16 @@ with open(path,'rb') as f:
 
 # 4. read provinces' data
 
-print("#", "이름", "소속국#", "규모", "방어", "금", "식량", "상비군", "부상병")
+print("# ", "이름           ", "소속국#", "규모", "방어", "금", "식량", "상비군", "부상병")
 
 for i in list(range(0, province_num)) :
 
     if province_data[i][0] == 255 :             # do not need to print empty data
         break
 
-    print(province_data[i][0], " ", end='')                                 # province #
+    print(province_data[i][0], " ", end='')                                 # province#
     print(bytes(province_data[i][1:22]).decode('cp949'), " ", end='')       # province name
-    print(province_data[i][22], " ", end='')                                # country #
+    print(province_data[i][22], " ", end='')                                # country#
     print(province_data[i][23], " ", end='')                                # province scale
     print(province_data[i][24] + province_data[i][25]*256, " ", end='')     # province defence
     print(province_data[i][26] + province_data[i][27]*256, " ", end='')     # province gold

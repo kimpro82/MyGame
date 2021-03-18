@@ -6,6 +6,7 @@ a great journey to construct GK4(Genghis Khan Ⅳ, KOEI, 1998) ERP
 ## GK4_Provinces.py (2021.03.17)
 - partial module of a gaming utility for `Genghis Khan Ⅳ` (KOEI, 1998)
 - call provinces' data from a save file
+- based on the previous works in `\RTK2`
 - use `os` `binascii`
 
 #### 1. check if the file exists and its length
@@ -49,16 +50,16 @@ with open(path,'rb') as f:
 
 #### 4. read provinces' data
 ```python
-print("#", "이름", "소속국#", "규모", "방어", "금", "식량", "상비군", "부상병")
+print("# ", "이름           ", "소속국#", "규모", "방어", "금", "식량", "상비군", "부상병")
 
 for i in list(range(0, province_num)) :
 
     if province_data[i][0] == 255 :             # do not need to print empty data
         break
 
-    print(province_data[i][0], " ", end='')                                 # province #
+    print(province_data[i][0], " ", end='')                                 # province#
     print(bytes(province_data[i][1:22]).decode('cp949'), " ", end='')       # province name
-    print(province_data[i][22], " ", end='')                                # country #
+    print(province_data[i][22], " ", end='')                                # country#
     print(province_data[i][23], " ", end='')                                # province scale
     print(province_data[i][24] + province_data[i][25]*256, " ", end='')     # province defence
     print(province_data[i][26] + province_data[i][27]*256, " ", end='')     # province gold
@@ -66,7 +67,7 @@ for i in list(range(0, province_num)) :
     print(province_data[i][30] + province_data[i][31]*256, " ", end='')     # province soldiers
     print(province_data[i][32] + province_data[i][33]*256)                  # province injured soldiers
 ```
-> \# 이름 소속국# 규모 방어 금 식량 상비군 부상병  
+> \#  이름            소속국# 규모 방어 금 식량 상비군 부상병  
 > 0  런던                  0  6  600  5500  15000  6500  0  
 > 1  파리                  1  5  500  6500  17000  8000  0  
 > 2  쾰른                  2  4  400  8170  8373  6200  0  
