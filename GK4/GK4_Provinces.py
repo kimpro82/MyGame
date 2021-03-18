@@ -4,10 +4,10 @@ import binascii
 
 # 1. check if the file exists and its length
 
-saveFileName = "save1.gk"
-# print(os.path.isfile(saveFileName))           # check if the save file exists
+path = ".\GK4\save1.gk"
+# print(os.path.isfile(path))           # check if the save file exists
 
-filelenth = os.path.getsize(saveFileName)
+filelenth = os.path.getsize(path)
 alpha = filelenth - 1344418                     # get the alpha that is added to the offset value
 
 
@@ -28,7 +28,7 @@ for i in list(range(0,80)) :
 
 # 3. get provinces' data
 
-with open(saveFileName,'rb') as f:
+with open(path,'rb') as f:
     province_raw_data = f.read()
     province_data = []
 
@@ -47,7 +47,7 @@ print("도시#", "이름", "소속국#", "규모", "방어", "금", "식량", "�
 
 for i in list(range(0, province_num)) :
 
-    if province_data[i][0] == 255 :             # do not neet to print empty data
+    if province_data[i][0] == 255 :             # do not need to print empty data
         break
 
     print(province_data[i][0], " ", end='')                                 # province #
