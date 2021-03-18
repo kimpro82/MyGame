@@ -12,7 +12,7 @@ a great journey to construct GK4(Genghis Khan Ⅳ, KOEI, 1998) ERP
 #### 1. check if the file exists and its length
 ```python
 path = ".\GK4\save1.gk"
-# print(os.path.isfile(path))           # check if the save file exists
+# print(os.path.isfile(path))                     # check if the save file exists
 
 filelenth = os.path.getsize(path)
 alpha = filelenth - 1344418                     # get the alpha that is added to the offset value
