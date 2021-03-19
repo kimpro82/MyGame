@@ -12,6 +12,7 @@ a great journey to construct RTK2(Romance of The Three Kingdoms II, KOEI, 1989) 
 ## RTK2_Call_General_Taiki_2.py (2021.03.18)
 - call and print outside generals' data from `TAIKI.DAT`
 - use `os` `bytes()`
+- not a large size data but still is open to faster enhancement
 
 #### Mainly added/changed part
 
