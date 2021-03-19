@@ -1,11 +1,52 @@
 # My Python Practice - RTK2 ERP
 a great journey to construct RTK2(Romance of The Three Kingdoms II, KOEI, 1989) ERP
+- RTK2_Call_General_Taiki_2.py (2021.03.18)
 - RTK2_Call_General_Taiki.py (2020.03.01)
 - Generate_Limited_Range_ND.py (2019.09.22)
 - RTK2_CallData_Pandas.py (2019.08.12)
 - RTK2_CallData.py (2019.07.23)
 - RTK2_Offset.py (2019.07.22)
 - With_Open.py (2019.07.21)
+
+
+## RTK2_Call_General_Taiki_2.py (2021.03.18)
+- call and print outside generals' data from `TAIKI.DAT`
+- use `os` `bytes()`
+- not a large size data but still is open to faster enhancement
+
+#### Mainly added/changed part
+
+```python
+# 4. Read The Data
+
+readlocation = (0, 2, 1, 28) + tuple(list(range(7, 13))) + (18,)
+# print(readlocation)                                                                 # (0, 2, 1, 7, 8, 9, 10, 11, 12, 18)
+
+print("이름", "출현연도", "출현지역", "혈연", "출생연도", "지력", "무력", "매력", "의리", "인덕", "야망", "상성")
+
+# for i in list(range(0, 10)) :                                                       # test
+for i in list(range(0, len(general_offset_init) - 2)) :                             # The last two rows are empty
+
+    general_data[i][2] += 1                                                         # province# : 0~40 → 1~41
+
+    print(bytes(general_data[i][31:46]).decode('utf-8').ljust(15), " ", end='')     # name : [31:46]
+    for j in readlocation :                                                         # other values
+        print(str(general_data[i][j]).rjust(3), " ", end='')
+    print(" ")                                                                      # line replacement
+```
+
+> 이름 출현연도 출현지역 혈연 출생연도 지력 무력 매력 의리 인덕 야망 상성  
+> Gan Ning  190   21  255  175   51   92   52   79   56   71   98  
+> Wang Zhong  190    9  255  167   34   52   53   60   47   52   10  
+> Han Hao  190   21  255  153   25   31   15   16   18   32   25  
+> Zhao Yue  190    3  255  156   85   99   92   90   88   70   50  
+> Chun Yuqiong  190    6  255  146   65   76   68   66   63   71   45  
+> Bao Xin  190    9  255  153   30   42   41   47   36   48   10  
+> Gong Zhi  190   20  255  158   46   42   52   59   41   44   70  
+> Yuan Pu  190   29  255  163   80   33   42   55   53   57   20  
+> Man Chong  190   10  255  170   81   40   92   84   88   63   10  
+> Ma Wan  190   14  255  175   23   52   26   13   38   39   20  
+> ……
 
 
 ## RTK2_Call_General_Taiki.py (2020.03.01)
@@ -19,7 +60,8 @@ a great journey to construct RTK2(Romance of The Three Kingdoms II, KOEI, 1989) 
 # Header Data : 6 bytes
 ```
 
-#### Check If TAIKI.DAT Exists
+#### 1. heck If TAIKI.DAT Exists and get the file's length
+
 ```python
 import os
 
@@ -30,7 +72,6 @@ os.path.isfile(path)
 ```
 > True
 
-#### Get the file length
 ```python
 filelenth = os.path.getsize(path)
 num = int((filelenth - 6) / 46)
@@ -40,7 +81,7 @@ print(num) # There're 420 General's Data
 ```
 > 420
 
-#### Make Offset Initial Information
+#### 2. Make Offset Initial Information
 1) Generate an Arithmetic Progression : a1 = 7, d = 46
 2) make (i. j) list from 1)
 ```python
@@ -54,7 +95,7 @@ print(general_offset_data[0:2])
 > [6, 52, 98, 144, 190, 236, 282, 328, 374, 420]  
 > [[6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51], [52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97]]
 
-#### Call TAIKI.DAT
+#### 3. Call TAIKI.DAT
 ```python
 with open(path,'rb') as f:
     general_raw_data = f.read()
