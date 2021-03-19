@@ -10,6 +10,8 @@ a great journey to construct RTK2(Romance of The Three Kingdoms II, KOEI, 1989) 
 
 
 ## RTK2_Call_General_Taiki.py (2020.03.01)
+- call and print outside generals' data from `TAIKI.DAT`
+- use `os` `bytes()`
 
 #### Mainly added/changed part
 
@@ -29,7 +31,7 @@ for i in list(range(0, len(general_offset_init) - 2)) :                         
     print(bytes(general_data[i][31:46]).decode('utf-8').ljust(15), " ", end='')     # name : [31:46]
     for j in readlocation :                                                         # other values
         print(str(general_data[i][j]).rjust(3), " ", end='')
-    print(" ")      
+    print(" ")                                                                      # line replacement
 ```
 
 > 이름 출현연도 출현지역 혈연 출생연도 지력 무력 매력 의리 인덕 야망 상성  
