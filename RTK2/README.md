@@ -9,7 +9,7 @@ a great journey to construct RTK2(Romance of The Three Kingdoms II, KOEI, 1989) 
 - With_Open.py (2019.07.21)
 
 
-## RTK2_Call_General_Taiki.py (2020.03.01)
+## RTK2_Call_General_Taiki_2.py (2021.03.18)
 - call and print outside generals' data from `TAIKI.DAT`
 - use `os` `bytes()`
 
@@ -59,7 +59,8 @@ for i in list(range(0, len(general_offset_init) - 2)) :                         
 # Header Data : 6 bytes
 ```
 
-#### Check If TAIKI.DAT Exists
+#### 1. heck If TAIKI.DAT Exists and get the file's length
+
 ```python
 import os
 
@@ -70,7 +71,6 @@ os.path.isfile(path)
 ```
 > True
 
-#### Get the file length
 ```python
 filelenth = os.path.getsize(path)
 num = int((filelenth - 6) / 46)
@@ -80,7 +80,7 @@ print(num) # There're 420 General's Data
 ```
 > 420
 
-#### Make Offset Initial Information
+#### 2. Make Offset Initial Information
 1) Generate an Arithmetic Progression : a1 = 7, d = 46
 2) make (i. j) list from 1)
 ```python
@@ -94,7 +94,7 @@ print(general_offset_data[0:2])
 > [6, 52, 98, 144, 190, 236, 282, 328, 374, 420]  
 > [[6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51], [52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97]]
 
-#### Call TAIKI.DAT
+#### 3. Call TAIKI.DAT
 ```python
 with open(path,'rb') as f:
     general_raw_data = f.read()
