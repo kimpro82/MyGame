@@ -1,0 +1,2 @@
+mount c c:\
+c:
