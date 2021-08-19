@@ -1,6 +1,6 @@
 # [DOS Environment-related works]
 
-- [Modyfy Autoexec.bat in Dosbox (2021.08.19)](/Dosbox#modify-autoexecbat-in-dosbox-20210819)
+- [Modify Autoexec.bat in Dosbox (2021.08.19)](/Dosbox#modify-autoexecbat-in-dosbox-20210819)
 - [Nostalgic Game.bat (2021.08.19)](/Dosbox#nostalgic-gamebat-20210819)
 
 
