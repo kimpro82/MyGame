@@ -6,7 +6,7 @@ Game is to handle data
 - Player.py (2019.03.12) - maybe?
 
 ## [DOS Environment-related works](/Dosbox#my-dos-environment-related-works)
-- [Autoexec.bat in Dosbox (2021.08.19)](/Dosbox#autoexecbat-in-dosbox-20210819)
+- [Modyfy Autoexec.bat in Dosbox (2021.08.19)](/Dosbox#modify-autoexecbat-in-dosbox-20210819)
 - [Nostalgic Game.bat (2021.08.19)](/Dosbox#nostalgic-gamebat-20210819)
 
 ## GK4 ERP
