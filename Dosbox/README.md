@@ -4,7 +4,7 @@
 - Nostalgic Game.bat (2021.08.19)
 
 
-#### Autoexec.bat in Dosbox (2021.08.19)
+## Autoexec.bat in Dosbox (2021.08.19)
 - simple commands to mount C drive and move there in **Dosbox**  
 \* modify [autoexec] part in `dosbox\dosbox.conf`, not directly `autoexec.bat`  
 &nbsp;&nbsp;&nbsp;(can't approach to `Z:\` and also files there)
@@ -40,4 +40,4 @@ if "%x%"=="2" echo c:\game\mg\mg.exe
 if "%x%"=="3" echo c:\park.exe
 goto LIST
 ```
-※ The games don't exist in my current desktop, so the commands are treated as `echo` messages.
+※ The games don't exist in my current desktop, so their paths are treated just as `echo` messages.
