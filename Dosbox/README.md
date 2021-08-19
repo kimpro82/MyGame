@@ -22,7 +22,7 @@ SET GLIDE=600
 
 ## [Nostalgic Game.bat (2021.08.19)](/Dosbox#my-dos-environment-related-works)
 - An old batch file recreated from my memory to help **my sister** excute games when she was young  
-![Run Game.bat](Images\dosbox_game.PNG)
+![Run Game.bat](Images\Dosbox_game.PNG)
 ```bat
 @echo off
 echo #########################
