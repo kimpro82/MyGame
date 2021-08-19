@@ -5,9 +5,9 @@ Game is to handle data
 - Player2.py (2019.12.15)
 - Player.py (2019.03.12) - maybe?
 
-## My DOS Environment-related works
-- Autoexec.bat in Dosbox (2021.08.19)
-- Nostalgic Game.bat (2021.08.19)
+## [DOS Environment-related works](/Dosbox#my-dos-environment-related-works)
+- [Autoexec.bat in Dosbox (2021.08.19)](/Dosbox#autoexecbat-in-dosbox-20210819)
+- [Nostalgic Game.bat (2021.08.19)](/Dosbox#nostalgic-gamebat-20210819)
 
 ## GK4 ERP
 a great journey to construct GK4(Genghis Khan Ⅳ, KOEI, 1998) ERP

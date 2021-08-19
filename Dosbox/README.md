@@ -1,10 +1,10 @@
-# [My DOS Environment-related works]
+# [\[DOS Environment-related works\]](/#mygame)
 
-- Autoexec.bat in Dosbox (2021.08.19)
-- Nostalgic Game.bat (2021.08.19)
+- [Autoexec.bat in Dosbox (2021.08.19)](/Dosbox#autoexecbat-in-dosbox-20210819)
+- [Nostalgic Game.bat (2021.08.19)](/Dosbox#nostalgic-gamebat-20210819)
 
 
-## Autoexec.bat in Dosbox (2021.08.19)
+## [Autoexec.bat in Dosbox (2021.08.19)](/Dosbox#my-dos-environment-related-works)
 - simple commands to mount C drive and move there in **Dosbox**  
 \* modify [autoexec] part in `dosbox\dosbox.conf`, not directly `autoexec.bat`  
 &nbsp;&nbsp;&nbsp;(can't approach to `Z:\` and also files there)
@@ -20,7 +20,7 @@ SET GLIDE=600
 ```
 
 
-## Nostalgic Game.bat (2021.08.19)
+## [Nostalgic Game.bat (2021.08.19)](/Dosbox#my-dos-environment-related-works)
 - An old batch file recreated from my memory to help **my sister** excute games when she was young
 ```bat
 @echo off
