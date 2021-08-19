@@ -5,15 +5,15 @@
 
 
 ## [Autoexec.bat in Dosbox (2021.08.19)](/Dosbox#my-dos-environment-related-works)
-- simple commands to mount C drive and move there in **Dosbox**  
+- simple commands to **mount C drive and move there** in **Dosbox**  
 \* modify [autoexec] part in `dosbox\dosbox.conf`, not directly `autoexec.bat`  
 &nbsp;&nbsp;&nbsp;(can't approach to `Z:\` and also files there)
 ```bat
-mount c c:\
+mount c c:\game
 c:
 ```
 
-\* The below two lines are automately inserted into `autoexec.bat` when Dosbox is initialized, so it's not necessary to add them in `dosbox.conf`.
+\* The below two lines are automately inserted into `autoexec.bat` when Dosbox is initialized, so it's **not necessary to add** them in `dosbox.conf`.
 ```bat
 SET BLASTER=A220 I7 D1 H5 T6
 SET GLIDE=600
@@ -21,7 +21,8 @@ SET GLIDE=600
 
 
 ## [Nostalgic Game.bat (2021.08.19)](/Dosbox#my-dos-environment-related-works)
-- An old batch file recreated from my memory to help **my sister** excute games when she was young
+- An old batch file recreated from my memory to help **my sister** excute games when she was young  
+![Run Game.bat](Images\dosbox_game.PNG)
 ```bat
 @echo off
 echo #########################

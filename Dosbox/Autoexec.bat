@@ -1,2 +1,2 @@
-mount c c:\
+mount c c:\game
 c:
