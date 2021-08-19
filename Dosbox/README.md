@@ -1,4 +1,4 @@
-# [\[DOS Environment-related works\]](/#mygame)
+# [DOS Environment-related works]
 
 - [Autoexec.bat in Dosbox (2021.08.19)](/Dosbox#autoexecbat-in-dosbox-20210819)
 - [Nostalgic Game.bat (2021.08.19)](/Dosbox#nostalgic-gamebat-20210819)
