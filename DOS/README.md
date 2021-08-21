@@ -12,6 +12,9 @@ simple commands to **mount C drive and move there** in **DOSBox**
 &nbsp;&nbsp;(can't approach to `Z:\` and also files there)
 
 ```bat
+[autoexec]
+# Lines in this section will be run at startup.
+# You can put your MOUNT lines here.
 mount c c:\game
 c:
 ```
