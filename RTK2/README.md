@@ -2,7 +2,6 @@
 a great journey to construct RTK2(Romance of The Three Kingdoms II, KOEI, 1989) ERP
 - RTK2_Call_General_Taiki_2.py (2021.03.18)
 - RTK2_Call_General_Taiki.py (2020.03.01)
-- Generate_Limited_Range_ND.py (2019.09.22)
 - RTK2_CallData_Pandas.py (2019.08.12)
 - RTK2_CallData.py (2019.07.23)
 - RTK2_Offset.py (2019.07.22)
@@ -133,78 +132,6 @@ for i in range(1,10) :
 > 7  
 > 8  
 > 9
-
-
-## Generate_Limited_Range_ND.py (2019.09.22)
-- partial module of a gaming utility for `Romance of The Three Kingdoms II` (KOEI, 1989)
-- generate market rate data sample for practicing `gold`-`food` arbitrage
-- use `numpy` `matplotlib.pyplot` `scipy`
-
-#### Generate a normal distribution with limited range [25, 75]
-```python
-import numpy as np
-import matplotlib.pyplot as plt
-from scipy import stats
-
-mu, sigma, n = 50, 10, 1000
-llimit, rlimit = 25, 75
-
-data = np.random.normal(mu, sigma, n)
-```
-
-#### Method 0. Generating initial data (not trimmed yet)
-```python
-plt.hist(data)
-stats.describe(data)[0:2] # [0] : nobs, [1] : minmax
-```
-![hist0](../images/Generate_Limited_Range_ND_hist_0.png)
-> (1000, (16.763171096395133, 76.969552776105601))
-
-#### Method 1. Trim with rack of amount
-```python
-data1 = data[(data >= llimit) & (data <= rlimit)]
-```
-```python
-plt.hist(data1)
-stats.describe(data1)[0:2]
-```
-![hist1](../images/Generate_Limited_Range_ND_hist_1.png)
-> (991, (25.600374595125377, 74.942171158969671))
-
-#### Method 2. Check each one trial
-```python
-data2, amount = [], 0
-
-while amount < n :
-    data_temp = np.random.normal(mu, sigma, 1)
-    if (data_temp >= llimit) & (data_temp <= rlimit) :
-        data2 = np.append(data2, data_temp)
-        amount += 1
-```
-```python
-plt.hist(data2)
-stats.describe(data2)[0:2]
-```
-![hist2](../images/Generate_Limited_Range_ND_hist_2.png)
-> (1000, (25.987274047611137, 73.473315070409228))
-
-#### Method 3. Generate one round and fill the lack
-```python
-data3 = data[(data >= llimit) & (data <= rlimit)]
-amount = len(data3)
-
-while amount < n :
-    data_temp = np.random.normal(mu, sigma, 1)
-    if (data_temp >= llimit) & (data_temp <= rlimit) :
-        data3 = np.append(data3, data_temp)
-        amount += 1
-```
-```python
-plt.hist(data3)
-stats.describe(data3)[0:2]
-```
-![hist3](../images/Generate_Limited_Range_ND_hist_3.png)
-> (1000, (25.600374595125377, 74.942171158969671))
 
 
 ## RTK2_CallData_Pandas.py (2019.08.12)
