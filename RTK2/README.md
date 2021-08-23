@@ -1,14 +1,14 @@
-# My Python Practice - RTK2 ERP
+# RTK2 ERP
 a great journey to construct RTK2(Romance of The Three Kingdoms II, KOEI, 1989) ERP
-- RTK2_Call_General_Taiki_2.py (2021.03.18)
-- RTK2_Call_General_Taiki.py (2020.03.01)
-- RTK2_CallData_Pandas.py (2019.08.12)
-- RTK2_CallData.py (2019.07.23)
-- RTK2_Offset.py (2019.07.22)
+- [General - Taiki 2 (2021.03.18)]()
+- [General - Taiki (2020.03.01)]()
+- [Province - Pandas (2019.08.12)]()
+- [Province (2019.07.23)]()
+- [Province - Offset (2019.07.22)]()
 - With_Open.py (2019.07.21)
 
 
-## RTK2_Call_General_Taiki_2.py (2021.03.18)
+## [General - Taiki 2 (2021.03.18)](/RTK2#rtk2-erp)
 - call and print outside generals' data from `TAIKI.DAT`
 - use `os` `bytes()`
 - not a large size data but still is open to faster enhancement
@@ -48,7 +48,7 @@ for i in list(range(0, len(general_offset_init) - 2)) :                         
 > ……
 
 
-## RTK2_Call_General_Taiki.py (2020.03.01)
+## [General - Taiki (2020.03.01)](/RTK2#rtk2-erp)
 - partial module of a gaming utility for `Romance of The Three Kingdoms II` (KOEI, 1989)
 - call outside generals' data from `TAIKI.DAT`
 - succeed in separating each general's data, but they should convert from `ASCII Code(int)` to `string`
@@ -134,7 +134,7 @@ for i in range(1,10) :
 > 9
 
 
-## RTK2_CallData_Pandas.py (2019.08.12)
+## [Province - Pandas (2019.08.12)](/RTK2#rtk2-erp)
 - partial module of a gaming utility for `Romance of The Three Kingdoms II` (KOEI, 1989)
 - upgrade : adopt `Numpy` & `Pandas` and convert to a `class`
 - The parameter `lord` of the def `dataload` doesn't work yet.
@@ -216,12 +216,12 @@ save.head()
 > 4  268000  30000  2700000  15  100  100  100  16   1  48  
 
 
-## RTK2_CallData.py (2019.07.23)
+## [Province (2019.07.23)](/RTK2#rtk2-erp)
 - partial module of a gaming utility for `Romance of The Three Kingdoms II` (KOEI, 1989)
 - call each province's data of population, gold, food and so on from a save file
 
 ```python
-# province_offset_data - from RTK2_Offset.py (2019.07.22)
+# province_offset_data - from Offset.py (2019.07.22)
 province_offset_init = []
 province_offset_data = []
 
@@ -300,7 +300,7 @@ for i in list(range(0,10)) :
 > 10       1010800         30000   3000000         33 83 96 100 100 6  
 
 
-## RTK2_Offset.py (2019.07.22)
+## [Province - Offset (2019.07.22)](/RTK2#rtk2-erp)
 - partial module of a gaming utility for `Romance of The Three Kingdoms II` (KOEI, 1989)
 - make offset locations' list before call the save data
 
