@@ -13,7 +13,8 @@ a great journey to construct RTK2(Romance of The Three Kingdoms II, KOEI, 1989) 
 ## [VBA / General (2021.08.24)](/RTK2#rtk2-erp)
 
 - read generals' data from a savefile by **VBA**
-- can **extend** to other data of rulers and provinces, or even common **Hex Editor** by generalized structure to depend on parameters that user entered
+- generalized structure to depend on parameters that user entered  
+  ☞ can **extend** to other data of rulers and provinces, or even common **Hex Editor**
 
 ![Read Generals' data](Images/RTK2_ReadGeneral.gif)
 
