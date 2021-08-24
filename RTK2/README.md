@@ -1,15 +1,14 @@
-# My Python Practice - RTK2 ERP
+# RTK2 ERP
 a great journey to construct RTK2(Romance of The Three Kingdoms II, KOEI, 1989) ERP
-- RTK2_Call_General_Taiki_2.py (2021.03.18)
-- RTK2_Call_General_Taiki.py (2020.03.01)
-- Generate_Limited_Range_ND.py (2019.09.22)
-- RTK2_CallData_Pandas.py (2019.08.12)
-- RTK2_CallData.py (2019.07.23)
-- RTK2_Offset.py (2019.07.22)
+- [General - Taiki 2 (2021.03.18)](/RTK2#general---taiki-2-20210318)
+- [General - Taiki (2020.03.01)](/RTK2#general---taiki-20200301)
+- [Province - Pandas (2019.08.12)](/RTK2#province---pandas-20190812)
+- [Province (2019.07.23)](/RTK2#province-20190723)
+- [Province - Offset (2019.07.22)](/RTK2#province---offset-20190722)
 - With_Open.py (2019.07.21)
 
 
-## RTK2_Call_General_Taiki_2.py (2021.03.18)
+## [General - Taiki 2 (2021.03.18)](/RTK2#rtk2-erp)
 - call and print outside generals' data from `TAIKI.DAT`
 - use `os` `bytes()`
 - not a large size data but still is open to faster enhancement
@@ -49,7 +48,7 @@ for i in list(range(0, len(general_offset_init) - 2)) :                         
 > ……
 
 
-## RTK2_Call_General_Taiki.py (2020.03.01)
+## [General - Taiki (2020.03.01)](/RTK2#rtk2-erp)
 - partial module of a gaming utility for `Romance of The Three Kingdoms II` (KOEI, 1989)
 - call outside generals' data from `TAIKI.DAT`
 - succeed in separating each general's data, but they should convert from `ASCII Code(int)` to `string`
@@ -135,79 +134,7 @@ for i in range(1,10) :
 > 9
 
 
-## Generate_Limited_Range_ND.py (2019.09.22)
-- partial module of a gaming utility for `Romance of The Three Kingdoms II` (KOEI, 1989)
-- generate market rate data sample for practicing `gold`-`food` arbitrage
-- use `numpy` `matplotlib.pyplot` `scipy`
-
-#### Generate a normal distribution with limited range [25, 75]
-```python
-import numpy as np
-import matplotlib.pyplot as plt
-from scipy import stats
-
-mu, sigma, n = 50, 10, 1000
-llimit, rlimit = 25, 75
-
-data = np.random.normal(mu, sigma, n)
-```
-
-#### Method 0. Generating initial data (not trimmed yet)
-```python
-plt.hist(data)
-stats.describe(data)[0:2] # [0] : nobs, [1] : minmax
-```
-![hist0](../images/Generate_Limited_Range_ND_hist_0.png)
-> (1000, (16.763171096395133, 76.969552776105601))
-
-#### Method 1. Trim with rack of amount
-```python
-data1 = data[(data >= llimit) & (data <= rlimit)]
-```
-```python
-plt.hist(data1)
-stats.describe(data1)[0:2]
-```
-![hist1](../images/Generate_Limited_Range_ND_hist_1.png)
-> (991, (25.600374595125377, 74.942171158969671))
-
-#### Method 2. Check each one trial
-```python
-data2, amount = [], 0
-
-while amount < n :
-    data_temp = np.random.normal(mu, sigma, 1)
-    if (data_temp >= llimit) & (data_temp <= rlimit) :
-        data2 = np.append(data2, data_temp)
-        amount += 1
-```
-```python
-plt.hist(data2)
-stats.describe(data2)[0:2]
-```
-![hist2](../images/Generate_Limited_Range_ND_hist_2.png)
-> (1000, (25.987274047611137, 73.473315070409228))
-
-#### Method 3. Generate one round and fill the lack
-```python
-data3 = data[(data >= llimit) & (data <= rlimit)]
-amount = len(data3)
-
-while amount < n :
-    data_temp = np.random.normal(mu, sigma, 1)
-    if (data_temp >= llimit) & (data_temp <= rlimit) :
-        data3 = np.append(data3, data_temp)
-        amount += 1
-```
-```python
-plt.hist(data3)
-stats.describe(data3)[0:2]
-```
-![hist3](../images/Generate_Limited_Range_ND_hist_3.png)
-> (1000, (25.600374595125377, 74.942171158969671))
-
-
-## RTK2_CallData_Pandas.py (2019.08.12)
+## [Province - Pandas (2019.08.12)](/RTK2#rtk2-erp)
 - partial module of a gaming utility for `Romance of The Three Kingdoms II` (KOEI, 1989)
 - upgrade : adopt `Numpy` & `Pandas` and convert to a `class`
 - The parameter `lord` of the def `dataload` doesn't work yet.
@@ -289,12 +216,12 @@ save.head()
 > 4  268000  30000  2700000  15  100  100  100  16   1  48  
 
 
-## RTK2_CallData.py (2019.07.23)
+## [Province (2019.07.23)](/RTK2#rtk2-erp)
 - partial module of a gaming utility for `Romance of The Three Kingdoms II` (KOEI, 1989)
 - call each province's data of population, gold, food and so on from a save file
 
 ```python
-# province_offset_data - from RTK2_Offset.py (2019.07.22)
+# province_offset_data - from Offset.py (2019.07.22)
 province_offset_init = []
 province_offset_data = []
 
@@ -373,7 +300,7 @@ for i in list(range(0,10)) :
 > 10       1010800         30000   3000000         33 83 96 100 100 6  
 
 
-## RTK2_Offset.py (2019.07.22)
+## [Province - Offset (2019.07.22)](/RTK2#rtk2-erp)
 - partial module of a gaming utility for `Romance of The Three Kingdoms II` (KOEI, 1989)
 - make offset locations' list before call the save data
 

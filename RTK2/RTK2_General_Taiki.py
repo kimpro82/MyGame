@@ -52,8 +52,6 @@ chr(general_data[0][0])
 # Should Convert The Whole List from ASCII Code(int) to string
 
 
-
-
 # Practice
 for i in range(1,10) :
     print(i)
