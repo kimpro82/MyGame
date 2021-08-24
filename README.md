@@ -16,7 +16,6 @@ a great journey to construct RTK2(Romance of The Three Kingdoms II, KOEI, 1989) 
 - [Province - Pandas (2019.08.12)](/RTK2#province---pandas-20190812)
 - [Province (2019.07.23)](/RTK2#province-20190723)
 - [Province - Offset (2019.07.22)](/RTK2#province---offset-20190722)
-- With_Open.py (2019.07.21)
 
 ## GK4 ERP
 a great journey to construct GK4(Genghis Khan Ⅳ, KOEI, 1998) ERP
