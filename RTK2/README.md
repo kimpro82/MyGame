@@ -39,7 +39,7 @@ Sub ReadGeneral()
     'Read the file
     Open path For Binary Access Read As #fn
 
-        'call parameters the user entered on the sheet
+        'call parameters that user entered on the sheet
         Dim pos, posEnd, interval As Integer
         pos = Range("B3").Value
         interval = Range("B4").Value
