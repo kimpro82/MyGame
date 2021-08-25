@@ -1,7 +1,7 @@
 Option Explicit
 
 
-Sub ReadGeneral()
+Sub ReadGeneralData()
 
     'Call the target file's path that user entered
     Dim path As String
