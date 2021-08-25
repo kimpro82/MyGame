@@ -62,7 +62,7 @@ Sub ReadGeneral()
         'loop for each row
         While pos <= posEnd
             
-            'loop for shifting a cell to the right
+            'loop for shifting cell to the right
             While col <= interval
                 Get #fn, pos, data                      'read data one by one
                 If col >= 27 Then
@@ -73,14 +73,14 @@ Sub ReadGeneral()
                 col = col + 1
             Wend
 
-            'print the general's name of the recent row
+            'print the general name of the recent row
             output.Offset(row, 0).Value = name
             name = ""
 
             'set parameters for the next loop
             row = row + 1
             col = 1
-            colEnd = colEnd + interval                  'set the end of the next row
+            colEnd = colEnd + interval                  'set the end for the next row
 
         Wend
 
