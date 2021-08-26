@@ -1,4 +1,4 @@
-# MyGame
+# My Game
 Game is to handle data
 
 ## Fundamentals
@@ -11,6 +11,7 @@ Game is to handle data
 
 ## [RTK2 ERP](/RTK2#rtk2-erp)
 a great journey to construct RTK2(Romance of The Three Kingdoms II, KOEI, 1989) ERP
+- [VBA / General (2021.08.24)](/RTK2#vba--general-20210824)
 - [General - Taiki 2 (2021.03.18)](/RTK2#general---taiki-2-20210318)
 - [General - Taiki (2020.03.01)](/RTK2#general---taiki-20200301)
 - [Province - Pandas (2019.08.12)](/RTK2#province---pandas-20190812)

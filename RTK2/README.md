@@ -1,11 +1,93 @@
 # RTK2 ERP
 
 a great journey to construct RTK2(Romance of The Three Kingdoms II, KOEI, 1989) ERP
+
+- [VBA / General (2021.08.24)](/RTK2#vba--general-20210824)
 - [General - Taiki 2 (2021.03.18)](/RTK2#general---taiki-2-20210318)
 - [General - Taiki (2020.03.01)](/RTK2#general---taiki-20200301)
 - [Province - Pandas (2019.08.12)](/RTK2#province---pandas-20190812)
 - [Province (2019.07.23)](/RTK2#province-20190723)
 - [Province - Offset (2019.07.22)](/RTK2#province---offset-20190722)
+
+
+## [VBA / General (2021.08.24)](/RTK2#rtk2-erp)
+
+- read generals' data from a savefile by **VBA**
+- generalized structure to depend on parameters that user entered  
+  ☞ can **extend** to other data of rulers and provinces, or even common **Hex Editor**
+
+![Read Generals' data](Images/RTK2_ReadGeneral.gif)
+
+```VBA
+Option Explicit
+
+
+Sub ReadGeneral()
+
+    'Call the target file's path that user entered
+    Dim path As String
+    path = ThisWorkbook.path & Application.PathSeparator & Range("B1")
+
+    'Check if the file exists
+    Dim fileChk As Boolean                              'default : False
+    If (Len(Dir(path)) > 0) Then fileChk = True
+    Range("B2") = fileChk
+
+    Dim fn As Integer                                   'fn : file number
+    fn = FreeFile
+
+    'Read the file
+    Open path For Binary Access Read As #fn
+
+        'call parameters that user entered on the sheet
+        Dim pos, posEnd, interval As Integer
+        pos = Range("B3").Value
+        interval = Range("B4").Value
+        posEnd = Range("B5").Value
+        
+        'initialize criteria
+        Dim row, col, colEnd As Integer
+        row = 1
+        col = 1
+        colEnd = pos + interval
+
+        'set offset location for output
+        Dim output As Range
+        Set output = Range("B8")
+
+        'declare name variable for gathering byte data
+        Dim data As Byte, name As String
+        name = ""
+
+        'loop for each row
+        While pos <= posEnd
+            
+            'loop for shifting cell to the right
+            While col <= interval
+                Get #fn, pos, data                      'read data one by one
+                If col >= 27 Then
+                    name = name & Chr(data)             'assemble name from each byte
+                output.Offset(row, col).Value = data    'print each byte
+                
+                pos = pos + 1
+                col = col + 1
+            Wend
+
+            'print the general name of the recent row
+            output.Offset(row, 0).Value = name
+            name = ""
+
+            'set parameters for the next loop
+            row = row + 1
+            col = 1
+            colEnd = colEnd + interval                  'set the end for the next row
+
+        Wend
+
+    Close #fn
+
+End Sub
+```
 
 
 ## [General - Taiki 2 (2021.03.18)](/RTK2#rtk2-erp)
@@ -49,7 +131,7 @@ for i in list(range(0, len(general_offset_init) - 2)) :                         
 
 
 ## [General - Taiki (2020.03.01)](/RTK2#rtk2-erp)
-- partial module of a gaming utility for `Romance of The Three Kingdoms II` (KOEI, 1989)
+
 - call outside generals' data from `TAIKI.DAT`
 - succeed in separating each general's data, but they should convert from `ASCII Code(int)` to `string`
 - use `os`
@@ -135,7 +217,7 @@ for i in range(1,10) :
 
 
 ## [Province - Pandas (2019.08.12)](/RTK2#rtk2-erp)
-- partial module of a gaming utility for `Romance of The Three Kingdoms II` (KOEI, 1989)
+
 - upgrade : adopt `Numpy` & `Pandas` and convert to a `class`
 - The parameter `lord` of the def `dataload` doesn't work yet.
 - The columns aren't named yet, too.
@@ -217,7 +299,7 @@ save.head()
 
 
 ## [Province (2019.07.23)](/RTK2#rtk2-erp)
-- partial module of a gaming utility for `Romance of The Three Kingdoms II` (KOEI, 1989)
+
 - call each province's data of population, gold, food and so on from a save file
 
 ```python
@@ -301,7 +383,7 @@ for i in list(range(0,10)) :
 
 
 ## [Province - Offset (2019.07.22)](/RTK2#rtk2-erp)
-- partial module of a gaming utility for `Romance of The Three Kingdoms II` (KOEI, 1989)
+
 - make offset locations' list before call the save data
 
 ```python
