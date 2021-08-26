@@ -1,11 +1,93 @@
 # RTK2 ERP
+
 a great journey to construct RTK2(Romance of The Three Kingdoms II, KOEI, 1989) ERP
+
+- [VBA / General (2021.08.24)](/RTK2#vba--general-20210824)
 - [General - Taiki 2 (2021.03.18)](/RTK2#general---taiki-2-20210318)
 - [General - Taiki (2020.03.01)](/RTK2#general---taiki-20200301)
 - [Province - Pandas (2019.08.12)](/RTK2#province---pandas-20190812)
 - [Province (2019.07.23)](/RTK2#province-20190723)
 - [Province - Offset (2019.07.22)](/RTK2#province---offset-20190722)
-- With_Open.py (2019.07.21)
+
+
+## [VBA / General (2021.08.24)](/RTK2#rtk2-erp)
+
+- read generals' data from a savefile by **VBA**
+- generalized structure to depend on parameters that user entered  
+  ☞ can **extend** to other data of rulers and provinces, or even common **Hex Editor**
+
+![Read Generals' data](Images/RTK2_ReadGeneral.gif)
+
+```VBA
+Option Explicit
+
+
+Sub ReadGeneral()
+
+    'Call the target file's path that user entered
+    Dim path As String
+    path = ThisWorkbook.path & Application.PathSeparator & Range("B1")
+
+    'Check if the file exists
+    Dim fileChk As Boolean                              'default : False
+    If (Len(Dir(path)) > 0) Then fileChk = True
+    Range("B2") = fileChk
+
+    Dim fn As Integer                                   'fn : file number
+    fn = FreeFile
+
+    'Read the file
+    Open path For Binary Access Read As #fn
+
+        'call parameters that user entered on the sheet
+        Dim pos, posEnd, interval As Integer
+        pos = Range("B3").Value
+        interval = Range("B4").Value
+        posEnd = Range("B5").Value
+        
+        'initialize criteria
+        Dim row, col, colEnd As Integer
+        row = 1
+        col = 1
+        colEnd = pos + interval
+
+        'set offset location for output
+        Dim output As Range
+        Set output = Range("B8")
+
+        'declare name variable for gathering byte data
+        Dim data As Byte, name As String
+        name = ""
+
+        'loop for each row
+        While pos <= posEnd
+            
+            'loop for shifting cell to the right
+            While col <= interval
+                Get #fn, pos, data                      'read data one by one
+                If col >= 27 Then
+                    name = name & Chr(data)             'assemble name from each byte
+                output.Offset(row, col).Value = data    'print each byte
+                
+                pos = pos + 1
+                col = col + 1
+            Wend
+
+            'print the general name of the recent row
+            output.Offset(row, 0).Value = name
+            name = ""
+
+            'set parameters for the next loop
+            row = row + 1
+            col = 1
+            colEnd = colEnd + interval                  'set the end for the next row
+
+        Wend
+
+    Close #fn
+
+End Sub
+```
 
 
 ## [General - Taiki 2 (2021.03.18)](/RTK2#rtk2-erp)
@@ -49,7 +131,7 @@ for i in list(range(0, len(general_offset_init) - 2)) :                         
 
 
 ## [General - Taiki (2020.03.01)](/RTK2#rtk2-erp)
-- partial module of a gaming utility for `Romance of The Three Kingdoms II` (KOEI, 1989)
+
 - call outside generals' data from `TAIKI.DAT`
 - succeed in separating each general's data, but they should convert from `ASCII Code(int)` to `string`
 - use `os`
@@ -135,7 +217,7 @@ for i in range(1,10) :
 
 
 ## [Province - Pandas (2019.08.12)](/RTK2#rtk2-erp)
-- partial module of a gaming utility for `Romance of The Three Kingdoms II` (KOEI, 1989)
+
 - upgrade : adopt `Numpy` & `Pandas` and convert to a `class`
 - The parameter `lord` of the def `dataload` doesn't work yet.
 - The columns aren't named yet, too.
@@ -217,7 +299,7 @@ save.head()
 
 
 ## [Province (2019.07.23)](/RTK2#rtk2-erp)
-- partial module of a gaming utility for `Romance of The Three Kingdoms II` (KOEI, 1989)
+
 - call each province's data of population, gold, food and so on from a save file
 
 ```python
@@ -301,7 +383,7 @@ for i in list(range(0,10)) :
 
 
 ## [Province - Offset (2019.07.22)](/RTK2#rtk2-erp)
-- partial module of a gaming utility for `Romance of The Three Kingdoms II` (KOEI, 1989)
+
 - make offset locations' list before call the save data
 
 ```python
@@ -381,63 +463,3 @@ print(province_offset_data[0:2])
 ```
 > [11668, 11703, 11738, 11773, 11808, 11843, 11878, 11913, 11948, 11983, 12018, 12053, 12088, 12123, 12158, 12193, 12228, 12263, 12298, 12333, 12368, 12403, 12438, 12473, 12508, 12543, 12578, 12613, 12648, 12683, 12718, 12753, 12788, 12823, 12858, 12893, 12928, 12963, 12998, 13033, 13068]  
 > [[11668, 11669, 11670, 11671, 11672, 11673, 11674, 11675, 11676, 11677, 11678, 11679, 11680, 11681, 11682, 11683, 11684, 11685, 11686, 11687, 11688, 11689, 11690, 11691, 11692, 11693, 11694, 11695, 11696, 11697, 11698, 11699, 11700, 11701, 11702], [11703, 11704, 11705, 11706, 11707, 11708, 11709, 11710, 11711, 11712, 11713, 11714, 11715, 11716, 11717, 11718, 11719, 11720, 11721, 11722, 11723, 11724, 11725, 11726, 11727, 11728, 11729, 11730, 11731, 11732, 11733, 11734, 11735, 11736, 11737]]
-
-
-## With_Open.py (2019.07.21)
-- read binary file
-- convert decimal number ↔ hexadecimal number
-
-```python
-# get current working directory
-import os
-
-os.getcwd()
-print(os.getcwd())
-
-# check if the file exists
-os.path.isfile("path")
-```
-> True
-
-```python
-import binascii
-
-# with문
-with open('path','rb') as f: # rb : read & binary
-    string = f.read()
-    print(string[0:10])
-    print(binascii.b2a_hex(string[0:10]))
-```
-> b'1990.02.19'  
-> b'313939302e30322e3139'
-
-```python
-# with문 X
-f = open('path','rb')
-data = f.read()
-print(data[0:10])
-print(binascii.b2a_hex(data[0:10]))
-f.close()
-```
-> b'1990.02.19'  
-> b'313939302e30322e3139'
-
-```python
-# decimal → hexadecimal
-hex(30000)
-hex(3000000)
-hex(100)
-```
-> '0x7530'  
-> '0x2dc6c0'  
-> '0x64'
-
-```python
-# hexadecimal → decimal
-int('7530', 16)
-int('2dc6c0', 16)
-int('64', 16)
-```
-> 30000  
-> 3000000  
-> 100
