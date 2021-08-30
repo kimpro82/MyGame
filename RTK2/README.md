@@ -3,7 +3,7 @@
 a great journey to construct RTK2(Romance of The Three Kingdoms II, KOEI, 1989) ERP
 
 \<VBA>
-- [Province & Arbitrage System (2021.08.25)]()
+- [Province & Arbitrage System (2021.08.25)](/RTK2#province--arbitrage-system-20210825)
 - [General (2021.08.24)](/RTK2#general-20210824)
 
 \<Python>
@@ -18,7 +18,7 @@ a great journey to construct RTK2(Romance of The Three Kingdoms II, KOEI, 1989) 
 
 - read provinces' data from a savefile by **VBA**
 - link an excel table that can be used as an **arbitrage system**  
-※ The calculation option in Excel should be set as **Manual**
+※ The calculation option in Excel should be set as **Manual** 
 
 ![Read Province](Images/RTK2_ReadProvince_header.png)
 
