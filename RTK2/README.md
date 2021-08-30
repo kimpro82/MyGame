@@ -2,7 +2,11 @@
 
 a great journey to construct RTK2(Romance of The Three Kingdoms II, KOEI, 1989) ERP
 
-- [VBA / General (2021.08.24)](/RTK2#vba--general-20210824)
+\<VBA>
+- [Province & Arbitrage System (2021.08.25)]()
+- [General (2021.08.24)](/RTK2#general-20210824)
+
+\<Python>
 - [General - Taiki 2 (2021.03.18)](/RTK2#general---taiki-2-20210318)
 - [General - Taiki (2020.03.01)](/RTK2#general---taiki-20200301)
 - [Province - Pandas (2019.08.12)](/RTK2#province---pandas-20190812)
@@ -10,7 +14,84 @@ a great journey to construct RTK2(Romance of The Three Kingdoms II, KOEI, 1989) 
 - [Province - Offset (2019.07.22)](/RTK2#province---offset-20190722)
 
 
-## [VBA / General (2021.08.24)](/RTK2#rtk2-erp)
+## [Province & Arbitrage System (2021.08.25)](/RTK2#rtk2-erp)
+
+- read provinces' data from a savefile by **VBA**
+- link an excel table that can be used as an **arbitrage system**  
+※ The calculation option in Excel should be set as **Manual**
+
+![Read Province](Images/RTK2_ReadProvince_header.png)
+
+![Arbitrage System](Images/RTK2_ArbitrageSystem.png)
+
+```VBA
+Option Explicit
+
+
+Sub ReadProvinceData()
+
+    'Call the target file's path that user entered
+    Dim path As String
+    path = "C:\Game\Koei\RTK2" & Application.PathSeparator & Sheets("VBA1").Range("B1")
+
+    'Check if the file exists
+    Dim fileChk As Boolean                              'default : False
+    If (Len(Dir(path)) > 0) Then fileChk = True
+    Sheets("VBA1").Range("B2") = fileChk
+
+    Dim fn As Integer                                   'fn : file number
+    fn = FreeFile
+
+    'Read the file
+    Open path For Binary Access Read As #fn
+
+        'call parameters that user entered on the sheet
+        Dim pos, posEnd, interval As Integer
+        pos = Sheets("VBA1").Range("B3").Value
+        interval = Sheets("VBA1").Range("B4").Value
+        posEnd = Sheets("VBA1").Range("B5").Value
+        
+        'initialize criteria
+        Dim row, col, colEnd As Integer
+        row = 1
+        col = 1
+        colEnd = pos + interval
+
+        'set offset location for output
+        Dim output As Range
+        Set output = Sheets("VBA1").Range("B8")
+
+        Dim data As Byte
+
+        'loop for each row
+        While pos <= posEnd
+            
+            'loop for shifting cell to the right
+            While col <= interval
+                Get #fn, pos, data                      'read data one by one
+                output.Offset(row, col).Value = data    'print each byte
+
+                pos = pos + 1
+                col = col + 1
+            Wend
+            
+            'print #province
+            output.Offset(row, 0).Value = row
+
+            'set parameters for the next loop
+            row = row + 1
+            col = 1
+            colEnd = colEnd + interval                  'set the end for the next row
+
+        Wend
+
+    Close #fn
+
+End Sub
+```
+
+
+## [General (2021.08.24)](/RTK2#rtk2-erp)
 
 - read generals' data from a savefile by **VBA**
 - generalized structure to depend on parameters that user entered  
