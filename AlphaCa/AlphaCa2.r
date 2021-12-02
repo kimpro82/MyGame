@@ -6,12 +6,12 @@
 
 # 2-1. Case that has two lines of odd sum
 
-k=86532; a.arrow[,,k]                                                   # Winner : 1st (5-3-7 for the '/' line, not 9-3-1 on the 2nd column)
+k=86532; a.arrow[,,k]													# Winner : 1st (5-3-7 for the '/' line, not 9-3-1 on the 2nd column)
 
 
 # 2-1-1. Get sums of all the lines
 
-wl <- c()                                                               # wl(win/lose) : 0 (2nd player wins) / 1~2 (draw) / 3 (1st one wins)
+wl <- c()																# wl(win/lose) : 0 (2nd player wins) / 1~2 (draw) / 3 (1st one wins)
 for (i in 1:3) {
 	wl <- c(wl, sum(a.arrow[,i,k]%%2))
 	}
@@ -25,7 +25,7 @@ wl; mm <- c(max(wl), min(wl)); mm
 
 # 2-1-2. Improved code : add wl.max
 
-wl <- c(); wl.max <- c()                                       			# wl.max : the max number of each line
+wl <- c(); wl.max <- c()												# wl.max : the max number of each line
 for (i in 1:3) {
 	wl <- c(wl, sum(a.arrow[,i,k]%%2))
 	wl.max <- c(wl.max, max(a.arrow[,i,k]))
