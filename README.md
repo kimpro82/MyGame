@@ -5,8 +5,8 @@ Game is to handle data
 
 ## Fundamentals
 
-- Player2.py (2019.12.15)
-- Player.py (2019.03.12) - maybe?
+- Player2 (2019.12.15)
+- Player (2019.03.12) - maybe?
 
 
 ## [DOS Environment-related Works](/DOS#my-dos-environment-related-works)
@@ -15,10 +15,11 @@ Game is to handle data
 - [Nostalgic Game.bat (2021.08.19)](/DOS#nostalgic-gamebat-20210819)
 
 
-## [AlphaCa (AI Tic-Tac-Toe)](AlphaCa)
+## [AlphaCa (AI Tic-Tac-Toe)](/AlphaCa#alphaca-ai-tic-tac-toe)
+Rage Against The **AlphaGo**
 
-- [AlphaCa 2 (2016.03.13)]()
-- [AlphaCa 1 (2016.03.11)]()
+- [AlphaCa 2 (2016.03.13)](/AlphaCa#alphaca-2-20160313)
+- [AlphaCa 1 (2016.03.11)](/AlphaCa#alphaca-1-20160311)
 
 
 ## [RTK2 ERP](/RTK2#rtk2-erp)

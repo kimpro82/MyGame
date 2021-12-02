@@ -1,5 +1,7 @@
 # [AlphaCa (AI Tic-Tac-Toe)]
 
+Rage Against The **AlphaGo**
+
 - [AlphaCa 2 (2016.03.13)](/AlphaCa#alphaca-2-20160313)
 - [AlphaCa 1 (2016.03.11)](/AlphaCa#alphaca-1-20160311)
 
