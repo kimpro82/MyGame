@@ -15,6 +15,12 @@ Game is to handle data
 - [Nostalgic Game.bat (2021.08.19)](/DOS#nostalgic-gamebat-20210819)
 
 
+## [AlphaCa (AI Tic-Tac-Toe)](AlphaCa)
+
+- [AlphaCa 2 (2016.03.13)]()
+- [AlphaCa 1 (2016.03.11)]()
+
+
 ## [RTK2 ERP](/RTK2#rtk2-erp)
 a great journey to construct RTK2(Romance of The Three Kingdoms II, KOEI, 1989) ERP  
 
