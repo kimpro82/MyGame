@@ -11,7 +11,7 @@ factorial(9)                                    			# Tic-Tac-Toe : 362,880
 factorial(9)/(2*2*2^4)                          			# eliminate symmetries of top and bottom(/2), left and right(/2), diagonals(/4) : 1/16 → 5,670
 
 
-# 1. Generate randomized array
+# 1. Generate randomized cases as array
 
 a <- rank(runif(9), ties.method="random"); a
 matrix(a, nrow=3, ncol=3)

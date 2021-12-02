@@ -1,10 +1,10 @@
 # [AlphaCa (AI Tic-Tac-Toe)]
 
-- [AlphaCa 2 (2016.03.13)]()
-- [AlphaCa 1 (2016.03.11)]()
+- [AlphaCa 2 (2016.03.13)](/AlphaCa#alphaca-2-20160313)
+- [AlphaCa 1 (2016.03.11)](/AlphaCa#alphaca-1-20160311)
 
 
-## [AlphaCa 2 (2016.03.13)]()
+## [AlphaCa 2 (2016.03.13)](/AlphaCa#alphaca-ai-tic-tac-toe)
 
 - Judge the winner
 
@@ -84,7 +84,7 @@ winner <- wl[wl.rmr]; winner
 ```
 
 
-## [AlphaCa 1 (2016.03.11)]()
+## [AlphaCa 1 (2016.03.11)](/AlphaCa#alphaca-ai-tic-tac-toe)
 
 - Generate randomized cases
 
@@ -98,7 +98,7 @@ factorial(9)                                    			# Tic-Tac-Toe : 362,880
 factorial(9)/(2*2*2^4)                          			# eliminate symmetries of top and bottom(/2), left and right(/2), diagonals(/4) : 1/16 → 5,670
 ```
 
-### 1. Generate randomized array
+### 1. Generate randomized cases as array
 ```r
 a <- rank(runif(9), ties.method="random"); a
 matrix(a, nrow=3, ncol=3)
