@@ -27,6 +27,16 @@ a.arr <- array(aa, c(3,3,k))
 a.arr
 
 
+# 1.1.1 100K cases
+set.seed(0307); k=10^5; aa <- c(); a.arr <- c()
+for(i in 1:k) {
+	a <- rank(runif(9), ties.method="random")
+      aa <- c(aa, a)
+	}
+a.arrow <- array(aa, c(3,3,k))
+str(a.arrow)
+
+
 # 1.2 Find if each case has the winner
 
 # (1) Fill number of 1~9 instead of O/X
