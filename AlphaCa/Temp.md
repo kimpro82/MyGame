@@ -24,7 +24,7 @@ for (i in 1:3) {
 
 wl <- c(wl, sum(diag(a.arrow[,,k])%%2))
 wl <- c(wl, sum(c(a.arrow[1,3,k],a.arrow[2,2,k],a.arrow[3,1,k])%%2)); wl
-mm <- c(max(wl), min(wl)); mm                                           # mm : max and min value from wl
+mm <- c(max(wl), min(wl)); mm                                           # mm : max and min value from wl; 0 → the 2nd player won.
 ```
 > [1] 2 2 1 2 1 2 0 2  
 > [1] 2 0
@@ -33,21 +33,25 @@ mm <- c(max(wl), min(wl)); mm                                           # mm : m
 ### 2-1-2. Improved code : add wl.max
 
 ```r
-wl <- c(); wl.max <- c()                                                # wl.max : the max number of each line
+wl <- c()
+wl.max <- c()                                                           # wl.max : the max number of each line
+
 for (i in 1:3) {
     wl <- c(wl, sum(a.arrow[,i,k]%%2))
     wl.max <- c(wl.max, max(a.arrow[,i,k]))
     }
+
 for (i in 1:3) {
     wl <- c(wl, sum(a.arrow[i,,k]%%2))
     wl.max <- c(wl.max, max(a.arrow[i,,k]))
     }
+
 wl <- c(wl, sum(diag(a.arrow[,,k])%%2))
+wl <- c(wl, sum(c(a.arrow[1,3,k],a.arrow[2,2,k],a.arrow[3,1,k])%%2)); wl
+mm <- c(max(wl), min(wl)); mm
+
 wl.max <- c(wl.max, max(diag(a.arrow[,,k])))
-wl <- c(wl, sum(c(a.arrow[1,3,k],a.arrow[2,2,k],a.arrow[3,1,k])%%2))
-wl.max <- c(wl.max, max(a.arrow[1,3,k],a.arrow[2,2,k],a.arrow[3,1,k]))
-wl; mm <- c(max(wl), min(wl)); mm
-wl.max
+wl.max <- c(wl.max, max(a.arrow[1,3,k],a.arrow[2,2,k],a.arrow[3,1,k])); wl.max
 ```
 > [1] 2 2 1 2 1 2 0 2  
 > [1] 2 0  
@@ -83,21 +87,25 @@ k=86537; a.arrow[,,k]
 > [3,] &nbsp;&nbsp; 4 &nbsp;&nbsp; 1 &nbsp;&nbsp; 6
 
 ```r
-wl <- c(); wl.max <- c()
+wl <- c()
+wl.max <- c()
+
 for (i in 1:3) {
     wl <- c(wl, sum(a.arrow[,i,k]%%2))
     wl.max <- c(wl.max, max(a.arrow[,i,k]))
     }
+
 for (i in 1:3) {
     wl <- c(wl, sum(a.arrow[i,,k]%%2))
     wl.max <- c(wl.max, max(a.arrow[i,,k]))
     }
+
 wl <- c(wl, sum(diag(a.arrow[,,k])%%2))
+wl <- c(wl, sum(c(a.arrow[1,3,k],a.arrow[2,2,k],a.arrow[3,1,k])%%2)); wl
+mm <- c(max(wl), min(wl)); mm
+
 wl.max <- c(wl.max, max(diag(a.arrow[,,k])))
-wl <- c(wl, sum(c(a.arrow[1,3,k],a.arrow[2,2,k],a.arrow[3,1,k])%%2))
-wl.max <- c(wl.max, max(a.arrow[1,3,k],a.arrow[2,2,k],a.arrow[3,1,k]))
-wl; mm <- c(max(wl), min(wl)); mm
-wl.max
+wl.max <- c(wl.max, max(a.arrow[1,3,k],a.arrow[2,2,k],a.arrow[3,1,k])); wl.max
 ```
 > [1] 1 3 1 3 1 1 2 2  
 > [1] 3 1
@@ -107,18 +115,17 @@ wl.max
 ```r
 wl.win.rank <- which(wl==c(3,0)); wl.win.rank
 wl.max.real <- min(wl.max[wl.win.rank]); wl.max.real
+wl.max.real.rank <- which(wl.max==wl.max.real); wl.max.real.rank
 ```
 > integer(0)  
-> [1] Inf
+> [1] Inf  
+> integer(0)
 
 ```r
-wl.max.real.rank <- which(wl.max==wl.max.real); wl.max.real.rank
 wl.mrr.freq <- table(c(wl.max.rank, wl.max.real.rank)); wl.mrr.freq
 wl.rmr <- as.numeric(names(which(wl.mrr.freq==max(wl.mrr.freq)))); wl.rmr
 winner <- wl[wl.rmr]; winner
 ```
-> integer(0)
-
 > 1 2 4 6 8  
 > 1 1 1 1 1 
 
