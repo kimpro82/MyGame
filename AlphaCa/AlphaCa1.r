@@ -35,7 +35,7 @@ a.arr
 # 1.1.1 100K cases
 
 set.seed(0307)
-k=10^5; aa <- c(); a.arr <- c()
+k=10^5; aa <- c(); a.arr <- c()                             # I realized such numerous cases, when it was too late.
 
 for(i in 1:k) {
     a <- rank(runif(9), ties.method="random")
