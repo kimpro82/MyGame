@@ -19,7 +19,7 @@ Rage against the **AlphaGo**
 - Generate randomized cases and find if the winner exists
 
 
-### 0. Cases
+### 0. The number of cases
 
 ```r
 factorial(361)                                              # Go-game : 19 * 19 = 361 points
@@ -78,7 +78,7 @@ a.arr
 
 
 ### 1.1.1 100K cases
-
+I realized such mumerous cases, when it was too late.
 ```r
 set.seed(0307)
 k=10^5; aa <- c(); a.arr <- c()
@@ -99,7 +99,7 @@ str(a.arrow)
 &nbsp; (1) Fill number of 1~9 instead of O/X  
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; : The 1st Player puts (1, 3, 5, 7, 9) and the 2nd player does (2, 4, 6, 8).  
 &nbsp; (2) It is the winner who puts only odd or only even numbers in a line including diagonal ones  
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; : If there are two or more such lines, the winner is who has the smaller max value.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; : If there are two or more such lines, the winner is who has the smaller max value(to be continued ……).
 
 ```r
 a.arrow[,,41562]                                            # winner : 1nd player (3-1-5 on the '\' line)

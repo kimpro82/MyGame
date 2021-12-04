@@ -1,7 +1,7 @@
 # Alphaca : AI(?) Tic-Tac-Toe / 2016.3.11
 
 
-# 0. Cases
+# 0. The number of cases
 
 factorial(361)                                              # Go-game : 19 * 19 = 361 points
 exp(sum(log(1:361)))
@@ -51,7 +51,7 @@ str(a.arrow)
 # (1) Fill number of 1~9 instead of O/X
 #     : The 1st Player puts (1, 3, 5, 7, 9) and the 2nd player does (2, 4, 6, 8).
 # (2) It is the winner who puts only odd or only even numbers in a line including diagonal ones
-#     : If there are two or more such lines, the winner is who has the smaller max value.
+#     : If there are two or more such lines, the winner is who has the smaller max value(to be continued ……).
 
 a.arrow[,,41562]                                            # winner : 1nd player (3-1-5 on the '\' line)
 
