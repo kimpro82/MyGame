@@ -13,7 +13,7 @@ Rage against the **AlphaGo**
 - Judge the winner in more advanced way
 
 
-### 2.1. Get the sums of remainders that are 0(all even) or 3(all odd)
+### 2. Judge the winner in more advanced way
 
 ```r
 k=86532; a.arrow[,,k]                                                   # winner : 2nd player (8-4-6 on the '\' line)
@@ -24,7 +24,7 @@ k=86532; a.arrow[,,k]                                                   # winner
 > [3,] &nbsp;&nbsp; 9 &nbsp;&nbsp; 3 &nbsp;&nbsp; 6
 
 ```r
-#Get the sums of remainders that are 0(all even) or 3(all odd)
+# Get the sums of remainders that are 0(all even) or 3(all odd)
 wl <- c()                                                               # wl(win/lose) : 0 (2nd player wins) / 1~2 (draw) / 3 (1st one wins)
 for (i in 1:3) {                                                        # combine colums
   wl <- c(wl, sum(a.arrow[,i,k]%%2))
