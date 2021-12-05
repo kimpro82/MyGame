@@ -13,7 +13,7 @@ Rage against the **AlphaGo**
 - Judge the winner in more advanced way
 
 
-### 2. Judge the winner in more advanced way
+### 2. Judge the winner
 
 ```r
 k=86532; a.arrow[,,k]                                                   # winner : 2nd player (8-4-6 on the '\' line)
