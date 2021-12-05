@@ -1,7 +1,7 @@
 # Alphaca : AI(?) Tic-Tac-Toe / 2016.3.13
 
 
-# 2. Judge the winner
+# 2. Find the winner
 
 k=86532; a.arrow[,,k]                                                   # winner : 2nd player (8-4-6 on the '\' line)
 

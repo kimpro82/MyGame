@@ -10,10 +10,10 @@ Rage against the **AlphaGo**
 
 ## [AlphaCa 2 (2016.03.13)](/AlphaCa#alphaca-ai-tic-tac-toe)
 
-- Judge the winner in more advanced way
+- Find the winner in more advanced way
 
 
-### 2. Judge the winner
+### 2. Find the winner
 
 ```r
 k=86532; a.arrow[,,k]                                                   # winner : 2nd player (8-4-6 on the '\' line)
