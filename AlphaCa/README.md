@@ -10,8 +10,99 @@ Rage against the **AlphaGo**
 
 ## [AlphaCa 2 (2016.03.13)](/AlphaCa#alphaca-ai-tic-tac-toe)
 
-- Judge the winner in several cases
-- Not completed (should find more proper case to explain the code)
+- Find the winner in more advanced way
+
+
+### 2. Find the winner
+
+```r
+k=86532; a.arrow[,,k]                                                   # winner : 2nd player (8-4-6 on the '\' line)
+```
+> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [,1] [,2] [,3]  
+> [1,] &nbsp;&nbsp; 8 &nbsp;&nbsp; 5 &nbsp;&nbsp; 1  
+> [2,] &nbsp;&nbsp; 7 &nbsp;&nbsp; 4 &nbsp;&nbsp; 2  
+> [3,] &nbsp;&nbsp; 9 &nbsp;&nbsp; 3 &nbsp;&nbsp; 6
+
+```r
+# Get the sums of remainders that are 0(all even) or 3(all odd)
+wl <- c()                                                               # wl(win/lose) : 0 (2nd player wins) / 1~2 (draw) / 3 (1st one wins)
+for (i in 1:3) {                                                        # combine colums
+  wl <- c(wl, sum(a.arrow[,i,k]%%2))
+}
+for (i in 1:3) {                                                        # combine rows
+  wl <- c(wl, sum(a.arrow[i,,k]%%2))
+}
+wl <- c(wl, sum(diag(a.arrow[,,k])%%2))                                 # combine \ diagonal 
+wl <- c(wl, sum(c(a.arrow[1,3,k],a.arrow[2,2,k],a.arrow[3,1,k])%%2))    # combine / diagonal
+wl                                                                      # 7th element is 0 → 2nd player won
+
+# mm : max and min value from wl; check easier if a winner exists
+mm <- c(max(wl), min(wl))
+mm
+```
+> [1] 2 2 1 2 1 2 0 2  
+> [1] 2 0
+
+
+### 2.1. Find the winner when there are two or more winning lines
+
+```r
+k=86537; a.arrow[,,k]
+```
+> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [,1] [,2] [,3]  
+> [1,] &nbsp;&nbsp; 5 &nbsp;&nbsp; 3 &nbsp;&nbsp; 7  
+> [2,] &nbsp;&nbsp; 8 &nbsp;&nbsp; 9 &nbsp;&nbsp; 2  
+> [3,] &nbsp;&nbsp; 4 &nbsp;&nbsp; 1 &nbsp;&nbsp; 6
+
+```r
+# get wl.max with wl
+wl <- c()
+wl.max <- c()                                                           # wl.max : the max number of each line
+for (i in 1:3) {
+  wl <- c(wl, sum(a.arrow[,i,k]%%2))
+  wl.max <- c(wl.max, max(a.arrow[,i,k]))
+}
+for (i in 1:3) {
+  wl <- c(wl, sum(a.arrow[i,,k]%%2))
+  wl.max <- c(wl.max, max(a.arrow[i,,k]))
+}
+wl <- c(wl, sum(diag(a.arrow[,,k])%%2))
+wl.max <- c(wl.max, max(diag(a.arrow[,,k])))
+wl <- c(wl, sum(c(a.arrow[1,3,k],a.arrow[2,2,k],a.arrow[3,1,k])%%2))
+wl.max <- c(wl.max, max(a.arrow[1,3,k],a.arrow[2,2,k],a.arrow[3,1,k]))
+wl                                                                      # 2, 4-th lines consist only of odd numbers
+wl.max
+
+# mm : max and min value from wl; check easier if a winner exists
+mm <- c(max(wl), min(wl))
+mm
+```
+> [1] 1 3 1 3 1 1 2 2  
+> [1] 8 9 7 7 9 6 9 9  
+> [1] 3 1
+
+```r
+# Find the final singular winner
+wl.win.rank <- c(which(wl==3), which(wl==0)); wl.win.rank               # return 2, 4 where the winning lines are
+wl.max.real <- min(wl.max[wl.win.rank]); wl.max.real                    # the min of the max values in 2, 4th lines is 7
+wl.max.real.rank <- which(wl.max==wl.max.real); wl.max.real.rank        # 7 is the max value of 3, 4th lines
+
+wl.mrr.freq <- table(c(wl.max.rank, wl.max.real.rank)); wl.mrr.freq     # {4} is the intersection of {2, 4} and {3, 4}
+
+wl.rmr <- as.numeric(names(which(wl.mrr.freq==max(wl.mrr.freq))));wl.rmr# return 4
+winner <- wl[wl.rmr]
+winner                                                                  # the 4th line indicates '3' → 1st player won!
+```
+> [1] 2 4  
+> [1] 7  
+> [1] 3 4
+
+> 2 3 4  
+> 1 1 2
+
+> [1] 4  
+> [1] 3
+
 
 
 ## [AlphaCa 1 (2016.03.11)](/AlphaCa#alphaca-ai-tic-tac-toe)
@@ -19,7 +110,7 @@ Rage against the **AlphaGo**
 - Generate randomized cases and find if the winner exists
 
 
-### 0. Cases
+### 0. The number of cases
 
 ```r
 factorial(361)                                              # Go-game : 19 * 19 = 361 points
@@ -81,7 +172,7 @@ a.arr
 
 ```r
 set.seed(0307)
-k=10^5; aa <- c(); a.arr <- c()
+k=10^5; aa <- c(); a.arr <- c()                             # I realized such numerous cases is not needed, when it was too late.
 
 for(i in 1:k) {
     a <- rank(runif(9), ties.method="random")
@@ -99,7 +190,7 @@ str(a.arrow)
 &nbsp; (1) Fill number of 1~9 instead of O/X  
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; : The 1st Player puts (1, 3, 5, 7, 9) and the 2nd player does (2, 4, 6, 8).  
 &nbsp; (2) It is the winner who puts only odd or only even numbers in a line including diagonal ones  
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; : If there are two or more such lines, the winner is who has the smaller max value.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; : If there are two or more such lines, the winner is who has the smaller max value(to be continued ……).
 
 ```r
 a.arrow[,,41562]                                            # winner : 1nd player (3-1-5 on the '\' line)

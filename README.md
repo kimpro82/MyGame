@@ -15,13 +15,6 @@ Game is to handle data
 - [Nostalgic Game.bat (2021.08.19)](/DOS#nostalgic-gamebat-20210819)
 
 
-## [AlphaCa (AI Tic-Tac-Toe)](/AlphaCa#alphaca-ai-tic-tac-toe)
-Rage against the **AlphaGo**
-
-- [AlphaCa 2 (2016.03.13)](/AlphaCa#alphaca-2-20160313)
-- [AlphaCa 1 (2016.03.11)](/AlphaCa#alphaca-1-20160311)
-
-
 ## [RTK2 ERP](/RTK2#rtk2-erp)
 A great journey to construct RTK2(Romance of The Three Kingdoms II, KOEI, 1989) ERP  
 
@@ -41,3 +34,10 @@ A great journey to construct RTK2(Romance of The Three Kingdoms II, KOEI, 1989) 
 A great journey to construct GK4(Genghis Khan Ⅳ, KOEI, 1998) ERP
 
 - GK4_Provinces.py (2021.03.17)
+
+
+## [AlphaCa (AI Tic-Tac-Toe)](/AlphaCa#alphaca-ai-tic-tac-toe)
+Rage against the **AlphaGo**
+
+- [AlphaCa 2 (2016.03.13)](/AlphaCa#alphaca-2-20160313)
+- [AlphaCa 1 (2016.03.11)](/AlphaCa#alphaca-1-20160311)
