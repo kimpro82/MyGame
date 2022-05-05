@@ -23,7 +23,7 @@ Sub ReadProvinceData()
         pos = Sheets("VBA1").Range("B3").Value
         interval = Sheets("VBA1").Range("B4").Value
         posEnd = Sheets("VBA1").Range("B5").Value
-        
+
         'initialize criteria
         Dim row, col, colEnd As Integer
         row = 1

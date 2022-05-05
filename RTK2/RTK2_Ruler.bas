@@ -23,7 +23,7 @@ Sub ReadRulerData()
         pos = Range("B3").Value
         interval = Range("B4").Value
         posEnd = Range("B5").Value
-        
+
         'initialize criteria
         Dim row, col, colEnd As Integer
         row = 0
@@ -40,15 +40,15 @@ Sub ReadRulerData()
 
         'loop for each row
         While pos < posEnd
-            
+
             'print the index number
             output.Offset(row, -2).Value = pos
-            
+
             'loop for shifting cell to the right
             While col < interval
                 Get #fn, pos, data                      'read data one by one
                 output.Offset(row, col).Value = data    'print each byte
-                
+
                 pos = pos + 1
                 col = col + 1
             Wend
