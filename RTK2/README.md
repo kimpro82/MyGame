@@ -19,6 +19,10 @@ a great journey to construct RTK2(Romance of The Three Kingdoms II, KOEI, 1989) 
 
 ## [Ruler (2022.05.05)](#list)
 
+- Read rulers' data from a savefile by **VBA**
+- Bring Rulers' and Advisors' names from the other sheet by `Application.WorksheetFunction.IfError()` and `Application.VLookup()`
+- To-do : merge more data like population, armies, generals' number and so on and draw a line graph
+
 ![Read Ruler](Images/RTK2_ReadRuler.PNG)
 
 #### mainly changed part of `RTK2_Ruler.bas`
