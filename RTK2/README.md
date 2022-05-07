@@ -2,19 +2,71 @@
 
 a great journey to construct RTK2(Romance of The Three Kingdoms II, KOEI, 1989) ERP
 
+## List
+
 \<VBA>
-- [Province & Arbitrage System (2021.08.25)](/RTK2#province--arbitrage-system-20210825)
-- [General (2021.08.24)](/RTK2#general-20210824)
+- [Ruler (2022.05.05)](#ruler-20220505)
+- [Province & Arbitrage System (2021.08.25)](#province--arbitrage-system-20210825)
+- [General (2021.08.24)](#general-20210824)
 
 \<Python>
-- [General - Taiki 2 (2021.03.18)](/RTK2#general---taiki-2-20210318)
-- [General - Taiki (2020.03.01)](/RTK2#general---taiki-20200301)
-- [Province - Pandas (2019.08.12)](/RTK2#province---pandas-20190812)
-- [Province (2019.07.23)](/RTK2#province-20190723)
-- [Province - Offset (2019.07.22)](/RTK2#province---offset-20190722)
+- [General - Taiki 2 (2021.03.18)](#general---taiki-2-20210318)
+- [General - Taiki (2020.03.01)](#general---taiki-20200301)
+- [Province - Pandas (2019.08.12)](#province---pandas-20190812)
+- [Province (2019.07.23)](#province-20190723)
+- [Province - Offset (2019.07.22)](#province---offset-20190722)
 
 
-## [Province & Arbitrage System (2021.08.25)](/RTK2#rtk2-erp)
+## [Ruler (2022.05.05)](#list)
+
+- Read rulers' data from a savefile by **VBA**
+- Bring the rulers' and advisors' names from the other sheet by `Application.WorksheetFunction.IfError()` and `Application.VLookup()`
+- To-do : merge more data like population, armies, generals' number and so on and draw a line graph
+
+![Read Ruler](Images/RTK2_ReadRuler.PNG)
+
+#### mainly changed part of `RTK2_Ruler.bas`
+```vba
+Sub ReadRulerData()
+
+    ……
+
+    'Read the file
+    Open path For Binary Access Read As #fn
+
+        ……
+
+        'loop for each row
+        While pos < posEnd
+            
+            ……
+
+            'print the ruler's name
+            output.Offset(row, 41).Value = Application.WorksheetFunction.IfError(Application.VLookup(output.Offset(row, 0).Value + output.Offset(row, 1).Value * 256 - 53, Sheet7.Range("A:B"), 2, False), "")
+
+            'print the advisor's name
+            output.Offset(row, 42).Value = Application.WorksheetFunction.IfError(Application.VLookup(output.Offset(row, 4).Value + output.Offset(row, 5).Value * 256 - 53, Sheet7.Range("A:B"), 2, False), "")
+
+            ……
+
+        Wend
+
+    Close #fn
+
+End Sub
+```
+```vba
+Private Sub btnReadRulerData_Click()
+
+    ' Skip excel formula calculation temporarily
+    Application.Calculation = xlManual
+        Call ReadRulerData
+    Application.Calculation = xlAutomatic
+
+End Sub
+```
+
+## [Province & Arbitrage System (2021.08.25)](#list)
 
 - read provinces' data from a savefile by **VBA**
 - link an excel table that can be used as an **arbitrage system**  
@@ -24,42 +76,16 @@ a great journey to construct RTK2(Romance of The Three Kingdoms II, KOEI, 1989) 
 
 ![Arbitrage System](Images/RTK2_ArbitrageSystem.png)
 
-```VBA
-Option Explicit
-
-
+#### mainly changed part of `RTK2_Province.bas`
+```vba
 Sub ReadProvinceData()
 
-    'Call the target file's path that user entered
-    Dim path As String
-    path = "C:\Game\Koei\RTK2" & Application.PathSeparator & Sheets("VBA1").Range("B1")
-
-    'Check if the file exists
-    Dim fileChk As Boolean                              'default : False
-    If (Len(Dir(path)) > 0) Then fileChk = True
-    Sheets("VBA1").Range("B2") = fileChk
-
-    Dim fn As Integer                                   'fn : file number
-    fn = FreeFile
+    ……
 
     'Read the file
     Open path For Binary Access Read As #fn
 
-        'call parameters that user entered on the sheet
-        Dim pos, posEnd, interval As Integer
-        pos = Sheets("VBA1").Range("B3").Value
-        interval = Sheets("VBA1").Range("B4").Value
-        posEnd = Sheets("VBA1").Range("B5").Value
-        
-        'initialize criteria
-        Dim row, col, colEnd As Integer
-        row = 1
-        col = 1
-        colEnd = pos + interval
-
-        'set offset location for output
-        Dim output As Range
-        Set output = Sheets("VBA1").Range("B8")
+        ……
 
         Dim data As Byte
 
@@ -74,14 +100,11 @@ Sub ReadProvinceData()
                 pos = pos + 1
                 col = col + 1
             Wend
-            
+
             'print #province
             output.Offset(row, 0).Value = row
 
-            'set parameters for the next loop
-            row = row + 1
-            col = 1
-            colEnd = colEnd + interval                  'set the end for the next row
+            ……
 
         Wend
 
@@ -89,9 +112,19 @@ Sub ReadProvinceData()
 
 End Sub
 ```
+```vba
+Private Sub btnReadProvinceData_Click()
+
+    ' Skip excel formula calculation temporarily
+    Application.Calculation = xlManual
+        Call ReadProvinceData
+    Application.Calculation = xlAutomatic
+
+End Sub
+```
 
 
-## [General (2021.08.24)](/RTK2#rtk2-erp)
+## [General (2021.08.24)](#list)
 
 - read generals' data from a savefile by **VBA**
 - generalized structure to depend on parameters that user entered  
@@ -99,7 +132,8 @@ End Sub
 
 ![Read Generals' data](Images/RTK2_ReadGeneral.gif)
 
-```VBA
+#### `RTK2_General.bas`
+```vba
 Option Explicit
 
 
@@ -125,7 +159,7 @@ Sub ReadGeneral()
         pos = Range("B3").Value
         interval = Range("B4").Value
         posEnd = Range("B5").Value
-        
+
         'initialize criteria
         Dim row, col, colEnd As Integer
         row = 1
@@ -142,14 +176,14 @@ Sub ReadGeneral()
 
         'loop for each row
         While pos <= posEnd
-            
+
             'loop for shifting cell to the right
             While col <= interval
                 Get #fn, pos, data                      'read data one by one
                 If col >= 27 Then
                     name = name & Chr(data)             'assemble name from each byte
                 output.Offset(row, col).Value = data    'print each byte
-                
+
                 pos = pos + 1
                 col = col + 1
             Wend
@@ -169,9 +203,18 @@ Sub ReadGeneral()
 
 End Sub
 ```
+```vba
+Private Sub btnReadGeneralData_Click()
 
+    ' Skip excel formula calculation temporarily
+    Application.Calculation = xlManual
+        Call ReadGeneralData
+    Application.Calculation = xlAutomatic
 
-## [General - Taiki 2 (2021.03.18)](/RTK2#rtk2-erp)
+End Sub
+```
+
+## [General - Taiki 2 (2021.03.18)](#list)
 - call and print outside generals' data from `TAIKI.DAT`
 - use `os` `bytes()`
 - not a large size data but still is open to faster enhancement
@@ -211,7 +254,7 @@ for i in list(range(0, len(general_offset_init) - 2)) :                         
 > ……
 
 
-## [General - Taiki (2020.03.01)](/RTK2#rtk2-erp)
+## [General - Taiki (2020.03.01)](#list)
 
 - call outside generals' data from `TAIKI.DAT`
 - succeed in separating each general's data, but they should convert from `ASCII Code(int)` to `string`
@@ -297,7 +340,7 @@ for i in range(1,10) :
 > 9
 
 
-## [Province - Pandas (2019.08.12)](/RTK2#rtk2-erp)
+## [Province - Pandas (2019.08.12)](#list)
 
 - upgrade : adopt `Numpy` & `Pandas` and convert to a `class`
 - The parameter `lord` of the def `dataload` doesn't work yet.
@@ -379,7 +422,7 @@ save.head()
 > 4  268000  30000  2700000  15  100  100  100  16   1  48  
 
 
-## [Province (2019.07.23)](/RTK2#rtk2-erp)
+## [Province (2019.07.23)](#list)
 
 - call each province's data of population, gold, food and so on from a save file
 
@@ -463,7 +506,7 @@ for i in list(range(0,10)) :
 > 10       1010800         30000   3000000         33 83 96 100 100 6  
 
 
-## [Province - Offset (2019.07.22)](/RTK2#rtk2-erp)
+## [Province - Offset (2019.07.22)](#list)
 
 - make offset locations' list before call the save data
 
