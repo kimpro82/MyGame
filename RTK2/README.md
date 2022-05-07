@@ -5,7 +5,7 @@ a great journey to construct RTK2(Romance of The Three Kingdoms II, KOEI, 1989) 
 ## List
 
 \<VBA>
-- [Ruler 2 & Province 2 (2022.05.07)]()
+- [Ruler 2 & Province 2 (2022.05.07)](#ruler-2--province-2-20220507)
 - [Ruler (2022.05.05)](#ruler-20220505)
 - [Province & Arbitrage System (2021.08.25)](#province--arbitrage-system-20210825)
 - [General (2021.08.24)](#general-20210824)
@@ -20,7 +20,7 @@ a great journey to construct RTK2(Romance of The Three Kingdoms II, KOEI, 1989) 
 
 ## [Ruler 2 & Province 2 (2022.05.07)](#list)
 
-- Bring more data from other sheets of `Province` and `General` by `Application.WorksheetFunction`s; `CountIf()` `CountIfs()` `SumIf()`
+- Bring more data from other sheets of `Province` and `General` by `Application.WorksheetFunction`; `CountIf()` `CountIfs()` `SumIf()`
 - Do **line replacement** by using ` _`
 - To-do : Find the way to accumulate for drawing a time series chart
 
