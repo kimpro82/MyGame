@@ -21,6 +21,9 @@ a great journey to construct RTK2(Romance of The Three Kingdoms II, KOEI, 1989) 
 ## [Ruler 2 & Province 2 (2022.05.07)](#list)
 
 - Bring more data from other sheets of `Province` and `General` by `Application.WorksheetFunction`; `CountIf()` `CountIfs()` `SumIf()`
+- New indices :
+  - `Productivity` : pop * (land + flood + loyalty) / 300
+  - `Man Power` : count 1 if a capability value of a general is equal or more than 80
 - Do **line replacement** by using ` _`
 - To-do : Find the way to accumulate for drawing a time series chart
 
