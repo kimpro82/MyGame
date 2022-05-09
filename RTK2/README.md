@@ -5,6 +5,7 @@ a great journey to construct RTK2(Romance of The Three Kingdoms II, KOEI, 1989) 
 ## List
 
 \<VBA>
+- [Ruler 2 & Province 2 (2022.05.07)](#ruler-2--province-2-20220507)
 - [Ruler (2022.05.05)](#ruler-20220505)
 - [Province & Arbitrage System (2021.08.25)](#province--arbitrage-system-20210825)
 - [General (2021.08.24)](#general-20210824)
@@ -17,6 +18,137 @@ a great journey to construct RTK2(Romance of The Three Kingdoms II, KOEI, 1989) 
 - [Province - Offset (2019.07.22)](#province---offset-20190722)
 
 
+## [Ruler 2 & Province 2 (2022.05.07)](#list)
+
+- Bring more data from other sheets of `Province` and `General` by `Application.WorksheetFunction`; `CountIf()` `CountIfs()` `SumIf()`
+- New indices :
+  - `Productivity` : pop * (land + flood + loyalty) / 300
+  - `Manpower` : count 1 if a capability value of a general is equal or more than 80
+- Do **line replacement** by using ` _`
+- To-do : Find the way to accumulate for drawing a time series chart
+
+![Read Province 2](Images/RTK2_ReadProvince_2.PNG)
+
+![Read Ruler 2](Images/RTK2_ReadRuler_2.PNG)
+
+#### Mainly changed part of `RTK2_Province_2.bas`
+```vba
+Sub ReadProvinceData()
+
+    ……
+
+    'Read the file
+    Open path For Binary Access Read As #fn
+
+        ……
+
+        'loop for each row
+        While pos < posEnd
+
+            ……
+
+            'print population (1 = 10,000 people)
+            output.Offset(row, 35).Value = ( _
+                output.Offset(row, 15).Value * 256 _
+                + output.Offset(row, 14).Value _
+            ) / 100
+
+            ……
+
+            'print productivity : pop * (land + flood + loyalty) / 300
+            output.Offset(row, 39).Value = ( _
+                output.Offset(row, 35).Value _
+                * _
+                ( _
+                    output.Offset(row, 22).Value _
+                    + output.Offset(row, 23).Value _
+                    + output.Offset(row, 24).Value _
+                ) / 300 _
+            )
+
+            ……
+
+        Wend
+
+    Close #fn
+
+End Sub
+```
+
+#### Mainly changed part of `RTK2_Ruler.bas`
+```vba
+Sub ReadRulerData()
+
+    ……
+
+    'Read the file
+    Open path For Binary Access Read As #fn
+
+        ……
+
+        'loop for each row
+        While pos < posEnd
+            
+            ……
+
+            'print the ruler's name
+            output.Offset(row, 41).Value = Application.WorksheetFunction.IfError( _
+                Application.VLookup( _
+                    output.Offset(row, 0).Value + output.Offset(row, 1).Value * 256 - 53, _
+                    Sheet7.Range("A:B"), _
+                    2, _
+                    False _
+                ), _
+                "" _
+            )
+
+            ……
+
+            'print the number of the provinces
+            output.Offset(row, 43).Value = Application.WorksheetFunction.IfError( _
+                Application.WorksheetFunction.CountIf( _
+                    Sheet6.Range("S:S"), _
+                    row _
+                ), _
+                "" _
+            )
+
+            ……
+
+            'print the average loyalty (weighted)
+            'caution : exiled rulers cause an error : divide by zero → infinity → stack overflow
+            output.Offset(row, 48).Value = Application.WorksheetFunction.IfError( _
+                Application.WorksheetFunction.SumIf( _
+                    Sheet6.Range("S:S"), _
+                    row, _
+                    Sheet6.Range("AO:AO") _
+                ) / Application.WorksheetFunction.Max(1, output.Offset(row, 44).Value), _
+                "" _
+            )
+
+            ……
+
+            'print the manpower (War)
+            output.Offset(row, 53).Value = Application.WorksheetFunction.IfError( _
+                Application.WorksheetFunction.CountIfs( _
+                    Sheet7.Range("K:K"), _
+                    row, _
+                    Sheet7.Range("F:F"), _
+                    ">=80" _
+                ), _
+                "" _
+            )
+
+            ……
+
+        Wend
+
+    Close #fn
+
+End Sub
+```
+
+
 ## [Ruler (2022.05.05)](#list)
 
 - Read rulers' data from a savefile by **VBA**
@@ -25,7 +157,7 @@ a great journey to construct RTK2(Romance of The Three Kingdoms II, KOEI, 1989) 
 
 ![Read Ruler](Images/RTK2_ReadRuler.PNG)
 
-#### mainly changed part of `RTK2_Ruler.bas`
+#### Mainly changed part of `RTK2_Ruler.bas`
 ```vba
 Sub ReadRulerData()
 
@@ -76,7 +208,7 @@ End Sub
 
 ![Arbitrage System](Images/RTK2_ArbitrageSystem.png)
 
-#### mainly changed part of `RTK2_Province.bas`
+#### Mainly changed part of `RTK2_Province.bas`
 ```vba
 Sub ReadProvinceData()
 
