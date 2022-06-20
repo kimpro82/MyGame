@@ -60,7 +60,7 @@ Sub ReadRulerData()
             output.Offset(row, 41).Value = Application.WorksheetFunction.IfError( _
                 Application.VLookup( _
                     output.Offset(row, 0).Value + output.Offset(row, 1).Value * 256 - 53, _
-                    Sheet7.Range("A:B"), _
+                    Sheet5.Range("A:B"), _
                     2, _
                     False _
                 ), _
@@ -71,7 +71,7 @@ Sub ReadRulerData()
             output.Offset(row, 42).Value = Application.WorksheetFunction.IfError( _
                 Application.VLookup( _
                     output.Offset(row, 4).Value + output.Offset(row, 5).Value * 256 - 53, _
-                    Sheet7.Range("A:B"), _
+                    Sheet5.Range("A:B"), _
                     2, _
                     False _
                 ), _
@@ -161,7 +161,7 @@ Sub ReadRulerData()
             'print the number of the generals
             output.Offset(row, 50).Value = Application.WorksheetFunction.IfError( _
                 Application.WorksheetFunction.CountIf( _
-                    Sheet7.Range("K:K"), _
+                    Sheet5.Range("K:K"), _
                     row _
                 ), _
                 "" _
@@ -171,15 +171,15 @@ Sub ReadRulerData()
             output.Offset(row, 51).Value = Application.WorksheetFunction.IfError( _
                 ( _
                     Application.WorksheetFunction.SumIf( _
-                        Sheet7.Range("K:K"), _
+                        Sheet5.Range("K:K"), _
                         row, _
-                        Sheet7.Range("T:T") _
+                        Sheet5.Range("T:T") _
                     ) * 256 _
                     + _
                     Application.WorksheetFunction.SumIf( _
-                        Sheet7.Range("K:K"), _
+                        Sheet5.Range("K:K"), _
                         row, _
-                        Sheet7.Range("S:S") _
+                        Sheet5.Range("S:S") _
                     ) _
                 ) / 10000, _
                 "" _
@@ -188,9 +188,9 @@ Sub ReadRulerData()
             'print the manpower (Int)
             output.Offset(row, 52).Value = Application.WorksheetFunction.IfError( _
                 Application.WorksheetFunction.CountIfs( _
-                    Sheet7.Range("K:K"), _
+                    Sheet5.Range("K:K"), _
                     row, _
-                    Sheet7.Range("E:E"), _
+                    Sheet5.Range("E:E"), _
                     ">=80" _
                 ), _
                 "" _
@@ -199,9 +199,9 @@ Sub ReadRulerData()
             'print the manpower (War)
             output.Offset(row, 53).Value = Application.WorksheetFunction.IfError( _
                 Application.WorksheetFunction.CountIfs( _
-                    Sheet7.Range("K:K"), _
+                    Sheet5.Range("K:K"), _
                     row, _
-                    Sheet7.Range("F:F"), _
+                    Sheet5.Range("F:F"), _
                     ">=80" _
                 ), _
                 "" _
@@ -210,9 +210,9 @@ Sub ReadRulerData()
             'print the manpower (Cham)
             output.Offset(row, 54).Value = Application.WorksheetFunction.IfError( _
                 Application.WorksheetFunction.CountIfs( _
-                    Sheet7.Range("K:K"), _
+                    Sheet5.Range("K:K"), _
                     row, _
-                    Sheet7.Range("G:G"), _
+                    Sheet5.Range("G:G"), _
                     ">=80" _
                 ), _
                 "" _
