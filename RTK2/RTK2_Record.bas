@@ -56,6 +56,11 @@ Sub RecordGameData()
     For i = 1 To n
         zero.Offset(row + i - 1, 0) = Range("b1").Value
         zero.Offset(row + i - 1, 1) = ym
+
+        'when the ruler's slot is empty
+        If zero.Offset(row + i - 1, 3) = 0 Then
+            zero.Offset(row + i - 1, 2) = 99
+        End If
     Next i
 
 End Sub
@@ -75,5 +80,8 @@ Sub btnRecordGameData_Click()
         Call Sheet7.ReadRulerData
         Call Sheet8.RecordGameData
     Application.Calculation = xlAutomatic
+
+    ' Refresh the Pivot Table and Chart
+    Sheet9.PivotTables("PivotTable").PivotCache.Refresh
 
 End Sub
