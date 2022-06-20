@@ -5,7 +5,7 @@ a great journey to construct RTK2(Romance of The Three Kingdoms II, KOEI, 1989) 
 ## List
 
 \<VBA>
-- [Record (2022-06-19)](#record-2022-06-19)
+- [Record (2022.06.19)](#record-20220619)
 - [Ruler 2 & Province 2 (2022.05.07)](#ruler-2--province-2-20220507)
 - [Ruler (2022.05.05)](#ruler-20220505)
 - [Province & Arbitrage System (2021.08.25)](#province--arbitrage-system-20210825)
