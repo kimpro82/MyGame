@@ -19,7 +19,7 @@ a great journey to construct RTK2(Romance of The Three Kingdoms II, KOEI, 1989) 
 - [Province - Offset (2019.07.22)](#province---offset-20190722)
 
 
-## [Record (2022-06-19)](#list)
+## [Record (2022.06.19)](#list)
 
 - Record the game data cumulatively and plot it
 - Small update on `RTK2_Ruler_2.bas` : `Sheet5` ↔ `Sheet7`
