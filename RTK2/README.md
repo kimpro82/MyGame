@@ -159,7 +159,7 @@ End Sub
 
 - Record the game data cumulatively and plot it
 - Small update on `RTK2_Ruler_2.bas` : `Sheet5` ↔ `Sheet7`
-- To-Do : Find an indicator to appear overall national power
+- To-Do : Find an indicator to appear overall national power → done ([Ruler 3 & General 2 (2022.07.10)](#ruler-3--general-2-20220710))
 
 ![Record](Images/RTK2_Record.PNG)
 
@@ -264,7 +264,7 @@ End Sub
   - `Productivity` : pop * (land + flood + loyalty) / 300
   - `Manpower` : count 1 if a capability value of a general is equal or more than 80
 - Do **line replacement** by using ` _`
-- To-do : Find the way to accumulate for drawing a time series chart
+- To-do : Find the way to accumulate for drawing a time series chart → done ([Record (2022.06.19)](#record-20220619))
 
 ![Read Province 2](Images/RTK2_ReadProvince_2.PNG)
 
@@ -392,7 +392,7 @@ End Sub
 
 - Read rulers' data from a savefile by **VBA**
 - Bring the rulers' and advisors' names from the other sheet by `Application.WorksheetFunction.IfError()` and `Application.VLookup()`
-- To-do : merge more data like population, armies, generals' number and so on and draw a line graph
+- To-do : merge more data like population, armies, generals' number and so on and draw a line graph → done ([Record (2022.06.19)](#record-20220619))
 
 ![Read Ruler](Images/RTK2_ReadRuler.PNG)
 
