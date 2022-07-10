@@ -5,7 +5,7 @@ a great journey to construct RTK2(Romance of The Three Kingdoms II, KOEI, 1989) 
 ## List
 
 \<VBA>
-- [Ruler 3 & General 2 (2022.07.10)]()
+- [Ruler 3 & General 2 (2022.07.10)](#ruler-3--general-2-20220710)
 - [Record (2022.06.19)](#record-20220619)
 - [Ruler 2 & Province 2 (2022.05.07)](#ruler-2--province-2-20220507)
 - [Ruler (2022.05.05)](#ruler-20220505)
@@ -26,9 +26,10 @@ a great journey to construct RTK2(Romance of The Three Kingdoms II, KOEI, 1989) 
   - `Total Measurement` : Province 0.125 (+ Productivuty 0.125) + Gold & Food 0.25 + Generals 0.125 (Manpower +0.125) + Arms 0.125 (+ Quality 0.125)
   - `Soldiers' Quality` : (Men / 10000) * (Weapon + Trainning * 100) / 20000
 - Separate `RefreshPivotTables()` from `btnRecordGameData_Click()`
-- Bug Fix :
-  - Make not to couny unavailable general (ex. dead but still listed)
 - Small update on `RTK2_Record_2.bas` : Modify the range to bring data from the `Ruler` sheet
+- Bug Fix :
+  - Make not to count unavailable general (ex. dead but still listed)
+  - Convert August not to `9`, but to `09` in `YYY-MM`
 
 ![Chart](Images/RTK2_Record_Chart_2.PNG)
 
