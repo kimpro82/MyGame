@@ -23,7 +23,7 @@ Sub ReadGeneralData()
         pos = Range("B3").Value
         interval = Range("B4").Value
         posEnd = Range("B5").Value
-        
+
         'initialize criteria
         Dim row, col, colEnd As Integer
         row = 0
@@ -40,10 +40,10 @@ Sub ReadGeneralData()
 
         'loop for each row
         While pos < posEnd
-            
+
             'print the index number
             output.Offset(row, -2).Value = pos
-            
+
             'loop for shifting cell to the right
             While col < interval
                 Get #fn, pos, data                      'read data one by one
@@ -51,7 +51,7 @@ Sub ReadGeneralData()
                     name = name & Chr(data)             'assemble name from each byte
                 End If
                 output.Offset(row, col).Value = data    'print each byte
-                
+
                 pos = pos + 1
                 col = col + 1
             Wend
@@ -60,7 +60,7 @@ Sub ReadGeneralData()
             output.Offset(row, -1).Value = name
             name = ""
 
-            'print the soldiers' quality : men * (weapon + trainning * 100) / 20000
+            'print the soldiers' quality : (men / 10000) * (weapon + trainning * 100) / 20000
             output.Offset(row, 43).Value = _
                 (output.Offset(row, 16).Value + output.Offset(row, 17).Value * 256) / 10000 _
                 * (output.Offset(row, 18).Value + output.Offset(row, 19).Value * 256 _
