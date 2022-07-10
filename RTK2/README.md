@@ -5,6 +5,7 @@ a great journey to construct RTK2(Romance of The Three Kingdoms II, KOEI, 1989) 
 ## List
 
 \<VBA>
+- [Ruler 3 & General 2 (2022.07.10)]()
 - [Record (2022.06.19)](#record-20220619)
 - [Ruler 2 & Province 2 (2022.05.07)](#ruler-2--province-2-20220507)
 - [Ruler (2022.05.05)](#ruler-20220505)
@@ -17,6 +18,140 @@ a great journey to construct RTK2(Romance of The Three Kingdoms II, KOEI, 1989) 
 - [Province - Pandas (2019.08.12)](#province---pandas-20190812)
 - [Province (2019.07.23)](#province-20190723)
 - [Province - Offset (2019.07.22)](#province---offset-20190722)
+
+
+## [Ruler 3 & General 2 (2022.07.10)](#list)
+
+- New indices :
+  - `Total Measurement` : Province 0.125 (+ Productivuty 0.125) + Gold & Food 0.25 + Generals 0.125 (Manpower +0.125) + Arms 0.125 (+ Quality 0.125)
+  - `Soldiers' Quality` : (Men / 10000) * (Weapon + Trainning * 100) / 20000
+- Separate `RefreshPivotTables()` from `btnRecordGameData_Click()`
+- Bug Fix :
+  - Make not to couny unavailable general (ex. dead but still listed)
+- Small update on `RTK2_Record_2.bas` : Modify the range to bring data from the `Ruler` sheet
+
+![Chart](Images/RTK2_Record_Chart_2.PNG)
+
+#### Mainly changed part of `RTK2_Ruler_3.bas`
+```vba
+Sub ReadRulerData()
+
+    ……
+        ……
+            ……
+
+            'print the number of the generals
+            output.Offset(row, 50).Value = Application.WorksheetFunction.IfError( _
+                Application.WorksheetFunction.CountIfs( _
+                    Sheet5.Range("K:K"), _
+                    row, _
+                    Sheet5.Range("Z:Z"), _
+                    ">0" _
+                ), _
+                "" _
+            )
+
+            ……
+
+            'print total measurement (new)
+            'weight : Province 0.125 (+ Productivuty 0.125) / Gold & Food 0.25 / Generals 0.125 (Manpower +0.125) / Arms 0.125 (+ Quality 0.125)
+            output.Offset(row, 57).Value = Application.WorksheetFunction.IfError( _
+                (output.Offset(row, 43).Value + output.Offset(row, 49).Value / 50) * 0.125 _
+                + (output.Offset(row, 45).Value + output.Offset(row, 46).Value) / 2 / 300 * 0.25 _
+                + (output.Offset(row, 50).Value + output.Offset(row, 56).Value * 2) / (255 / 41) * 0.125 _
+                + (output.Offset(row, 51).Value + output.Offset(row, 52).Value) / (255 / 41) * 0.125 _
+                , _
+                "" _
+            )
+
+            ……
+        ……
+    ……
+
+End Sub
+```
+
+#### Mainly changed part of `RTK2_General_2.bas`
+```vba
+Sub ReadGeneralData()
+
+    ……
+        ……
+            ……
+
+            'print the soldiers' quality : (men / 10000) * (weapon + trainning * 100) / 20000
+            output.Offset(row, 43).Value = _
+                (output.Offset(row, 16).Value + output.Offset(row, 17).Value * 256) / 10000 _
+                * (output.Offset(row, 18).Value + output.Offset(row, 19).Value * 256 _
+                   + output.Offset(row, 20).Value * 100) _
+                / 20000
+
+            ……
+        ……
+    ……
+
+End Sub
+```
+
+#### Mainly changed part of `RTK2_Record_2.bas`
+```vba
+Sub RecordGameData()
+
+    ……
+
+    'Call the file's date (YYY-MM)
+    ……
+
+    mm = mm + 1                                             'add 1 because Jan : 0, Feb : 1
+    If mm < 10 Then
+        Range("B4") = 0 & mm
+        ym = CStr(yyy) & "-0" & CStr(mm)
+    ……
+
+    ……
+
+    'Get the New Data
+    Range("C8:BI23").Offset(row, 0) = Sheet7.Range("B9:BH24").Value
+
+    ……
+
+End Sub
+```
+```vba
+Sub btnRecordGameData_Click()
+
+    ……
+
+    'Skip excel formula calculation temporarily
+    ……
+        Call Sheet9.RefreshPivotTables
+    ……
+
+End Sub
+```
+
+#### `RTK2_Pivot.bas`
+```vba
+Option Explicit
+
+
+' Refresh all the Pivot Table and Chart
+Sub RefreshPivotTables()
+
+        PivotTables("PivotTable1").PivotCache.Refresh
+        PivotTables("PivotTable2").PivotCache.Refresh
+
+End Sub
+
+
+Private Sub BtnRefresh_Click()
+
+    Application.Calculation = xlManual                                          'Skip excel formula calculation temporarily
+        Call RefreshPivotTables
+    Application.Calculation = xlAutomatic
+
+End Sub
+```
 
 
 ## [Record (2022.06.19)](#list)
@@ -93,7 +228,7 @@ Sub RecordGameData()
         'when the ruler's slot is empty
         If zero.Offset(row + i - 1, 3) = 0 Then
             zero.Offset(row + i - 1, 2) = 99
-        End If
+      1ㄱ  End If
     Next i
 
 End Sub
