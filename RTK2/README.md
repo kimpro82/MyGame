@@ -119,7 +119,7 @@ Sub RecordGameData()
 End Sub
 ```
 ```vba
-Sub btnRecordGameData_Click()
+Private Sub btnRecordGameData_Click()
 
     ……
 
@@ -143,8 +143,8 @@ Sub RefreshPivotTables()
         PivotTables("PivotTable2").PivotCache.Refresh
 
 End Sub
-
-
+```
+```vba
 Private Sub BtnRefresh_Click()
 
     Application.Calculation = xlManual                                          'Skip excel formula calculation temporarily

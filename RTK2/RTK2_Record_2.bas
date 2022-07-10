@@ -66,7 +66,7 @@ Sub RecordGameData()
 End Sub
 
 
-Sub btnRecordGameData_Click()
+Private Sub btnRecordGameData_Click()
 
     'Unify the save file name among all the sheets
     Sheet5.Range("B1").Value = Range("B1")
