@@ -5,6 +5,7 @@ a great journey to construct RTK2(Romance of The Three Kingdoms II, KOEI, 1989) 
 ## List
 
 \<VBA>
+- [Ruler 3 & General 2 (2022.07.10)](#ruler-3--general-2-20220710)
 - [Record (2022.06.19)](#record-20220619)
 - [Ruler 2 & Province 2 (2022.05.07)](#ruler-2--province-2-20220507)
 - [Ruler (2022.05.05)](#ruler-20220505)
@@ -19,11 +20,146 @@ a great journey to construct RTK2(Romance of The Three Kingdoms II, KOEI, 1989) 
 - [Province - Offset (2019.07.22)](#province---offset-20190722)
 
 
+## [Ruler 3 & General 2 (2022.07.10)](#list)
+
+- New indices :
+  - `Total Measurement` : Province 0.125 (+ Productivuty 0.125) + Gold & Food 0.25 + Generals 0.125 (Manpower +0.125) + Arms 0.125 (+ Quality 0.125)
+  - `Soldiers' Quality` : (Men / 10000) * (Weapon + Trainning * 100) / 20000
+- Separate `RefreshPivotTables()` from `btnRecordGameData_Click()`
+- Small update on `RTK2_Record_2.bas` : Modify the range to bring data from the `Ruler` sheet
+- Bug Fix :
+  - Make not to count unavailable general (ex. dead but still listed)
+  - Convert August not to `9`, but to `09` in `YYY-MM`
+
+![Chart](Images/RTK2_Record_Chart_2.PNG)
+
+#### Mainly changed part of `RTK2_Ruler_3.bas`
+```vba
+Sub ReadRulerData()
+
+    ……
+        ……
+            ……
+
+            'print the number of the generals
+            output.Offset(row, 50).Value = Application.WorksheetFunction.IfError( _
+                Application.WorksheetFunction.CountIfs( _
+                    Sheet5.Range("K:K"), _
+                    row, _
+                    Sheet5.Range("Z:Z"), _
+                    ">0" _
+                ), _
+                "" _
+            )
+
+            ……
+
+            'print total measurement (new)
+            'weight : Province 0.125 (+ Productivuty 0.125) / Gold & Food 0.25 / Generals 0.125 (Manpower +0.125) / Arms 0.125 (+ Quality 0.125)
+            output.Offset(row, 57).Value = Application.WorksheetFunction.IfError( _
+                (output.Offset(row, 43).Value + output.Offset(row, 49).Value / 50) * 0.125 _
+                + (output.Offset(row, 45).Value + output.Offset(row, 46).Value) / 2 / 300 * 0.25 _
+                + (output.Offset(row, 50).Value + output.Offset(row, 56).Value * 2) / (255 / 41) * 0.125 _
+                + (output.Offset(row, 51).Value + output.Offset(row, 52).Value) / (255 / 41) * 0.125 _
+                , _
+                "" _
+            )
+
+            ……
+        ……
+    ……
+
+End Sub
+```
+
+#### Mainly changed part of `RTK2_General_2.bas`
+```vba
+Sub ReadGeneralData()
+
+    ……
+        ……
+            ……
+
+            'print the soldiers' quality : (men / 10000) * (weapon + trainning * 100) / 20000
+            output.Offset(row, 43).Value = _
+                (output.Offset(row, 16).Value + output.Offset(row, 17).Value * 256) / 10000 _
+                * (output.Offset(row, 18).Value + output.Offset(row, 19).Value * 256 _
+                   + output.Offset(row, 20).Value * 100) _
+                / 20000
+
+            ……
+        ……
+    ……
+
+End Sub
+```
+
+#### Mainly changed part of `RTK2_Record_2.bas`
+```vba
+Sub RecordGameData()
+
+    ……
+
+    'Call the file's date (YYY-MM)
+    ……
+
+    mm = mm + 1                                             'add 1 because Jan : 0, Feb : 1
+    If mm < 10 Then
+        Range("B4") = 0 & mm
+        ym = CStr(yyy) & "-0" & CStr(mm)
+    ……
+
+    ……
+
+    'Get the New Data
+    Range("C8:BI23").Offset(row, 0) = Sheet7.Range("B9:BH24").Value
+
+    ……
+
+End Sub
+```
+```vba
+Private Sub btnRecordGameData_Click()
+
+    ……
+
+    'Skip excel formula calculation temporarily
+    ……
+        Call Sheet9.RefreshPivotTables
+    ……
+
+End Sub
+```
+
+#### `RTK2_Pivot.bas`
+```vba
+Option Explicit
+
+
+' Refresh all the Pivot Table and Chart
+Sub RefreshPivotTables()
+
+        PivotTables("PivotTable1").PivotCache.Refresh
+        PivotTables("PivotTable2").PivotCache.Refresh
+
+End Sub
+```
+```vba
+Private Sub BtnRefresh_Click()
+
+    Application.Calculation = xlManual                                          'Skip excel formula calculation temporarily
+        Call RefreshPivotTables
+    Application.Calculation = xlAutomatic
+
+End Sub
+```
+
+
 ## [Record (2022.06.19)](#list)
 
 - Record the game data cumulatively and plot it
 - Small update on `RTK2_Ruler_2.bas` : `Sheet5` ↔ `Sheet7`
-- To-Do : Find an indicator to appear overall national power
+- To-Do : Find an indicator to appear overall national power → done ([Ruler 3 & General 2 (2022.07.10)](#ruler-3--general-2-20220710))
 
 ![Record](Images/RTK2_Record.PNG)
 
@@ -93,7 +229,7 @@ Sub RecordGameData()
         'when the ruler's slot is empty
         If zero.Offset(row + i - 1, 3) = 0 Then
             zero.Offset(row + i - 1, 2) = 99
-        End If
+      1ㄱ  End If
     Next i
 
 End Sub
@@ -128,7 +264,7 @@ End Sub
   - `Productivity` : pop * (land + flood + loyalty) / 300
   - `Manpower` : count 1 if a capability value of a general is equal or more than 80
 - Do **line replacement** by using ` _`
-- To-do : Find the way to accumulate for drawing a time series chart
+- To-do : Find the way to accumulate for drawing a time series chart → done ([Record (2022.06.19)](#record-20220619))
 
 ![Read Province 2](Images/RTK2_ReadProvince_2.PNG)
 
@@ -256,7 +392,7 @@ End Sub
 
 - Read rulers' data from a savefile by **VBA**
 - Bring the rulers' and advisors' names from the other sheet by `Application.WorksheetFunction.IfError()` and `Application.VLookup()`
-- To-do : merge more data like population, armies, generals' number and so on and draw a line graph
+- To-do : merge more data like population, armies, generals' number and so on and draw a line graph → done ([Record (2022.06.19)](#record-20220619))
 
 ![Read Ruler](Images/RTK2_ReadRuler.PNG)
 

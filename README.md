@@ -19,6 +19,7 @@ Game is to handle data
 A great journey to construct RTK2(Romance of The Three Kingdoms II, KOEI, 1989) ERP  
 
 **\<VBA>**
+- [Ruler 3 & General 2 (2022.07.10)](/RTK2#ruler-3--general-2-20220710)
 - [Record (2022.06.19)](/RTK2#record-20220619)
 - [Ruler 2 & Province 2 (2022.05.07)](/RTK2#ruler-2--province-2-20220507)
 - [Ruler (2022.05.05)](/RTK2#ruler-20220505)
