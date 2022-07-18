@@ -1,9 +1,28 @@
-' Module1
-'------------------------------------------------------------------------------
+# Play Time Estimator
 
-Option Explicit
+Estimate game play time and frequency based on capture images' `DateCreated` information
+
+### \<List>
+
+- [Play Time Estimator (2022.07.18)]()
 
 
+## [Play Time Estimator (2022.07.18)](#list)
+
+- Assumption : If the interval between two images is short enough, that are captured steadily during play, I would play continuously during the period.
+- Technique : deal VBA objects related with the file system
+- How to Use : Input the plural folders (max : 5) then call the files and their informations and calculate the estimated play time and frequency 
+- Limit
+  - The estimation for the game play time and frequency has fluctuation based on the criteria period's length
+  - couldn't find how to use a structure with *Call by Reference* method  
+    → It caused data flow being inefficient
+
+![Play Time Estimator](Images/PlayTimeEstimator.PNG)
+
+#### PlayTimeEstimator.bas
+
+Modul1
+```vba
 Public Type FileInfo
 
     fileName        As String
@@ -12,15 +31,13 @@ Public Type FileInfo
     fileDateCreated As Date
 
 End Type
+```
 
-
-
-' Sheet1
-'------------------------------------------------------------------------------
-
+Sheet1
+```vba
 Option Explicit
-
-
+```
+```vba
 Private Sub btnRun_Click()
 
     Application.Calculation = xlManual
@@ -28,8 +45,8 @@ Private Sub btnRun_Click()
     Application.Calculation = xlAutomatic
 
 End Sub
-
-
+```
+```vba
 Sub Main()
 
     ' Set zero points
@@ -69,8 +86,8 @@ Sub Main()
     Call GetPlayTime(printZero, calZero, numFiles)
 
 End Sub
-
-
+```
+```vba
 Sub SetZero(ByRef readZero As Range, printZero As Range, calZero As Range)
 
     Set readZero = Range("B2")
@@ -78,8 +95,8 @@ Sub SetZero(ByRef readZero As Range, printZero As Range, calZero As Range)
     Set calZero = Range("F3")
 
 End Sub
-
-
+```
+```vba
 Sub SetUsingArea(ByRef printZero As Range, ByRef usingArea As Range)
 
     Set usingArea = Range(printZero, printZero.Offset(10000, 12))
@@ -88,8 +105,8 @@ Sub SetUsingArea(ByRef printZero As Range, ByRef usingArea As Range)
     ' usingArea.VerticalAlignment = xlCenter                                            ' why doesn't it work? aligned manually on the sheet
 
 End Sub
-
-
+```
+```vba
 Sub GetPath( _
     ByRef readZero As Range, ByRef path As Variant, ByRef pathLen As Integer)           ' array should be passed as Variant
 
@@ -108,8 +125,8 @@ Sub GetPath( _
     End If
 
 End Sub
-
-
+```
+```vba
 Sub GetFileList(ByRef printZero As Range, ByRef calZero As Range, ByRef path As Variant, ByRef pathLen As Integer, ByRef numFiles As Integer)
 'Sub GetFileList(ByRef printZero As Range, ByRef path As Variant, ByRef pathLen As Integer, ByRef data As Variant, ByRef numFiles As Integer)
 
@@ -162,8 +179,8 @@ Sub GetFileList(ByRef printZero As Range, ByRef calZero As Range, ByRef path As 
     Next i
 
 End Sub
-
-
+```
+```vba
 'Sub PrintFileList(ByRef printZero As Range, ByRef data As Variant, ByRef numFiles As Integer)
 '
 '    ' Print data on the sheet
@@ -175,8 +192,8 @@ End Sub
 '    Next i
 '
 'End Sub
-
-
+```
+```vba
 Sub SortData(ByRef printZero As Range)
 
     ' Debug.Print printZero.End(xlDown).Address                                         ' ok : $A$1416
@@ -185,8 +202,8 @@ Sub SortData(ByRef printZero As Range)
         Order1:=xlAscending
 
 End Sub
-
-
+```
+```vba
 Sub GetPlayTime(ByRef printZero As Range, ByRef calZero As Range, ByRef numFiles As Integer)
 
     Dim playTime(4) As Double
@@ -209,8 +226,8 @@ Sub GetPlayTime(ByRef printZero As Range, ByRef calZero As Range, ByRef numFiles
     Call PrintPlayTime(calZero, numFiles, playTime, playFreq)
 
 End Sub
-
-
+```
+```vba
 Sub SetTerms(ByRef printZero As Range, ByRef calZero As Range, ByRef terms As Variant)
 
     ' Set terms for calculating playTime
@@ -227,8 +244,8 @@ Sub SetTerms(ByRef printZero As Range, ByRef calZero As Range, ByRef terms As Va
     Next i
 
 End Sub
-
-
+```
+```vba
 Sub CalPlayTime(ByRef printZero As Range, ByRef numFiles As Integer, ByRef terms As Variant, ByRef playTime As Variant, ByRef playFreq As Variant)
 
     Dim diff        As Double
@@ -263,8 +280,8 @@ Sub CalPlayTime(ByRef printZero As Range, ByRef numFiles As Integer, ByRef terms
     Next i
 
 End Sub
-
-
+```
+```vba
 Sub PrintPlayTime(ByRef calZero As Range, numFiles As Integer, playTime As Variant, playFreq As Variant)
 
     ' Print calculation results
@@ -276,3 +293,4 @@ Sub PrintPlayTime(ByRef calZero As Range, numFiles As Integer, playTime As Varia
     Next i
 
 End Sub
+```
