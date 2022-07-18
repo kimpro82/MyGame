@@ -21,7 +21,7 @@ Estimate game play time and frequency based on capture images' `DateCreated` inf
 
 #### PlayTimeEstimator.bas
 
-Modul1
+##### Modul1
 ```vba
 Public Type FileInfo
 
@@ -33,7 +33,7 @@ Public Type FileInfo
 End Type
 ```
 
-Sheet1
+##### Sheet1
 ```vba
 Option Explicit
 ```
