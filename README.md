@@ -3,10 +3,10 @@
 Game is to handle data
 
 
-## Fundamentals
+## [Play Time Estimator](/PlayTimeEstimator#play-time-estimator)
+Estimate game play time and frequency based on capture images' `DateCreated` information
 
-- Player2 (2019.12.15)
-- Player (2019.03.12) - maybe?
+- [Play Time Estimator (2022.07.18)](/PlayTimeEstimator#play-time-estimator-20220718)
 
 
 ## [DOS Environment-related Works](/DOS#my-dos-environment-related-works)
@@ -45,3 +45,9 @@ Rage against the **AlphaGo**
 
 - [AlphaCa 2 (2016.03.13)](/AlphaCa#alphaca-2-20160313)
 - [AlphaCa 1 (2016.03.11)](/AlphaCa#alphaca-1-20160311)
+
+
+## Fundamentals
+
+- Player2 (2019.12.15)
+- Player (2019.03.12) - maybe?

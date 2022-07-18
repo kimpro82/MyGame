@@ -4,7 +4,7 @@ Estimate game play time and frequency based on capture images' `DateCreated` inf
 
 ### \<List>
 
-- [Play Time Estimator (2022.07.18)]()
+- [Play Time Estimator (2022.07.18)](#play-time-estimator-20220718)
 
 
 ## [Play Time Estimator (2022.07.18)](#list)
