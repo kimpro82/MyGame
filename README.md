@@ -4,18 +4,13 @@ Game is to handle data
 
 
 ## [Play Time Estimator](/PlayTimeEstimator#play-time-estimator)
-Estimate game play time and frequency based on capture images' `DateCreated` information
+Estimate game play time and frequency based on capture images' information
 
 - [Play Time Estimator (2022.07.18)](/PlayTimeEstimator#play-time-estimator-20220718)
 
 
-## [DOS Environment-related Works](/DOS#my-dos-environment-related-works)
-
-- [Modify Autoexec.bat in DOSBox (2021.08.19)](/DOS#modify-autoexecbat-in-dosbox-20210819)
-- [Nostalgic Game.bat (2021.08.19)](/DOS#nostalgic-gamebat-20210819)
-
-
 ## [RTK2 ERP](/RTK2#rtk2-erp)
+
 A great journey to construct RTK2(Romance of The Three Kingdoms II, KOEI, 1989) ERP  
 
 **\<VBA>**
@@ -35,12 +30,20 @@ A great journey to construct RTK2(Romance of The Three Kingdoms II, KOEI, 1989) 
 
 
 ## GK4 ERP
+
 A great journey to construct GK4(Genghis Khan Ⅳ, KOEI, 1998) ERP
 
 - GK4_Provinces.py (2021.03.17)
 
 
+## [DOS Environment-related Works](/DOS#my-dos-environment-related-works)
+
+- [Modify Autoexec.bat in DOSBox (2021.08.19)](/DOS#modify-autoexecbat-in-dosbox-20210819)
+- [Nostalgic Game.bat (2021.08.19)](/DOS#nostalgic-gamebat-20210819)
+
+
 ## [AlphaCa (AI Tic-Tac-Toe)](/AlphaCa#alphaca-ai-tic-tac-toe)
+
 Rage against the **AlphaGo**
 
 - [AlphaCa 2 (2016.03.13)](/AlphaCa#alphaca-2-20160313)

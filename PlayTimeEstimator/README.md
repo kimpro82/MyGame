@@ -1,6 +1,6 @@
 # Play Time Estimator
 
-Estimate game play time and frequency based on capture images' `DateCreated` information
+Estimate game play time and frequency based on capture images' information
 
 ### \<List>
 
