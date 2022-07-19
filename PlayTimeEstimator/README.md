@@ -20,7 +20,7 @@ Estimate game play time and frequency based on capture images' information
 ![Play Time Estimator](Images/PlayTimeEstimator.PNG)
 
 #### PlayTimeEstimator.bas
-![Play Time Estimator Architecture](Images/PlayTimeEstimator_Architecture_20220718.png)
+![Play Time Estimator Architecture](Images/PlayTimeEstimator_Architecture_20220718.PNG)
 
 ##### Modul1
 ```vba
