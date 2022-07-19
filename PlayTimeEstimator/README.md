@@ -13,13 +13,14 @@ Estimate game play time and frequency based on capture images' `DateCreated` inf
 - Technique : deal VBA objects related with the file system
 - How to Use : Input the plural folders (max : 5) then call the files and their informations and calculate the estimated play time and frequency 
 - Limit
-  - The estimation for the game play time and frequency has fluctuation based on the criteria period's length
+  - The estimations for the game play time and frequency have fluctuation based on the criteria period's length
   - couldn't find how to use a structure with *Call by Reference* method  
     → It caused data flow being inefficient
 
 ![Play Time Estimator](Images/PlayTimeEstimator.PNG)
 
 #### PlayTimeEstimator.bas
+![Play Time Estimator Architecture](Images/PlayTimeEstimator_Architecture_20220718.png)
 
 ##### Modul1
 ```vba
