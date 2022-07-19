@@ -4,6 +4,7 @@ Game is to handle data
 
 
 ## [Play Time Estimator](/PlayTimeEstimator#play-time-estimator)
+
 Estimate game play time and frequency based on capture images' information
 
 - [Play Time Estimator (2022.07.18)](/PlayTimeEstimator#play-time-estimator-20220718)
