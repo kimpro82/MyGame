@@ -108,8 +108,7 @@ Sub SetUsingArea(ByRef printZero As Range, ByRef usingArea As Range)
 End Sub
 ```
 ```vba
-Sub GetPath( _
-    ByRef readZero As Range, ByRef path As Variant, ByRef pathLen As Integer)           ' array should be passed as Variant
+Sub GetPath(ByRef readZero As Range, ByRef path As Variant, ByRef pathLen As Integer)   ' array should be passed as Variant
 
     pathLen = Range(readZero, readZero.End(xlDown)).Count
         Debug.Print "pathLen : " & pathLen
