@@ -54,7 +54,7 @@ Sub Main()
 '    ' Failure : can't use structure array as a ByRef parameter (actually it seems to perform not so significantly improved)
 '    ' Get oFile collection's informations to 'data' array
 '    Dim data(100)      As FileInfo
-'    Dim numFiles    As Integer
+'    Dim numFiles       As Integer
 '    Call GetFileList(printZero, path, pathLen, data, numFiles)
 '    ' cause an error : Only public user defined types defined in public object modules can be used as parameters or return types for public procedures of class modules or as fields of public user defined types
 '    ' https://docs.microsoft.com/ko-kr/office/vba/language/reference/user-interface-help/only-public-user-defined-types-defined-in-public-object-modules-can-be-used-as-p
