@@ -16,7 +16,7 @@
 repeat 'x' 20 times
 ```ahk
 ^+Space::
-	Send, xxxxxxxxxxxxxxxxxxxx
+    Send, xxxxxxxxxxxxxxxxxxxx
 ```
 
 ![WWF WrestleFest Perfect Win](Images/WWF_WrestleFest_PerfectWin.png)  

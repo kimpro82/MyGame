@@ -2,4 +2,4 @@
 ; 2022.09.08
 
 ^+Space::
-	Send, xxxxxxxxxxxxxxxxxxxx
+    Send, xxxxxxxxxxxxxxxxxxxx
