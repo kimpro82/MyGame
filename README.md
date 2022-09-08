@@ -12,7 +12,7 @@ Estimate game play time and frequency based on capture images' information
 
 ## [RTK2 ERP](/RTK2#rtk2-erp)
 
-A great journey to construct RTK2(Romance of The Three Kingdoms II, KOEI, 1989) ERP  
+RTK2(Romance of The Three Kingdoms II, KOEI, 1989) ERP  
 
 **\<VBA>**
 - [Ruler 3 & General 2 (2022.07.10)](/RTK2#ruler-3--general-2-20220710)
@@ -32,7 +32,7 @@ A great journey to construct RTK2(Romance of The Three Kingdoms II, KOEI, 1989) 
 
 ## GK4 ERP
 
-A great journey to construct GK4(Genghis Khan Ⅳ, KOEI, 1998) ERP
+GK4(Genghis Khan Ⅳ, KOEI, 1998) ERP
 
 - GK4_Provinces.py (2021.03.17)
 
@@ -41,6 +41,11 @@ A great journey to construct GK4(Genghis Khan Ⅳ, KOEI, 1998) ERP
 
 - [Modify Autoexec.bat in DOSBox (2021.08.19)](/DOS#modify-autoexecbat-in-dosbox-20210819)
 - [Nostalgic Game.bat (2021.08.19)](/DOS#nostalgic-gamebat-20210819)
+
+
+## [Repeated Hit](/RepeatedHit/README.md#repeated-hit)
+
+- [Repeated Hit (2022.09.08)](/RepeatedHit/README.md#repeated-hit-20220908)
 
 
 ## [AlphaCa (AI Tic-Tac-Toe)](/AlphaCa#alphaca-ai-tic-tac-toe)
