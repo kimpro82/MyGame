@@ -19,8 +19,9 @@ a great journey to construct RTK2(Romance of The Three Kingdoms II, KOEI, 1989) 
 - not a large size data but still is open to faster enhancement
 
   <details>
-    <summary>Mainly added/changed part</summary>
+    <summary>Codes : Mainly added/changed part</summary>
 
+  `RTK2_General_Taiki_2.py`
   ```python
   # 4. Read The Data
 
@@ -61,10 +62,10 @@ a great journey to construct RTK2(Romance of The Three Kingdoms II, KOEI, 1989) 
 - succeed in separating each general's data, but they should convert from `ASCII Code(int)` to `string`
 - use `os`
 
-```python
-# Each Geneal's Data Length : 46 bytes
-# Header Data : 6 bytes
-```
+  ```python
+  # Each Geneal's Data Length : 46 bytes
+  # Header Data : 6 bytes
+  ```
 
   <details>
     <summary>1. heck If TAIKI.DAT Exists and get the file's length</summary>
@@ -143,11 +144,7 @@ a great journey to construct RTK2(Romance of The Three Kingdoms II, KOEI, 1989) 
   > 1  
   > 2  
   > 3  
-  > 4  
-  > 5  
-  > 6  
-  > 7  
-  > 8  
+  > ……  
   > 9
   </details>
 
@@ -312,6 +309,8 @@ a great journey to construct RTK2(Romance of The Three Kingdoms II, KOEI, 1989) 
       print(i+1, "\t", province_pop[i], "\t", province_gold[i], "\t", province_food[i], "\t", end =' ')
       print(province_rate[i], province_horses[i], province_loy[i], province_land[i], province_flood[i], province_forts[i])
   ```
+  </details>
+
   > Province Pop             Gold    Food            Rate Horses Loy Land Flood Forts  
   > 1        254400          182     264     34 4 79 7 4 1  
   > 2        232400          2580    281260          64 0 100 56 52 2  
@@ -323,15 +322,11 @@ a great journey to construct RTK2(Romance of The Three Kingdoms II, KOEI, 1989) 
   > 8        173600          1783    329476          41 49 100 83 83 2  
   > 9        276300          29880   2694902         30 39 95 47 79 2  
   > 10       1010800         30000   3000000         33 83 96 100 100 6  
-  </details>
+
 
 ## [Province - Offset (2019.07.22)](#list)
 
 - make offset locations' list before call the save data
-
-
-  <details>
-    <summary>Codes and Results</summary>
 
   ```python
   """
@@ -351,6 +346,9 @@ a great journey to construct RTK2(Romance of The Three Kingdoms II, KOEI, 1989) 
   ```
   > 35  
   > 35
+
+  <details>
+    <summary>Codes and Results</summary>
 
   ```python
   # 영토별 첫번째 값의 offset 위치를 10진수로 확인
