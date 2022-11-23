@@ -15,10 +15,9 @@
 
 
 # 0. Load data
-# 2022.06.24
-
 
 # 0.1 Practice : Load raw data from a scenario
+# 2022.06.24
 
 # Read binary data
 setwd("{Working Directory}")
