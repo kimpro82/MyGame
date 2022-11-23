@@ -81,10 +81,10 @@ a great journey to construct RTK2(Romance of The Three Kingdoms II, KOEI, 1989) 
   s5name                                                      # Ok : Cao Cao ~ Chen Tai (196)
   ```
   ```
-   [1] "Cao Cao"      "Liu Bei"      "Sun Quan"     "Meng Huo"     "Xin Pi"       "Cao Chun"     "Fu Gan"       "Jia Xu"       "Cheng Yu"     "Xiahou Dun"  
-  [11] "Zhong Yao"    "Xu Zhu"       "Cao Ren"      "Cao Zhen"     "Zhang Lu"     "Hou Xuan"     "Hu Xin"       "Li Tong"      "Zhang Liao"   "Mi Zhu"      
-  [21] "Xu Sheng"     "Yu Fan"       "Zhu Huan"     "Gan Ning"     "Zhou Fang"    "Zhou Tai"     "Lu Meng"      "Xiahou Yuan"  "Cao Hong"     "Zhao Yue"    
-  [31] "Zhang Fei"    "Guan Yu"      "Ma Chao"      "Wang Kang"    "Cheng Bing"   "Zhang Xiu"    "Han Ze"       "Ling Tong"    "Yang Kai"     "Guan Ping"   
+    [1] "Cao Cao"      "Liu Bei"      "Sun Quan"     "Meng Huo"     "Xin Pi"       "Cao Chun"     "Fu Gan"       "Jia Xu"       "Cheng Yu"     "Xiahou Dun"  
+   [11] "Zhong Yao"    "Xu Zhu"       "Cao Ren"      "Cao Zhen"     "Zhang Lu"     "Hou Xuan"     "Hu Xin"       "Li Tong"      "Zhang Liao"   "Mi Zhu"      
+   [21] "Xu Sheng"     "Yu Fan"       "Zhu Huan"     "Gan Ning"     "Zhou Fang"    "Zhou Tai"     "Lu Meng"      "Xiahou Yuan"  "Cao Hong"     "Zhao Yue"    
+   [31] "Zhang Fei"    "Guan Yu"      "Ma Chao"      "Wang Kang"    "Cheng Bing"   "Zhang Xiu"    "Han Ze"       "Ling Tong"    "Yang Kai"     "Guan Ping"   
   ……
   [191] "Liu Pan"      "Lei Bu"       "Ling Bao"     "Wen Qin"      "Sun Li"       "Chen Tai"  
   ```
