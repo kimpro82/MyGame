@@ -4,6 +4,7 @@
 # Topics
 
 # 0. Load data
+# 0.1 Practice : Load raw data from a scenario
 # 1. Classification
 # 1.1 Predict Where a general belongs to
 # 1.2 Who are the betrayers?
@@ -19,7 +20,7 @@
 
 # 0.1 Practice : Load raw data from a scenario
 
-setwd("~/신랑/개발/R/RTK2")
+setwd("{Working Directory}")
 
 path = "SCENARIO.DAT"
 read.filename <- file(path, "rb")
