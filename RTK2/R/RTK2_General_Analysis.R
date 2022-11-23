@@ -20,6 +20,7 @@
 
 # 0.1 Practice : Load raw data from a scenario
 
+# Read Binary Data
 setwd("{Working Directory}")
 
 path = "SCENARIO.DAT"
@@ -27,6 +28,7 @@ read.filename <- file(path, "rb")
 bindata <- readBin(read.filename, raw(), n = 79385)
 head(bindata)                                               # ok
 
+# Read a general's data in S5
 # S5 data = 52946 ~ 61373 (43 term per 1 general)
 start = 52946 + 1
 end = 61373 + 1

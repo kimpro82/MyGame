@@ -20,7 +20,7 @@ a great journey to construct RTK2(Romance of The Three Kingdoms II, KOEI, 1989) 
 #### `RTK2_General_Analysis.R`
 
   <details>
-    <summary>Codes and Results</summary>
+    <summary>1) Read Binary Data</summary>
 
   ```R
   setwd("{Working Directory}")
@@ -33,6 +33,10 @@ a great journey to construct RTK2(Romance of The Three Kingdoms II, KOEI, 1989) 
   ```
   [1] 00 00 bc 00 0b 0f
   ```
+  </details>
+
+  <details>
+    <summary>2) Read a general's data in S5</summary>
 
   ```R
   # S5 data = 52946 ~ 61373 (43 term per 1 general)
@@ -47,6 +51,10 @@ a great journey to construct RTK2(Romance of The Three Kingdoms II, KOEI, 1989) 
 
   [1] 108  10   0   0  95  91  95  60  65  99   0   0   1 255   0   1   1   0  16  39 232   3  10   0   0 155 103   0  67  97 111  32  67  97 111   0   0   0   0   0   0   0   0
   ```
+  </details>
+
+  <details>
+    <summary>3) Read all generals' data in S5</summary>
 
   ```R
   # Read all generals' data in S5
@@ -60,6 +68,10 @@ a great journey to construct RTK2(Romance of The Three Kingdoms II, KOEI, 1989) 
   [3,]   6a   09   00   00   59   57   62   62   4b    5f    02    00    01    ff    00    64    04    00    10    27    d0    07    14    00    00    b6    6c    00    53    75    6e    20    51    75    61    6e    00    00    00    00    00    00    00
   ……
   ```
+  </details>
+
+  <details>
+    <summary>4) Read all generals' names in S5</summary>
 
   ```R
   # Read all generals' names in S5
