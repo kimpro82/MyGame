@@ -17,7 +17,7 @@ a great journey to construct RTK2(Romance of The Three Kingdoms II, KOEI, 1989) 
 
 ## [0.1 Practice : Load raw data from a scenario (2022.06.24)](#list)
 
-#### `RTK2_General_Analysis.R`
+#### `RTK2_General_Analysis_0.1.R`
 
   <details>
     <summary>1) Read binary data</summary>
