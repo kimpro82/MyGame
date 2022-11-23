@@ -1,23 +1,16 @@
-# RTK2 ERP
+# RTK2 ERP / VBA
 
 a great journey to construct RTK2(Romance of The Three Kingdoms II, KOEI, 1989) ERP
 
+
 ## List
 
-\<VBA>
 - [Ruler 3 & General 2 (2022.07.10)](#ruler-3--general-2-20220710)
 - [Record (2022.06.19)](#record-20220619)
 - [Ruler 2 & Province 2 (2022.05.07)](#ruler-2--province-2-20220507)
 - [Ruler (2022.05.05)](#ruler-20220505)
 - [Province & Arbitrage System (2021.08.25)](#province--arbitrage-system-20210825)
 - [General (2021.08.24)](#general-20210824)
-
-\<Python>
-- [General - Taiki 2 (2021.03.18)](#general---taiki-2-20210318)
-- [General - Taiki (2020.03.01)](#general---taiki-20200301)
-- [Province - Pandas (2019.08.12)](#province---pandas-20190812)
-- [Province (2019.07.23)](#province-20190723)
-- [Province - Offset (2019.07.22)](#province---offset-20190722)
 
 
 ## [Ruler 3 & General 2 (2022.07.10)](#list)
