@@ -16,7 +16,7 @@ Estimate game play time and frequency based on capture images' information
 
 RTK2(Romance of The Three Kingdoms II, KOEI, 1989) ERP  
 
-[**\<R>**](./RTK2/R)
+[**\<R>**](./RTK2/R/)
 
 0. Load data  
   [0.1 Practice : Load raw data from a scenario (2022.06.24)](./RTK2/R/README.md#01-practice--load-raw-data-from-a-scenario-20220624)
