@@ -20,7 +20,7 @@
 
 # 0.1 Practice : Load raw data from a scenario
 
-# Read Binary Data
+# Read binary data
 setwd("{Working Directory}")
 
 path = "SCENARIO.DAT"

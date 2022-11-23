@@ -20,7 +20,7 @@ a great journey to construct RTK2(Romance of The Three Kingdoms II, KOEI, 1989) 
 #### `RTK2_General_Analysis.R`
 
   <details>
-    <summary>1) Read Binary Data</summary>
+    <summary>1) Read binary data</summary>
 
   ```R
   setwd("{Working Directory}")
@@ -57,7 +57,6 @@ a great journey to construct RTK2(Romance of The Three Kingdoms II, KOEI, 1989) 
     <summary>3) Read all generals' data in S5</summary>
 
   ```R
-  # Read all generals' data in S5
   s5bin <- matrix(bindata[start:end], ncol = 43, byrow = TRUE)
   head(s5bin)                                                 # ok
   ```
@@ -74,7 +73,6 @@ a great journey to construct RTK2(Romance of The Three Kingdoms II, KOEI, 1989) 
     <summary>4) Read all generals' names in S5</summary>
 
   ```R
-  # Read all generals' names in S5
   s5name <- c()
   s5len = as.integer(end - start + 1) / interval              # 196
   for (i in 1:s5len) {
