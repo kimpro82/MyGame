@@ -61,7 +61,7 @@ a great journey to construct RTK2(Romance of The Three Kingdoms II, KOEI, 1989) 
   head(s5bin)                                                 # ok
   ```
   ```
-      [,1] [,2] [,3] [,4] [,5] [,6] [,7] [,8] [,9] [,10] [,11] [,12] [,13] [,14] [,15] [,16] [,17] [,18] [,19] [,20] [,21] [,22] [,23] [,24] [,25] [,26] [,27] [,28] [,29] [,30] [,31] [,32] [,33] [,34] [,35] [,36] [,37] [,38] [,39] [,40] [,41] [,42] [,43]
+       [,1] [,2] [,3] [,4] [,5] [,6] [,7] [,8] [,9] [,10] [,11] [,12] [,13] [,14] [,15] [,16] [,17] [,18] [,19] [,20] [,21] [,22] [,23] [,24] [,25] [,26] [,27] [,28] [,29] [,30] [,31] [,32] [,33] [,34] [,35] [,36] [,37] [,38] [,39] [,40] [,41] [,42] [,43]
   [1,]   6c   0a   00   00   5f   5b   5f   3c   41    63    00    00    01    ff    00    01    01    00    10    27    e8    03    0a    00    00    9b    67    00    43    61    6f    20    43    61    6f    00    00    00    00    00    00    00    00
   [2,]   10   07   00   00   55   46   63   64   64    55    01    00    01    ff    00    32    02    00    10    27    e8    03    0a    00    00    a1    a1    00    4c    69    75    20    42    65    69    00    00    00    00    00    00    00    00
   [3,]   6a   09   00   00   59   57   62   62   4b    5f    02    00    01    ff    00    64    04    00    10    27    d0    07    14    00    00    b6    6c    00    53    75    6e    20    51    75    61    6e    00    00    00    00    00    00    00
@@ -81,7 +81,7 @@ a great journey to construct RTK2(Romance of The Three Kingdoms II, KOEI, 1989) 
   s5name                                                      # Ok : Cao Cao ~ Chen Tai (196)
   ```
   ```
-    [1] "Cao Cao"      "Liu Bei"      "Sun Quan"     "Meng Huo"     "Xin Pi"       "Cao Chun"     "Fu Gan"       "Jia Xu"       "Cheng Yu"     "Xiahou Dun"  
+   [1] "Cao Cao"      "Liu Bei"      "Sun Quan"     "Meng Huo"     "Xin Pi"       "Cao Chun"     "Fu Gan"       "Jia Xu"       "Cheng Yu"     "Xiahou Dun"  
   [11] "Zhong Yao"    "Xu Zhu"       "Cao Ren"      "Cao Zhen"     "Zhang Lu"     "Hou Xuan"     "Hu Xin"       "Li Tong"      "Zhang Liao"   "Mi Zhu"      
   [21] "Xu Sheng"     "Yu Fan"       "Zhu Huan"     "Gan Ning"     "Zhou Fang"    "Zhou Tai"     "Lu Meng"      "Xiahou Yuan"  "Cao Hong"     "Zhao Yue"    
   [31] "Zhang Fei"    "Guan Yu"      "Ma Chao"      "Wang Kang"    "Cheng Bing"   "Zhang Xiu"    "Han Ze"       "Ling Tong"    "Yang Kai"     "Guan Ping"   
