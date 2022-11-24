@@ -18,7 +18,7 @@ a great journey to construct RTK2(Romance of The Three Kingdoms II, KOEI, 1989) 
 - use `os` `bytes()`
 - not a large size data but still is open to faster enhancement
 
-  `RTK2_General_Taiki_2.py`
+  #### `RTK2_General_Taiki_2.py`
 
   <details>
     <summary>Mainly added/changed part</summary>
