@@ -53,8 +53,8 @@ a great journey to construct RTK2(Romance of The Three Kingdoms II, KOEI, 1989) 
   ```
   </details>
 
-
-  ▼ 3) Read all generals' data in S5
+  <details open="">
+    <summary>3) Read all generals' data in S5</summary>
 
   ```R
   s5bin <- matrix(bindata[start:end], ncol = 43, byrow = TRUE)
@@ -67,6 +67,7 @@ a great journey to construct RTK2(Romance of The Three Kingdoms II, KOEI, 1989) 
   [3,]   6a   09   00   00   59   57   62   62   4b    5f    02    00    01    ff    00    64    04    00    10    27    d0    07    14    00    00    b6    6c    00    53    75    6e    20    51    75    61    6e    00    00    00    00    00    00    00
   ……
   ```
+  </details>
 
   <details>
     <summary>4) Read all generals' names in S5</summary>
