@@ -18,8 +18,10 @@ a great journey to construct RTK2(Romance of The Three Kingdoms II, KOEI, 1989) 
 - use `os` `bytes()`
 - not a large size data but still is open to faster enhancement
 
+  `RTK2_General_Taiki_2.py`
+
   <details>
-    <summary>RTK2_General_Taiki_2.py : Mainly added/changed part</summary>
+    <summary>Mainly added/changed part</summary>
 
   ```python
   # 4. Read The Data
@@ -61,7 +63,7 @@ a great journey to construct RTK2(Romance of The Three Kingdoms II, KOEI, 1989) 
 - succeed in separating each general's data, but they should convert from `ASCII Code(int)` to `string`
 - use `os`
 
-#### `RTK2_General_Taiki.py`
+  #### `RTK2_General_Taiki.py`
 
   ```python
   # Each Geneal's Data Length : 46 bytes
@@ -156,7 +158,7 @@ a great journey to construct RTK2(Romance of The Three Kingdoms II, KOEI, 1989) 
 - The parameter `lord` of the def `dataload` doesn't work yet.
 - The columns aren't named yet, too.
 
-#### `RTK2_Province_Pandas.py`
+  #### `RTK2_Province_Pandas.py`
 
   <details>
     <summary>Codes : Rtk2 (Class)</summary>
@@ -242,8 +244,10 @@ a great journey to construct RTK2(Romance of The Three Kingdoms II, KOEI, 1989) 
 
 - call each province's data of population, gold, food and so on from a save file
 
+  #### `RTK2_Province.py`
+
   <details>
-    <summary>RTK2_Province.py : Codes and Results</summary>
+    <summary>Codes and Results</summary>
 
   ```python
   # province_offset_data - from Offset.py (2019.07.22)
@@ -331,7 +335,7 @@ a great journey to construct RTK2(Romance of The Three Kingdoms II, KOEI, 1989) 
 
 - make offset locations' list before call the save data
 
-#### `RTK2_Province_Offset.py`
+  #### `RTK2_Province_Offset.py`
 
   ```python
   """
