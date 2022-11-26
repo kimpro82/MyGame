@@ -5,17 +5,17 @@ a great journey to construct RTK2(Romance of The Three Kingdoms II, KOEI, 1989) 
 ## List
 
 **0. Load data**  
-[0.1 Practice : Load raw data from a scenario (2022.06.24)](#01-practice--load-raw-data-from-a-scenario-20220624)  
-[0.2 Find all the locations of the general data (2022.11.25)](#02-find-all-the-locations-of-the-general-data-20221125)  
-0.3 Load entire raw data from all scenarios
+&nbsp;&nbsp;&nbsp;[0.1 Practice : Load raw data from a scenario (2022.06.24)](#01-practice--load-raw-data-from-a-scenario-20220624)  
+&nbsp;&nbsp;&nbsp;[0.2 Find all the locations of the general data (2022.11.25)](#02-find-all-the-locations-of-the-general-data-20221125)  
+&nbsp;&nbsp;&nbsp;0.3 Load entire raw data from all scenarios  
 **1. Basic Data Analysis**  
-1.x abilities' distribution and so on ……
+&nbsp;&nbsp;&nbsp;1.x abilities' distribution and so on ……  
 **2. Advanced Data Analysis**  
-2.1 K-means clustering
-2.2 PCA
+&nbsp;&nbsp;&nbsp;2.1 K-means clustering
+&nbsp;&nbsp;&nbsp;2.2 PCA  
 **3. Interesting Questions**  
-3.1 Predict Where a general belongs to  
-3.2 Who will be the betrayers?
+&nbsp;&nbsp;&nbsp;3.1 Predict Where a general belongs to  
+&nbsp;&nbsp;&nbsp;3.2 Who will be the betrayers?
 
 
 ## [0.1 Practice : Load raw data from a scenario (2022.06.24)](#list)
