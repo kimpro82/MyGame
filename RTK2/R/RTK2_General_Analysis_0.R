@@ -6,7 +6,7 @@
 # 0. Load data
 # 0.1 Practice : Load raw data from a scenario
 # 0.2 Find all the locations of the general data
-# 0.3 Load raw data from all scenarios
+# 0.3 Load entire raw data from all scenarios
 # 1. Basic Data Analysis
 # 1.x abilities' distribution and so on ……
 # 2. Advanced Data Analysis
