@@ -11,7 +11,7 @@ a great journey to construct RTK2(Romance of The Three Kingdoms II, KOEI, 1989) 
 **1. Basic Data Analysis**  
 &nbsp;&nbsp;&nbsp;1.x abilities' distribution and so on ……  
 **2. Advanced Data Analysis**  
-&nbsp;&nbsp;&nbsp;2.1 K-means clustering
+&nbsp;&nbsp;&nbsp;2.1 K-means clustering  
 &nbsp;&nbsp;&nbsp;2.2 PCA  
 **3. Interesting Questions**  
 &nbsp;&nbsp;&nbsp;3.1 Predict Where a general belongs to  
