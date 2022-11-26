@@ -18,7 +18,7 @@ RTK2(Romance of The Three Kingdoms II, KOEI, 1989) ERP
 
 [**\<R>**](./RTK2/R/)
 
-0. Load data  
+**0. Load data**  
 [0.1 Practice : Load raw data from a scenario (2022.06.24)](./RTK2/R/README.md#01-practice--load-raw-data-from-a-scenario-20220624)  
 [0.2 Find all the locations of the general data (2022.11.25)](./RTK2/R/README.md#02-find-all-the-locations-of-the-general-data-20221125)
 
