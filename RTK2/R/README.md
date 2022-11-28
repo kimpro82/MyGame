@@ -4,20 +4,23 @@ a great journey to construct RTK2(Romance of The Three Kingdoms II, KOEI, 1989) 
 
 ## List
 
-0. Load data  
-  [0.1 Practice : Load raw data from a scenario (2022.06.24)](#01-practice--load-raw-data-from-a-scenario-20220624)
-1. Classification  
-  1.1 Predict Where a general belongs to  
-  1.2 Who are the betrayers?  
-2. Method  
-  2.1 K-means clustering  
-  2.2 PCA  
-  2.3 Deep Learning
+**0. Load data**  
+&nbsp;&nbsp;&nbsp;[0.1 Practice : Load raw data from a scenario (2022.06.24)](#01-practice--load-raw-data-from-a-scenario-20220624)  
+&nbsp;&nbsp;&nbsp;[0.2 Find all the locations of the general data (2022.11.25)](#02-find-all-the-locations-of-the-general-data-20221125)  
+&nbsp;&nbsp;&nbsp;0.3 Load entire raw data from all scenarios  
+**1. Basic Data Analysis**  
+&nbsp;&nbsp;&nbsp;1.x abilities' distribution and so on ……  
+**2. Advanced Data Analysis**  
+&nbsp;&nbsp;&nbsp;2.1 K-means clustering  
+&nbsp;&nbsp;&nbsp;2.2 PCA  
+**3. Interesting Questions**  
+&nbsp;&nbsp;&nbsp;3.1 Predict Where a general belongs to  
+&nbsp;&nbsp;&nbsp;3.2 Who will be the betrayers?
 
 
 ## [0.1 Practice : Load raw data from a scenario (2022.06.24)](#list)
 
-#### `RTK2_General_Analysis_0.1.R`
+#### `RTK2_General_Analysis_0.R`
 
   <details>
     <summary>1) Read binary data</summary>
@@ -88,5 +91,89 @@ a great journey to construct RTK2(Romance of The Three Kingdoms II, KOEI, 1989) 
   ……
   [191] "Liu Pan"      "Lei Bu"       "Ling Bao"     "Wen Qin"      "Sun Li"       "Chen Tai"  
   ```
-
   </details>
+
+
+  ## [0.2 Find all the locations of the general data (2022.11.25)](#list)
+
+  - Declare a dataframe that contains the general data's locations
+
+  
+#### `RTK2_General_Analysis_0.R`
+
+  <details>
+    <summary>1) Find all the scenario' general data locations</summary>
+
+  ```R
+  # s1 : 22 ~ 6471 (start from 0)
+  # s2 : 13253 ~ 21981
+  # s3 : 26484 ~ 35513
+  # s4 : 39715 ~ 48916
+  # s5 : 52946 ~ 61373
+  # s6 : 66177 ~ 74088
+  ```
+  </details>
+  <details>
+    <summary>2) Declare a dataframe for all scenarios' general data location</summary>
+
+  ```R
+  s_start = c(22, 13253, 26484, 39715, 52946, 66177)
+  s_end   = c(6471, 21981, 35513, 48916, 61373, 74088)
+  t_start = c(6, 7458, 12288, 15784, 17762, 18774)
+  t_end   = c(7457, 12287, 15783, 17761, 18773, 19325)
+  s_num   = c(s_end - s_start + 1) / 43
+  t_num   = c(t_end - t_start + 1) / 46
+  ```
+  ```R
+  sDataLocation <- data.frame(
+      scenario = rep(1:6, each = 2),
+      category = rep(c("scenario", "taiki"), 6),
+      start    = c(matrix(rbind(s_start, t_start), nrow = 1)),
+      end      = c(matrix(rbind(s_end, t_end), nrow = 1)),
+      num      = c(matrix(rbind(s_num, t_num), nrow = 1))
+  )
+  sDataLocation
+  ```
+  ```
+     scenario category start   end num
+  1         1 scenario    22  6471 150
+  2         1    taiki     6  7457 162
+  3         2 scenario 13253 21981 203
+  4         2    taiki  7458 12287 105
+  5         3 scenario 26484 35513 210
+  6         3    taiki 12288 15783  76
+  7         4 scenario 39715 48916 214
+  8         4    taiki 15784 17761  43
+  9         5 scenario 52946 61373 196
+  10        5    taiki 17762 18773  22
+  11        6 scenario 66177 74088 184
+  12        6    taiki 18774 19325  12
+  ```
+  ```R
+  sDataLocation[sDataLocation$category=="scenario",]
+  ```
+  ```
+     scenario category start   end num
+  1         1 scenario    22  6471 150
+  3         2 scenario 13253 21981 203
+  5         3 scenario 26484 35513 210
+  7         4 scenario 39715 48916 214
+  9         5 scenario 52946 61373 196
+  11        6 scenario 66177 74088 184
+  ```
+  </details>
+  <details>
+    <summary>3) Draw a stacked barplot with label</summary>
+
+  ```R
+  ggplot(sDataLocation, aes(x = scenario, y = num, fill = category, label = num)) +
+      geom_bar(stat = "identity") +
+      geom_text(aes(label = num), size = 3, hjust = 0.5, vjust = 3, position ="stack") 
+  # The ggplot2 library doesn't work on my local desktop.
+  # Alternative : Run on https://rdrr.io/snippets/
+
+  # Hmm …… it seems to need to find how to join the whole data from SCENARIO.DAT and TAIKI.DAT
+  ```
+  </details>
+
+  ![RTK2_General_Numbers](./Images/RTK2_General_Numbers.jpg)
