@@ -106,9 +106,11 @@ Let's make a roguelike game!
       Set MapData.Start = Range(Cells(rTemp, cTemp), Cells(rTemp, cTemp))         ' Range(Cells(rTemp, cTemp)) causes an error
 
       ' Mark Starting Cell
-      MapData.Start.Interior.Color = vbBlack
-      MapData.Start.Font.Color = vbWhite
-      MapData.Start.FormulaR1C1 = "S"
+      With MapData.Start
+          .Interior.Color = vbBlack
+          .Font.Color = vbWhite
+          .FormulaR1C1 = "S"
+      End With
 
       ' Set Ending Cell
       Randomize
@@ -117,9 +119,11 @@ Let's make a roguelike game!
       Set MapData.End = Range(Cells(rTemp, cTemp), Cells(rTemp, cTemp))
 
       ' Mark Ending Cell
-      MapData.End.Interior.Color = vbRed
-      MapData.End.Font.Color = vbWhite
-      MapData.End.FormulaR1C1 = "E"
+      With MapData.End
+          .Interior.Color = vbRed
+          .Font.Color = vbWhite
+          .FormulaR1C1 = "E"
+      End With
 
   End Sub
   ```
