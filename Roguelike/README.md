@@ -74,7 +74,7 @@ Let's make a roguelike game!
 
 ## [2. Set starting and ending location (2022.11.30)](#list)
 
-  ![Set starting and ending location](./Images/Roguelike_MapGeneration_1.gif)
+  ![Set starting and ending location](./Images/Roguelike_2.gif)
 
   <details>
     <summary>Roguelike.vba</summary>
