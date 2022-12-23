@@ -1,4 +1,4 @@
-# [Sudoku]()
+# [Sudoku](../README.md#sudoku)
 
 Let's make a **Sudoku** game in VBA!
 
