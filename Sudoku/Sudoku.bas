@@ -1,7 +1,7 @@
 ' Sudoku
-' 2022.12.22
 
-' Thank you ChatGPT!
+' 0. Initialization (2022.12.22) : Thank you ChatGPT!
+' 1. Generate a Sudoku puzzle (2022.12.28)
 
 
 Option Explicit
@@ -13,18 +13,12 @@ Private Sub GenerateSudoku()
     Dim zeroPoint As Range
     Call GetZeroPoint(zeroPoint)
 
+    ' Initialize the Sudoku array before shuffle
     Dim sudoku(1 To 9, 1 To 9) As Integer
+    Call GenerateInitialPuzzle(sudoku)
 
-    ' Initialize the Sudoku array with zeros
-    Dim i As Integer, j As Integer
-    For i = 1 To 9
-        For j = 1 To 9
-            sudoku(i, j) = 0
-        Next j
-    Next i
-
-    ' Generate the Sudoku puzzle
-    Call GeneratePuzzle(sudoku)
+    ' Shuffle the puzzle
+    Call ShufflePuzzle(sudoku)
 
     ' Print the Sudoku puzzle to the sheet
     Call PrintPuzzle(sudoku, zeroPoint)
@@ -39,13 +33,56 @@ Private Sub GetZeroPoint(ByRef zeroPoint As Range)
 End Sub
 
 
-Private Sub GeneratePuzzle(ByRef puzzle As Variant)
+Private Sub GenerateInitialPuzzle(ByRef puzzle As Variant)
 
-    ' Temporary; to be advanced
-    Dim i As Integer, j As Integer
+    ' Update (2022.12.28); it seems not minimized but anyway works
+    Dim i As Integer, j As Integer, starting As Integer
     For i = 1 To 9
+        If i < 4 Then
+            starting = (i - 1) * 3 Mod 9
+        ElseIf i < 7 Then
+            starting = ((i - 1) * 3 + 1) Mod 9
+        Else
+            starting = ((i - 1) * 3 + 2) Mod 9
+        End If
+
         For j = 1 To 9
-            puzzle(i, j) = Int(Rnd * 9) + 1
+            puzzle(i, j) = (starting + j - 1) Mod 9 + 1
+        Next j
+    Next i
+
+'    ' Temporary (2022.12.22); to be advanced
+'    Dim i As Integer, j As Integer
+'    For i = 1 To 9
+'        For j = 1 To 9
+'            puzzle(i, j) = Int(Rnd * 9) + 1
+'        Next j
+'    Next i
+
+End Sub
+
+
+Private Sub ShufflePuzzle(ByRef puzzle As Variant)
+
+    Dim n As Integer
+    n = 100
+
+    Dim i As Integer, j As Integer
+    Dim a As Integer, b As Integer, temp(1 To 9) As Integer
+    For i = 1 To n
+        a = Int(Rnd * 9) + 1
+        b = Int(Rnd * 9) + 1
+
+        For j = 1 To 9
+            If i Mod 2 = 0 Then
+                temp(j) = puzzle(a, j)
+                puzzle(a, j) = puzzle(b, j)
+                puzzle(b, j) = temp(j)
+            Else
+                temp(j) = puzzle(j, a)
+                puzzle(j, a) = puzzle(j, b)
+                puzzle(j, b) = temp(j)
+            End If
         Next j
     Next i
 
