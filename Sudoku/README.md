@@ -155,7 +155,7 @@ Let's make a **Sudoku** game in VBA!
   ![Shuffle](./Images/VBA_Sudoku_Shuffle.gif)
 
   <details>
-    <summary>Update : Sudoku.bas</summary>
+    <summary>Updates : Sudoku.bas</summary>
 
   ```vba
   Private Sub GenerateSudoku()
