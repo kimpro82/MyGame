@@ -2,6 +2,7 @@
 
 ' 0. Initialization (2022.12.22) : Thank you ChatGPT!
 ' 1. Generate a Sudoku puzzle (2022.12.28)
+' 2. Masking the puzzle by level (2022.12.29)
 
 
 Option Explicit
@@ -9,9 +10,11 @@ Option Explicit
 
 Private Sub GenerateSudoku()
 
-    ' Set zeroPiont to start 9x9 matrix
-    Dim zeroPoint As Range
-    Call GetZeroPoint(zeroPoint)
+    ' Set parameters
+    Dim zeroPoint As Range, level As Integer, hintNum As Integer
+    Call GetZeroPoint(zeroPoint)                                                ' Set zeroPiont to start 9x9 matrix
+    Call GetLevel(level)                                                        ' Set level to determine how much masking
+    Call GetHintNum(hintNum)                                                    ' Set the number how much hints are given
 
     ' Initialize the Sudoku array before shuffle
     Dim sudoku(1 To 9, 1 To 9) As Integer
@@ -20,8 +23,12 @@ Private Sub GenerateSudoku()
     ' Shuffle the puzzle
     Call ShufflePuzzle(sudoku)
 
+    ' Masking the puzzle by the level
+    Dim sudokuMask(1 To 9, 1 To 9) As Integer
+    Call MaskingPuzzle(sudoku, sudokuMask, level)
+
     ' Print the Sudoku puzzle to the sheet
-    Call PrintPuzzle(sudoku, zeroPoint)
+    Call PrintPuzzle(sudokuMask, zeroPoint)
 
 End Sub
 
@@ -29,6 +36,20 @@ End Sub
 Private Sub GetZeroPoint(ByRef zeroPoint As Range)
 
     Set zeroPoint = Range("C5")
+
+End Sub
+
+
+Private Sub GetLevel(ByRef level As Integer)
+
+    level = Range("R2")
+
+End Sub
+
+
+Private Sub GetHintNum(ByRef hintNum As Integer)
+
+    hintNum = Range("V2")
 
 End Sub
 
@@ -62,6 +83,7 @@ Private Sub GenerateInitialPuzzle(ByRef puzzle As Variant)
 End Sub
 
 
+' Update (2022.12.28)
 Private Sub ShufflePuzzle(ByRef puzzle As Variant)
 
     Dim n As Integer
@@ -89,13 +111,34 @@ Private Sub ShufflePuzzle(ByRef puzzle As Variant)
 End Sub
 
 
+' Update (2022.12.29)
+Private Sub MaskingPuzzle(ByRef puzzle As Variant, ByRef puzzleMask As Variant, ByRef level As Integer)
+
+    Dim i As Integer, j As Integer
+    For i = 1 To 9
+        For j = 1 To 9
+            If Int(Rnd * 10) >= level Then
+                puzzleMask(i, j) = puzzle(i, j)
+            Else
+                puzzleMask(i, j) = 0
+            End If
+        Next j
+    Next i
+
+End Sub
+
+
 Private Sub PrintPuzzle(ByRef puzzle As Variant, ByRef zeroPoint As Range)
 
     ' Print the puzzle to the sheet
     Dim i As Integer, j As Integer
     For i = 1 To 9
         For j = 1 To 9
-            zeroPoint.Offset(i - 1, j - 1).Value = puzzle(i, j)
+            If puzzle(i, j) <> 0 Then
+                zeroPoint.Offset(i - 1, j - 1).Value = puzzle(i, j)
+            Else
+                zeroPoint.Offset(i - 1, j - 1).Value = ""
+            End If
         Next j
     Next i
 
