@@ -71,7 +71,7 @@ Private Sub ShufflePuzzle(ByRef puzzle As Variant)
     Dim a As Integer, b As Integer, temp(1 To 9) As Integer
     For i = 1 To n
         a = Int(Rnd * 9) + 1
-        b = Int(Rnd * 9) + 1
+        b = Int((a - 1) / 3) * 3 + Int(Rnd * 3) + 1                             ' quite proud code …… !
 
         For j = 1 To 9
             If i Mod 2 = 0 Then
