@@ -1,54 +1,57 @@
-' Sudoku
+' Sudoku for My Sister
 
 ' 0. Initialization (2022.12.22) : Thank you ChatGPT!
 ' 1. Generate a Sudoku puzzle (2022.12.28)
 ' 2. Masking the puzzle by level (2022.12.29)
+' 3. Evaluate the Answer (2022.12.30)
 
 
 Option Explicit
 
 
-Private Sub GenerateSudoku()
+' Update (2022.12.30) : Move the Declaration locations out of Main()
+Private Sudoku(1 To 9, 1 To 9)      As Integer
+Private sudokuMask(1 To 9, 1 To 9)  As Integer
+Private sudokuAnswer()              As Integer                                  ' The new array should not be fixed
+
+Private zeroPoint                   As Range                                    ' zeroPiont     : to start 9x9 matrix
+Private level                       As Integer                                  ' level         : determine how much masking
+Private hintNum                     As Integer                                  ' hintNum       : the number how much hints are given
+Private onGameFlag                  As Boolean                                  ' onGameFlag    : do not run intersect() when False
+
+
+' Update (2022.12.30) : Rename GenerateSudoku() to Main()
+Private Sub Main()
 
     ' Set parameters
-    Dim zeroPoint As Range, level As Integer, hintNum As Integer
-    Call GetZeroPoint(zeroPoint)                                                ' Set zeroPiont to start 9x9 matrix
-    Call GetLevel(level)                                                        ' Set level to determine how much masking
-    Call GetHintNum(hintNum)                                                    ' Set the number how much hints are given
+    Call SetParameters(zeroPoint, level, hintNum)
 
     ' Initialize the Sudoku array before shuffle
-    Dim sudoku(1 To 9, 1 To 9) As Integer
-    Call GenerateInitialPuzzle(sudoku)
+    Call GenerateInitialPuzzle(Sudoku)
 
     ' Shuffle the puzzle
-    Call ShufflePuzzle(sudoku)
+    Call ShufflePuzzle(Sudoku)
 
     ' Masking the puzzle by the level
-    Dim sudokuMask(1 To 9, 1 To 9) As Integer
-    Call MaskingPuzzle(sudoku, sudokuMask, level)
+    Call MaskingPuzzle(Sudoku, sudokuMask, level)
+
+    ' Evaluate the answer
+    sudokuAnswer = sudokuMask
+    ' EvaluatePuzzle() runs through Worksheet_Change()
 
     ' Print the Sudoku puzzle to the sheet
-    Call PrintPuzzle(sudokuMask, zeroPoint)
+    onGameFlag = False
+        Call PrintPuzzle(sudokuAnswer, zeroPoint)
+    onGameFlag = True
 
 End Sub
 
 
-Private Sub GetZeroPoint(ByRef zeroPoint As Range)
+' Update (2022.12.30) : Merge 3 procedures for each parameter
+Private Sub SetParameters(ByRef zeroPoint As Range, ByRef level As Integer, ByRef hintNum As Integer)
 
     Set zeroPoint = Range("C5")
-
-End Sub
-
-
-Private Sub GetLevel(ByRef level As Integer)
-
     level = Range("R2")
-
-End Sub
-
-
-Private Sub GetHintNum(ByRef hintNum As Integer)
-
     hintNum = Range("V2")
 
 End Sub
@@ -56,16 +59,22 @@ End Sub
 
 Private Sub GenerateInitialPuzzle(ByRef puzzle As Variant)
 
-    ' Update (2022.12.28); it seems not minimized but anyway works
+    zeroPoint.Offset(-1, 0).Value = ""
+
+    
     Dim i As Integer, j As Integer, starting As Integer
     For i = 1 To 9
-        If i < 4 Then
-            starting = (i - 1) * 3 Mod 9
-        ElseIf i < 7 Then
-            starting = ((i - 1) * 3 + 1) Mod 9
-        Else
-            starting = ((i - 1) * 3 + 2) Mod 9
-        End If
+        ' Update (2022.12.30) : More compact code
+        starting = (i - 1) * 3 Mod 9 + (i - 1) / 3
+
+'        Old Ver. (2022.12.28) : it seems not minimized but anyway works
+'        If i < 4 Then
+'            starting = (i - 1) * 3 Mod 9
+'        ElseIf i < 7 Then
+'            starting = ((i - 1) * 3 + 1) Mod 9
+'        Else
+'            starting = ((i - 1) * 3 + 2) Mod 9
+'        End If
 
         For j = 1 To 9
             puzzle(i, j) = (starting + j - 1) Mod 9 + 1
@@ -128,19 +137,25 @@ Private Sub MaskingPuzzle(ByRef puzzle As Variant, ByRef puzzleMask As Variant, 
 End Sub
 
 
+' Update (2022.12.30) : Update the SudokuAnswer at once
 Private Sub PrintPuzzle(ByRef puzzle As Variant, ByRef zeroPoint As Range)
 
     ' Print the puzzle to the sheet
-    Dim i As Integer, j As Integer
-    For i = 1 To 9
-        For j = 1 To 9
-            If puzzle(i, j) <> 0 Then
-                zeroPoint.Offset(i - 1, j - 1).Value = puzzle(i, j)
-            Else
-                zeroPoint.Offset(i - 1, j - 1).Value = ""
-            End If
-        Next j
-    Next i
+    onGameFlag = False
+        zeroPoint.Resize(9, 9).Value = puzzle
+    onGameFlag = True
+
+'    ' Old Ver.
+'    Dim i As Integer, j As Integer
+'    For i = 1 To 9
+'        For j = 1 To 9
+'            If puzzle(i, j) <> 0 Then
+'                zeroPoint.Offset(i - 1, j - 1).Value = puzzle(i, j)
+'            Else
+'                zeroPoint.Offset(i - 1, j - 1).Value = ""
+'            End If
+'        Next j
+'    Next i
 
 End Sub
 
@@ -160,47 +175,86 @@ Private Sub AutoSolve()
 End Sub
 
 
+' Update (2022.12.30)
 Private Sub Clear()
-
-    Dim zeroPoint As Range
-    Call GetZeroPoint(zeroPoint)
 
     Dim Rng As Range
     Set Rng = zeroPoint.Resize(9, 9)
+    ' Debug.Print Rng.Address                                                   ' ok
 
-    With Rng
-        .ClearContents
-    End With
+    onGameFlag = False
+        Rng.ClearContents
+        zeroPoint.Offset(-1, 0).Value = ""
+    onGameFlag = True
 
 End Sub
 
+
+' Update (2022.12.30)
+Private Sub Worksheet_Change(ByVal Target As Range)
+
+    If (onGameFlag = True) And (Not Intersect(zeroPoint.Resize(9, 9), Target) Is Nothing) Then
+        ' Debug.Print Target.Address                                            ' ok
+        Call EvaluatePuzzle(Target.Address)
+        Call PrintPuzzle(sudokuAnswer, zeroPoint)
+    End If
+
+End Sub
+
+
+' Update (2022.12.30)
+Private Sub EvaluatePuzzle(ByRef ChangedCell As String)
+
+    ' Debug.Print ChangedCell                                                   ' ok
+    Dim i As Integer, j As Integer, ans As Integer
+    i = Range(ChangedCell).Row - zeroPoint.Row + 1
+    j = Range(ChangedCell).Column - zeroPoint.Column + 1
+    ans = Range(ChangedCell).Value
+    ' Debug.Print i & j & ans                                                   ' ok
+
+    If Sudoku(i, j) = Range(ChangedCell).Value Then
+        zeroPoint.Offset(-1, 0).Value = "Correct!"
+        sudokuAnswer(i, j) = Range(ChangedCell).Value
+    Else
+        zeroPoint.Offset(-1, 0).Value = "(" & i & ", " & j & ") is not " & ans & "!"
+    End If
+
+End Sub
 
 
 ' Buttons
 
 Private Sub btnGenerate_Click()
-
-    Call GenerateSudoku
+    
+    Application.Calculation = xlManual
+       Call Main
+    Application.Calculation = xlAutomatic
 
 End Sub
 
 
 Private Sub btnHint_Click()
 
-    Call Hint
+    Application.Calculation = xlManual
+        Call Hint
+    Application.Calculation = xlAutomatic
 
 End Sub
 
 
 Private Sub btnAutoSolve_Click()
 
-    Call AutoSolve
+    Application.Calculation = xlManual
+        Call AutoSolve
+    Application.Calculation = xlAutomatic
 
 End Sub
 
 
 Private Sub btnClear_Click()
 
-    Call Clear
+    Application.Calculation = xlManual
+        Call Clear
+    Application.Calculation = xlAutomatic
 
 End Sub
