@@ -381,6 +381,15 @@ Let's make a **Sudoku** game in VBA!
           ' Update (2022.12.30) : More compact code
           starting = (i - 1) * 3 Mod 9 + (i - 1) / 3
 
+  '        Old Ver. (2022.12.28) : it seems not minimized but anyway works
+  '        If i < 4 Then
+  '            starting = (i - 1) * 3 Mod 9
+  '        ElseIf i < 7 Then
+  '            starting = ((i - 1) * 3 + 1) Mod 9
+  '        Else
+  '            starting = ((i - 1) * 3 + 2) Mod 9
+  '        End If
+
           For j = 1 To 9
               puzzle(i, j) = (starting + j - 1) Mod 9 + 1
           Next j
@@ -396,6 +405,18 @@ Let's make a **Sudoku** game in VBA!
       onGameFlag = False
           zeroPoint.Resize(9, 9).Value = puzzle
       onGameFlag = True
+
+  '    ' Old Ver.
+  '    Dim i As Integer, j As Integer
+  '    For i = 1 To 9
+  '        For j = 1 To 9
+  '            If puzzle(i, j) <> 0 Then
+  '                zeroPoint.Offset(i - 1, j - 1).Value = puzzle(i, j)
+  '            Else
+  '                zeroPoint.Offset(i - 1, j - 1).Value = ""
+  '            End If
+  '        Next j
+  '    Next i
 
   End Sub
   ```
