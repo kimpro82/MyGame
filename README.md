@@ -56,6 +56,7 @@ GK4(Genghis Khan Ⅳ, KOEI, 1998) ERP
 0. [Initialization (2022.12.22)](./Sudoku/README.md#0-initialization-20221222)
 1. [Generate a Sudoku puzzle (2022.12.28)](./Sudoku/README.md#1-generate-a-sudoku-puzzle-20221228)
 2. [Masking the puzzle by level (2022.12.29)](./Sudoku/README.md#2-masking-the-puzzle-by-level-20221229)
+3. [Evaluate the Answer (2022.12.30)](./Sudoku/README.md#3-evaluate-the-answer-20221230)
 
 
 ## [Roguelike Game](./Roguelike/)
