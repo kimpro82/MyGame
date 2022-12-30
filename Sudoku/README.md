@@ -314,7 +314,7 @@ Let's make a **Sudoku** game in VBA!
 
   - Evaluate the answer in real time by `Worksheet_Change()`
   - Use `onGameFlag` to control the affections from `Worksheet_Change()`
-  - Declare variables out of `Main()`
+  - Declare variables out of `Main()` for new procedures not included in `Main()`
   - Shorten codes in `GenerateInitialPuzzle()` and `PrintPuzzle()`
 
   ![Evaluation](./Images/VBA_Sudoku_Evaluate.gif)
