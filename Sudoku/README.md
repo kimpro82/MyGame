@@ -7,9 +7,8 @@ Let's make a **Sudoku** game in VBA!
 
 0. [Initialization (2022.12.22)](#0-initialization-20221222)
 1. [Generate a Sudoku puzzle (2022.12.28)](#1-generate-a-sudoku-puzzle-20221228)
-2. Masking the puzzle  
-  2.1 Difficulty Control
-3. Compare with the Answer
+2. [Masking the puzzle by level (2022.12.29)](#2-masking-the-puzzle-by-level-20221229)
+3. Evaluate the Answer
 4. Hint
 5. Auto-solver
 
@@ -148,7 +147,7 @@ Let's make a **Sudoku** game in VBA!
   </details>
 
 
-  ## [1. Generate a Sudoku puzzle (2022.12.28)](#list)
+## [1. Generate a Sudoku puzzle (2022.12.28)](#list)
 
   - Generate a Sudoku puzzle with shuffle
 
@@ -218,6 +217,90 @@ Let's make a **Sudoku** game in VBA!
                   temp(j) = puzzle(j, a)
                   puzzle(j, a) = puzzle(j, b)
                   puzzle(j, b) = temp(j)
+              End If
+          Next j
+      Next i
+
+  End Sub
+  ```
+  </details>
+
+
+## [2. Masking the puzzle by level (2022.12.29)](#list)
+
+  - Masking the puzzle by level between 1 and 9
+
+  ![Shuffle](./Images/VBA_Sudoku_Masking.gif)
+
+  <details>
+    <summary>Updates : Sudoku.bas</summary>
+
+  ```vba
+  Private Sub GenerateSudoku()
+
+      ' Set parameters
+      Dim zeroPoint As Range, level As Integer, hintNum As Integer
+      Call GetZeroPoint(zeroPoint)                                                ' Set zeroPiont to start 9x9 matrix
+      Call GetLevel(level)                                                        ' Set level to determine how much masking
+      Call GetHintNum(hintNum)                                                    ' Set the number how much hints are given
+
+      ' Initialize the Sudoku array before shuffle
+      Dim sudoku(1 To 9, 1 To 9) As Integer
+      Call GenerateInitialPuzzle(sudoku)
+
+      ' Shuffle the puzzle
+      Call ShufflePuzzle(sudoku)
+
+      ' Masking the puzzle by the level
+      Dim sudokuMask(1 To 9, 1 To 9) As Integer
+      Call MaskingPuzzle(sudoku, sudokuMask, level)
+
+      ' Print the Sudoku puzzle to the sheet
+      Call PrintPuzzle(sudokuMask, zeroPoint)
+
+  End Sub
+  ```
+  ```vba
+  Private Sub GetLevel(ByRef level As Integer)
+
+      level = Range("R2")
+
+  End Sub
+  ```
+  ```vba
+  Private Sub GetHintNum(ByRef hintNum As Integer)
+
+      hintNum = Range("V2")
+
+  End Sub
+  ```
+  ```vba
+  Private Sub MaskingPuzzle(ByRef puzzle As Variant, ByRef puzzleMask As Variant, ByRef level As Integer)
+
+      Dim i As Integer, j As Integer
+      For i = 1 To 9
+          For j = 1 To 9
+              If Int(Rnd * 10) >= level Then
+                  puzzleMask(i, j) = puzzle(i, j)
+              Else
+                  puzzleMask(i, j) = 0
+              End If
+          Next j
+      Next i
+
+  End Sub
+  ```
+  ```vba
+  Private Sub PrintPuzzle(ByRef puzzle As Variant, ByRef zeroPoint As Range)
+
+      ' Print the puzzle to the sheet
+      Dim i As Integer, j As Integer
+      For i = 1 To 9
+          For j = 1 To 9
+              If puzzle(i, j) <> 0 Then
+                  zeroPoint.Offset(i - 1, j - 1).Value = puzzle(i, j)
+              Else
+                  zeroPoint.Offset(i - 1, j - 1).Value = ""
               End If
           Next j
       Next i
