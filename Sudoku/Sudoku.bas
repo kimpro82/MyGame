@@ -4,19 +4,21 @@
 ' 1. Generate a Sudoku puzzle (2022.12.28)
 ' 2. Masking the puzzle by level (2022.12.29)
 ' 3. Evaluate the Answer (2022.12.30)
+' 4. Hint (2022.12.31)
 
 
 Option Explicit
 
 
 ' Update (2022.12.30) : Move the Declaration locations out of Main()
-Private Sudoku(1 To 9, 1 To 9)      As Integer
+Private sudoku(1 To 9, 1 To 9)      As Integer
 Private sudokuMask(1 To 9, 1 To 9)  As Integer
 Private sudokuAnswer()              As Integer                                  ' The new array should not be fixed
 
 Private zeroPoint                   As Range                                    ' zeroPiont     : to start 9x9 matrix
 Private level                       As Integer                                  ' level         : determine how much masking
 Private hintNum                     As Integer                                  ' hintNum       : the number how much hints are given
+Private hintFlag                    As Boolean                                  ' hintFlag      : print other message when True
 Private onGameFlag                  As Boolean                                  ' onGameFlag    : do not run intersect() when False
 
 
@@ -24,16 +26,16 @@ Private onGameFlag                  As Boolean                                  
 Private Sub Main()
 
     ' Set parameters
-    Call SetParameters(zeroPoint, level, hintNum)
+    Call SetParameters(zeroPoint, level, hintNum, hintFlag)
 
     ' Initialize the Sudoku array before shuffle
-    Call GenerateInitialPuzzle(Sudoku)
+    Call GenerateInitialPuzzle(sudoku)
 
     ' Shuffle the puzzle
-    Call ShufflePuzzle(Sudoku)
+    Call ShufflePuzzle(sudoku)
 
     ' Masking the puzzle by the level
-    Call MaskingPuzzle(Sudoku, sudokuMask, level)
+    Call MaskingPuzzle(sudoku, sudokuMask, level)
 
     ' Evaluate the answer
     sudokuAnswer = sudokuMask
@@ -48,11 +50,13 @@ End Sub
 
 
 ' Update (2022.12.30) : Merge 3 procedures for each parameter
-Private Sub SetParameters(ByRef zeroPoint As Range, ByRef level As Integer, ByRef hintNum As Integer)
+Private Sub SetParameters(ByRef zeroPoint As Range, ByRef level As Integer, ByRef hintNum As Integer, ByRef hintFlag As Boolean)
 
     Set zeroPoint = Range("C5")
     level = Range("R2")
+    Range("V2") = 5
     hintNum = Range("V2")
+    hintFlag = False
 
 End Sub
 
@@ -121,15 +125,15 @@ End Sub
 
 
 ' Update (2022.12.29)
-Private Sub MaskingPuzzle(ByRef puzzle As Variant, ByRef puzzleMask As Variant, ByRef level As Integer)
+Private Sub MaskingPuzzle(ByRef puzzle As Variant, ByRef puzzleAnswer As Variant, ByRef level As Integer)
 
     Dim i As Integer, j As Integer
     For i = 1 To 9
         For j = 1 To 9
             If Int(Rnd * 10) >= level Then
-                puzzleMask(i, j) = puzzle(i, j)
+                puzzleAnswer(i, j) = puzzle(i, j)
             Else
-                puzzleMask(i, j) = 0
+                puzzleAnswer(i, j) = 0
             End If
         Next j
     Next i
@@ -160,10 +164,24 @@ Private Sub PrintPuzzle(ByRef puzzle As Variant, ByRef zeroPoint As Range)
 End Sub
 
 
-Private Sub Hint()
+' Update (2022.12.31)
+Private Sub Hint(ByRef puzzle As Variant, ByRef puzzleAnswer As Variant, ByRef zeroPoint As Range)
 
-    Debug.Print "Hint function is not completed yet"
-    ' Debug.Print Me.Name & "() is not completed yet"                           ' Me.Name : "Soduku"
+    If hintNum > 0 Then
+        Dim i As Integer, j As Integer
+        Do
+            i = Int(Rnd * 9) + 1
+            j = Int(Rnd * 9) + 1
+            If puzzleAnswer(i, j) = 0 Then
+                hintFlag = True
+                hintNum = hintNum - 1
+                Range("V2").Value = hintNum                                     ' seems not the best way ……
+                Debug.Print i & j & puzzle(i, j)
+                zeroPoint.Offset(i - 1, j - 1).Value = puzzle(i, j)
+                Exit Do
+            End If
+        Loop
+    End If
 
 End Sub
 
@@ -195,7 +213,7 @@ Private Sub Worksheet_Change(ByVal Target As Range)
 
     If (onGameFlag = True) And (Not Intersect(zeroPoint.Resize(9, 9), Target) Is Nothing) Then
         ' Debug.Print Target.Address                                            ' ok
-        Call EvaluatePuzzle(Target.Address)
+        Call EvaluatePuzzle(Target.Address, hintFlag)
         Call PrintPuzzle(sudokuAnswer, zeroPoint)
     End If
 
@@ -203,7 +221,7 @@ End Sub
 
 
 ' Update (2022.12.30)
-Private Sub EvaluatePuzzle(ByRef ChangedCell As String)
+Private Sub EvaluatePuzzle(ByRef ChangedCell As String, ByRef hintFalg As Boolean)
 
     ' Debug.Print ChangedCell                                                   ' ok
     Dim i As Integer, j As Integer, ans As Integer
@@ -212,9 +230,15 @@ Private Sub EvaluatePuzzle(ByRef ChangedCell As String)
     ans = Range(ChangedCell).Value
     ' Debug.Print i & j & ans                                                   ' ok
 
-    If Sudoku(i, j) = Range(ChangedCell).Value Then
-        zeroPoint.Offset(-1, 0).Value = "Correct!"
-        sudokuAnswer(i, j) = Range(ChangedCell).Value
+    If sudoku(i, j) = Range(ChangedCell).Value Then
+        If hintFlag = False Then
+            zeroPoint.Offset(-1, 0).Value = "Correct!"
+            sudokuAnswer(i, j) = Range(ChangedCell).Value
+        Else
+            zeroPoint.Offset(-1, 0).Value = "(" & i & ", " & j & ") is " & ans & "!"
+            sudokuAnswer(i, j) = Range(ChangedCell).Value
+            hintFalg = False
+        End If
     Else
         zeroPoint.Offset(-1, 0).Value = "(" & i & ", " & j & ") is not " & ans & "!"
     End If
@@ -236,7 +260,7 @@ End Sub
 Private Sub btnHint_Click()
 
     Application.Calculation = xlManual
-        Call Hint
+        Call Hint(sudoku, sudokuAnswer, zeroPoint)
     Application.Calculation = xlAutomatic
 
 End Sub
