@@ -9,7 +9,7 @@ Let's make a **Sudoku** game in VBA!
 1. [Generate a Sudoku puzzle (2022.12.28)](#1-generate-a-sudoku-puzzle-20221228)
 2. [Masking the puzzle by level (2022.12.29)](#2-masking-the-puzzle-by-level-20221229)
 3. [Evaluate the Answer (2022.12.30)](#3-evaluate-the-answer-20221230)
-4. Hint
+4. [Hint (2022.12.31)](#4-hint-20221231)
 5. Auto-solver
 
 
@@ -467,5 +467,64 @@ Let's make a **Sudoku** game in VBA!
 
   End Sub
   ```
+  </details>
 
+
+## [4. Hint (2022.12.31)](#list)
+
+  - Give hints 5 times
+
+  ![Hints](./Images/VBA_Sudoku_Hint.gif)
+
+  <details>
+    <summary>Updates : Sudoku.bas</summary>
+
+  ```vba
+  ' Update (2022.12.31)
+  Private Sub Hint(ByRef puzzle As Variant, ByRef puzzleAnswer As Variant, ByRef zeroPoint As Range)
+
+      If hintNum > 0 Then
+          Dim i As Integer, j As Integer
+          Do
+              i = Int(Rnd * 9) + 1
+              j = Int(Rnd * 9) + 1
+              If puzzleAnswer(i, j) = 0 Then
+                  hintFlag = True
+                  hintNum = hintNum - 1
+                  Range("V2").Value = hintNum                                     ' seems not the best way ……
+                  Debug.Print i & j & puzzle(i, j)
+                  zeroPoint.Offset(i - 1, j - 1).Value = puzzle(i, j)
+                  Exit Do
+              End If
+          Loop
+      End If
+
+  End Sub
+  ```
+  ```vba
+  ' Update (2022.12.30)
+  Private Sub EvaluatePuzzle(ByRef ChangedCell As String, ByRef hintFalg As Boolean)
+
+      ' Debug.Print ChangedCell                                                   ' ok
+      Dim i As Integer, j As Integer, ans As Integer
+      i = Range(ChangedCell).Row - zeroPoint.Row + 1
+      j = Range(ChangedCell).Column - zeroPoint.Column + 1
+      ans = Range(ChangedCell).Value
+      ' Debug.Print i & j & ans                                                   ' ok
+
+      If sudoku(i, j) = Range(ChangedCell).Value Then
+          ' Update (2022.12.31) : Differ the message when hint
+          If hintFlag = False Then
+              zeroPoint.Offset(-1, 0).Value = "Correct!"
+          Else
+              zeroPoint.Offset(-1, 0).Value = "(" & i & ", " & j & ") is " & ans & "!"
+              hintFalg = False
+          End If
+          sudokuAnswer(i, j) = Range(ChangedCell).Value
+      Else
+          zeroPoint.Offset(-1, 0).Value = "(" & i & ", " & j & ") is not " & ans & "!"
+      End If
+
+  End Sub
+  ```
   </details>
