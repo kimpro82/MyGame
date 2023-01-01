@@ -231,14 +231,14 @@ Private Sub EvaluatePuzzle(ByRef ChangedCell As String, ByRef hintFalg As Boolea
     ' Debug.Print i & j & ans                                                   ' ok
 
     If sudoku(i, j) = Range(ChangedCell).Value Then
+        ' Update (2022.12.30) : Differ the message when hint
         If hintFlag = False Then
             zeroPoint.Offset(-1, 0).Value = "Correct!"
-            sudokuAnswer(i, j) = Range(ChangedCell).Value
         Else
             zeroPoint.Offset(-1, 0).Value = "(" & i & ", " & j & ") is " & ans & "!"
-            sudokuAnswer(i, j) = Range(ChangedCell).Value
             hintFalg = False
         End If
+        sudokuAnswer(i, j) = Range(ChangedCell).Value
     Else
         zeroPoint.Offset(-1, 0).Value = "(" & i & ", " & j & ") is not " & ans & "!"
     End If
