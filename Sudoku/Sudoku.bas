@@ -231,7 +231,7 @@ Private Sub EvaluatePuzzle(ByRef ChangedCell As String, ByRef hintFalg As Boolea
     ' Debug.Print i & j & ans                                                   ' ok
 
     If sudoku(i, j) = Range(ChangedCell).Value Then
-        ' Update (2022.12.30) : Differ the message when hint
+        ' Update (2022.12.31) : Differ the message when hint
         If hintFlag = False Then
             zeroPoint.Offset(-1, 0).Value = "Correct!"
         Else
