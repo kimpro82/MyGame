@@ -18,10 +18,10 @@ Let's make a **Sudoku** game in VBA!
   - Base codes are helped by [ChatGPT](https://github.com/kimpro82/MyGame/issues/56#issuecomment-1363135037)
   - Fill the cells just temporarily for test, not for the real game
 
-  ![Initialization](./Images/VBA_Sudoku_Init.gif)
+  ![Initialization](./Images/VBA_Sudoku_0_Init.gif)
 
   <details>
-    <summary>Codes : Sudoku.bas</summary>
+    <summary>Codes : Sudoku_0_Init.bas</summary>
 
   ```vba
   Option Explicit
@@ -151,10 +151,10 @@ Let's make a **Sudoku** game in VBA!
 
   - Generate a Sudoku puzzle with shuffle
 
-  ![Shuffle](./Images/VBA_Sudoku_Shuffle.gif)
+  ![Shuffle](./Images/VBA_Sudoku_1_Shuffle.gif)
 
   <details>
-    <summary>Updates : Sudoku.bas</summary>
+    <summary>Updates : Sudoku_1_Shuffle.bas</summary>
 
   ```vba
   Private Sub GenerateSudoku()
@@ -230,10 +230,10 @@ Let's make a **Sudoku** game in VBA!
 
   - Masking the puzzle by level between 1 and 9
 
-  ![Shuffle](./Images/VBA_Sudoku_Masking.gif)
+  ![Shuffle](./Images/VBA_Sudoku_2_Masking.gif)
 
   <details>
-    <summary>Updates : Sudoku.bas</summary>
+    <summary>Updates : Sudoku_2_Masking.bas</summary>
 
   ```vba
   Private Sub GenerateSudoku()
@@ -317,10 +317,10 @@ Let's make a **Sudoku** game in VBA!
   - Declare variables out of `Main()` for new procedures not included in `Main()`
   - Shorten codes in `GenerateInitialPuzzle()` and `PrintPuzzle()`
 
-  ![Evaluation](./Images/VBA_Sudoku_Evaluate.gif)
+  ![Evaluation](./Images/VBA_Sudoku_3_Evaluate.gif)
 
   <details>
-    <summary>Updates : Sudoku.bas</summary>
+    <summary>Updates : Sudoku_3_Evaluate.bas</summary>
 
   ```vba
   ' Update (2022.12.30) : Move the Declaration locations out of Main()
@@ -474,10 +474,10 @@ Let's make a **Sudoku** game in VBA!
 
   - Give hints 5 times
 
-  ![Hints](./Images/VBA_Sudoku_Hint.gif)
+  ![Hints](./Images/VBA_Sudoku_4_Hint.gif)
 
   <details>
-    <summary>Updates : Sudoku.bas</summary>
+    <summary>Updates : VBA_Sudoku_4_Hint.bas</summary>
 
   ```vba
   ' Update (2022.12.31)
@@ -534,10 +534,10 @@ Let's make a **Sudoku** game in VBA!
 
   - Solve automatically (imperfect yet)
 
-  ![Auto-Solve](./Images/VBA_Sudoku_AutoSolve_1.gif)
+  ![Auto-Solve](./Images/VBA_Sudoku_5_AutoSolve_0.gif)
 
   <details>
-    <summary>Updates : Sudoku_5.bas</summary>
+    <summary>Updates : VBA_Sudoku_5_AutoSolve_0.bas</summary>
 
   ```vba
   ' Update (2023.01.02)
