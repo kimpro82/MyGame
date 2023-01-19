@@ -10,7 +10,7 @@ Let's make a **Sudoku** game in VBA!
 2. [Masking the puzzle by level (2022.12.29)](#2-masking-the-puzzle-by-level-20221229)
 3. [Evaluate the Answer (2022.12.30)](#3-evaluate-the-answer-20221230)
 4. [Hint (2022.12.31)](#4-hint-20221231)
-5. Auto-solver
+5. [Auto-Solve (2023.01.02)](#5-auto-solve-20230102)
 
 
 ## [0. Initialization (2022.12.22)](#list)
@@ -524,6 +524,112 @@ Let's make a **Sudoku** game in VBA!
       Else
           zeroPoint.Offset(-1, 0).Value = "(" & i & ", " & j & ") is not " & ans & "!"
       End If
+
+  End Sub
+  ```
+  </details>
+
+
+## [5. Auto-Solve (2023.01.02)](#list)
+
+  - Solve automatically (imperfect yet)
+
+  ![Auto-Solve](./Images/VBA_Sudoku_AutoSolve_1.gif)
+
+  <details>
+    <summary>Updates : Sudoku_5.bas</summary>
+
+  ```vba
+  ' Update (2023.01.02)
+  Private Sub AutoSolve(ByRef puzzle As Variant, ByRef puzzleAnswer As Variant, ByRef zeroPoint As Range)
+
+      Dim i As Integer, j As Integer, k As Integer, l As Integer
+      Dim completeFlag As Boolean, solve1 As Boolean, unique As Integer, answer As Integer
+      ' Dim cntNum(0 To 9) As Integer                                             ' 0 should be included (but not to be used)
+
+      Do                                                                          ' ★ escape with <Ctrl + Pause Break> when infinite loop!
+          ' Sleep (100)
+          completeFlag = True
+          solve1 = False
+          For i = 1 To 9
+              For j = 1 To 9
+                  If puzzleAnswer(i, j) = 0 Then
+                      ' Erase cntNum                                              ' foxed error
+                      Dim cntNum(0 To 9) As Integer                               ' temporary alternative
+                      completeFlag = False
+                      Debug.Print "A loop for (" & i & ", " & j & ")"
+
+                      ' 1) Check the row
+                      For k = 1 To 9
+                          ' Debug.Print i & k
+                          cntNum(puzzleAnswer(i, k)) = 1
+                      Next k
+                      ' 2) Check the column
+                      For k = 1 To 9
+                          ' Debug.Print k & j
+                          cntNum(puzzleAnswer(k, j)) = 1
+                      Next k
+                      ' 3) Check the 3x3 box
+                      For k = 1 To 3
+                          For l = 1 To 3
+                              ' Debug.Print Int((i - 1) / 3) * 3 + k & Int((j - 1) / 3) * 3 + l
+                              cntNum(puzzleAnswer(Int((i - 1) / 3) * 3 + k, Int((j - 1) / 3) * 3 + l)) = 1
+                          Next l
+                      Next k
+                      ' 4) Find the unique answer
+                      unique = 0
+                      For k = 1 To 9
+                          If cntNum(k) = 0 Then
+                              Debug.Print "(" & i & ", " & j & ") : " & k
+                              answer = k
+                              unique = unique + 1
+                          End If
+                      Next k
+                      ' 5) Answer if unique
+                      If unique = 1 Then
+                          zeroPoint.Offset(i - 1, j - 1).Value = answer
+                          solve1 = True
+                      End If
+                  End If
+              Next j
+          Next i
+
+          ' 6) Hint if solve1 = 0
+          If solve1 = False And hintNum > 0 Then
+              Call Hint(puzzle, puzzleAnswer, zeroPoint)
+              solve1 = True
+          End If
+
+          ' 7) Evaluate the auto-sovaltion for a loop
+          Debug.Print completeFlag & " " & solve1 & " " & hintNum
+          If completeFlag = True Then
+              zeroPoint.Offset(-1, 0).Value = "Auto-Solvation completed!"
+              Exit Do
+          ElseIf solve1 = False And hintNum = 0 Then
+              zeroPoint.Offset(-1, 0).Value = "Auto-Solvation Failed!"
+              Exit Do
+          End If
+      Loop
+
+  '    ' Temporary : Exactly not solving, but just cheating ……
+  '    Dim i As Integer, j As Integer
+  '    For i = 1 To 9
+  '        For j = 1 To 9
+  '            If puzzleAnswer(i, j) = 0 Then
+  '                puzzleAnswer(i, j) = puzzle(i, j)
+  '                zeroPoint.Offset(i - 1, j - 1).Value = puzzle(i, j)
+  '            End If
+  '        Next j
+  '    Next i
+
+  End Sub
+  ```
+  ```vba
+  Private Sub btnAutoSolve_Click()
+
+      Application.Calculation = xlManual
+          Call AutoSolve(sudoku, sudokuAnswer, zeroPoint)
+      Application.Calculation = xlAutomatic
 
   End Sub
   ```

@@ -11,7 +11,7 @@
 Option Explicit
 
 
-Private Declare Sub Sleep Lib "kernel32" (ByVal dwMilliseconds As Long)         ' for Sleep()
+' Private Declare Sub Sleep Lib "kernel32" (ByVal dwMilliseconds As Long)       ' for Sleep()
 
 
 ' Update (2022.12.30) : Move the Declaration locations out of Main()
