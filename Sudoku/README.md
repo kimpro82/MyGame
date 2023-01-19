@@ -477,7 +477,7 @@ Let's make a **Sudoku** game in VBA!
   ![Hints](./Images/VBA_Sudoku_4_Hint.gif)
 
   <details>
-    <summary>Updates : VBA_Sudoku_4_Hint.bas</summary>
+    <summary>Updates : Sudoku_4_Hint.bas</summary>
 
   ```vba
   ' Update (2022.12.31)
@@ -537,7 +537,7 @@ Let's make a **Sudoku** game in VBA!
   ![Auto-Solve](./Images/VBA_Sudoku_5_AutoSolve_0.gif)
 
   <details>
-    <summary>Updates : VBA_Sudoku_5_AutoSolve_0.bas</summary>
+    <summary>Updates : Sudoku_5_AutoSolve_0.bas</summary>
 
   ```vba
   ' Update (2023.01.02)
