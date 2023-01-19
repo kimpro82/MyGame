@@ -59,6 +59,7 @@ GK4(Genghis Khan Ⅳ, KOEI, 1998) ERP
 2. [Masking the puzzle by level (2022.12.29)](./Sudoku/README.md#2-masking-the-puzzle-by-level-20221229)
 3. [Evaluate the Answer (2022.12.30)](./Sudoku/README.md#3-evaluate-the-answer-20221230)
 4. [Hint (2022.12.31)](./Sudoku/README.md#4-hint-20221231)
+5. [Auto-Solve (2023.01.02)](./Sudoku/README.md#5-auto-solve-20230102)
 
 
 ## [Roguelike Game](./Roguelike/)
