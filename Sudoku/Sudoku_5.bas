@@ -5,6 +5,7 @@
 ' 2. Masking the puzzle by level (2022.12.29)
 ' 3. Evaluate the Answer (2022.12.30)
 ' 4. Hint (2022.12.31)
+' 5. Auto Solve (2023.01.02)
 
 
 Option Explicit
