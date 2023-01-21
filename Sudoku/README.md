@@ -6,11 +6,12 @@ Let's make a **Sudoku** game in VBA!
 ## List
 
 0. [Initialization (2022.12.22)](#0-initialization-20221222)
-1. [Generate a Sudoku puzzle (2022.12.28)](#1-generate-a-sudoku-puzzle-20221228)
+1. [Generating a Sudoku puzzle (2022.12.28)](#1-generating-a-sudoku-puzzle-20221228)
 2. [Masking the puzzle by level (2022.12.29)](#2-masking-the-puzzle-by-level-20221229)
-3. [Evaluate the Answer (2022.12.30)](#3-evaluate-the-answer-20221230)
+3. [Evaluating the Answer (2022.12.30)](#3-evaluating-the-answer-20221230)
 4. [Hint (2022.12.31)](#4-hint-20221231)
-5. [Auto-Solve (2023.01.02)](#5-auto-solve-20230102)
+5. [Auto-Solving (2023.01.02)](#5-auto-solving-20230102)
+6. [Shading the Puzzle (2023.01.21)](#6-shading-the-puzzle-20230121)
 
 
 ## [0. Initialization (2022.12.22)](#list)
@@ -147,7 +148,7 @@ Let's make a **Sudoku** game in VBA!
   </details>
 
 
-## [1. Generate a Sudoku puzzle (2022.12.28)](#list)
+## [1. Generating a Sudoku puzzle (2022.12.28)](#list)
 
   - Generate a Sudoku puzzle with shuffle
 
@@ -310,7 +311,7 @@ Let's make a **Sudoku** game in VBA!
   </details>
 
 
-## [3. Evaluate the Answer (2022.12.30)](#list)
+## [3. Evaluating the Answer (2022.12.30)](#list)
 
   - Evaluate the answer in real time by `Worksheet_Change()`
   - Use `onGameFlag` to control the affections from `Worksheet_Change()`
@@ -530,7 +531,7 @@ Let's make a **Sudoku** game in VBA!
   </details>
 
 
-## [5. Auto-Solve (2023.01.02)](#list)
+## [5. Auto-Solving (2023.01.02)](#list)
 
   - Solve automatically (imperfect yet)
 
@@ -630,6 +631,56 @@ Let's make a **Sudoku** game in VBA!
       Application.Calculation = xlManual
           Call AutoSolve(sudoku, sudokuAnswer, zeroPoint)
       Application.Calculation = xlAutomatic
+
+  End Sub
+  ```
+  </details>
+
+  
+## [6. Shading the Puzzle (2023.01.21)](#list)
+
+  - Shade the puzzle cells for guide
+  - Create `Worksheet_SelectionChange()` `ShadePuzzle()`
+
+  ![Shading](./Images/VBA_Sudoku_6_Shading.gif)
+
+  <details>
+    <summary>Updates : Sudoku_6_Shading.bas</summary>
+
+  ```vba
+  Private Sub Worksheet_SelectionChange(ByVal Target As Range)
+
+      If (onGameFlag = True) And (Not Intersect(zeroPoint.Resize(9, 9), Target) Is Nothing) Then
+          ' Debug.Print Target.Address                                            ' ok
+          Call ShadePuzzle(Target.Address)
+      End If
+
+  End Sub
+  ```
+  ```vba
+  Private Sub ShadePuzzle(ByRef ChangedCell As String)
+
+      ' Debug.Print ChangedCell                                                   ' ok
+      Dim i As Integer, j As Integer, ans As Integer
+      i = Range(ChangedCell).Row - zeroPoint.Row + 1
+      j = Range(ChangedCell).Column - zeroPoint.Column + 1
+      ans = Range(ChangedCell).Value
+      ' Debug.Print i & j & ans                                                   ' ok
+      ' ★ To-do : New procedure; Target.Address → ans
+
+      ' Shading
+      Dim r As Integer, c As Integer
+      For r = 1 To 9
+          For c = 1 To 9
+              If sudokuAnswer(r, c) = ans Then
+                  zeroPoint.Offset(r - 1, c - 1).Interior.ColorIndex = 16
+              ElseIf (r = i) Or (c = j) Then
+                  zeroPoint.Offset(r - 1, c - 1).Interior.ColorIndex = 15
+              Else
+                  zeroPoint.Offset(r - 1, c - 1).Interior.ColorIndex = 0
+              End If
+          Next c
+      Next r
 
   End Sub
   ```
