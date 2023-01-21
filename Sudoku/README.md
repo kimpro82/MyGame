@@ -6,12 +6,17 @@ Let's make a **Sudoku** game in VBA!
 ## List
 
 0. [Initialization (2022.12.22)](#0-initialization-20221222)
-1. [Generating a Sudoku puzzle (2022.12.28)](#1-generating-a-sudoku-puzzle-20221228)
+1. [Generating a Sudoku puzzle (2022.12.28)](#1-generating-a-sudoku-puzzle-20221228)  
+  1.1 Enhancing Randomness (upcoming)
 2. [Masking the puzzle by level (2022.12.29)](#2-masking-the-puzzle-by-level-20221229)
 3. [Evaluating the Answer (2022.12.30)](#3-evaluating-the-answer-20221230)
 4. [Hint (2022.12.31)](#4-hint-20221231)
-5. [Auto-Solving (2023.01.02)](#5-auto-solving-20230102)
-6. [Shading the Puzzle (2023.01.21)](#6-shading-the-puzzle-20230121)
+5. [Auto-Solving (2023.01.02)](#5-auto-solving-20230102)  
+  5.1 Bug Fix (upcoming)
+6. [Shading the Puzzle (2023.01.21)](#6-shading-the-puzzle-20230121)  
+  6.1 Color Set (upcoming)
+7. Refactoring  
+   7.1 New procedure to convert `Target.Address` → `ans` (upcoming)
 
 
 ## [0. Initialization (2022.12.22)](#list)
