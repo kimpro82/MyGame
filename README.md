@@ -28,11 +28,11 @@ RTK2(Romance of The Three Kingdoms II, KOEI, 1989) ERP
 
 [**\<Python>**](./RTK2/Python/)
 - [Get Portraits from `KAODATA.DAT` (Trial 1) (2023.03.09)](./RTK2/Python/README.md#get-portraits-from-kaodatadat-trial-1-20230309)
-- [General - Taiki 2 (2021.03.18)](./RTK2/Python/README.md#general---taiki-2-20210318)
-- [General - Taiki (2020.03.01)](./RTK2/Python/README.md#general---taiki-20200301)
-- [Province - Pandas (2019.08.12)](./RTK2/Python/README.md#province---pandas-20190812)
-- [Province (2019.07.23)](./RTK2/Python/README.md#province-20190723)
-- [Province - Offset (2019.07.22)](./RTK2/Python/README.md#province---offset-20190722)
+- [Get Generals' Data from `TAIKI.DAT` 2 (2021.03.18)](./RTK2/Python/README.md#get-generals-data-from-taikidat-2-20210318)
+- [Get Generals' Data from `TAIKI.DAT` 1 (2020.03.01)](./RTK2/Python/README.md#get-generals-data-from-taikidat-1-20200301)
+- [Get Provinces' Data from the Save File with `Pandas` (2019.08.12)](./RTK2/Python/README.md#get-provinces-data-from-the-save-file-with-pandas-20190812)
+- [Get Provinces' Data from the Save File (2019.07.23)](./RTK2/Python/README.md#get-provinces-data-from-the-save-file-20190723)
+- [Get Provinces Data's Offset from the Save File (2019.07.22)](./RTK2/Python/README.md#get-provinces-datas-offset-from-the-save-file-20190722)
 
 [**\<R>**](./RTK2/R/)  
 **0. Load data**  

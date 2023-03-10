@@ -6,11 +6,11 @@ a great journey to construct RTK2(Romance of The Three Kingdoms II, KOEI, 1989) 
 ## List
 
 - [Get Portraits from `KAODATA.DAT` (Trial 1) (2023.03.09)](#get-portraits-from-kaodatadat-trial-1-20230309)
-- [General - Taiki 2 (2021.03.18)](#general---taiki-2-20210318)
-- [General - Taiki (2020.03.01)](#general---taiki-20200301)
-- [Province - Pandas (2019.08.12)](#province---pandas-20190812)
-- [Province (2019.07.23)](#province-20190723)
-- [Province - Offset (2019.07.22)](#province---offset-20190722)
+- [Get Generals' Data from `TAIKI.DAT` 2 (2021.03.18)](#get-generals-data-from-taikidat-2-20210318)
+- [Get Generals' Data from `TAIKI.DAT` 1 (2020.03.01)](#get-generals-data-from-taikidat-1-20200301)
+- [Get Provinces' Data from the Save File with `Pandas` (2019.08.12)](#get-provinces-data-from-the-save-file-with-pandas-20190812)
+- [Get Provinces' Data from the Save File (2019.07.23)](#get-provinces-data-from-the-save-file-20190723)
+- [Get Provinces Data's Offset from the Save File (2019.07.22)](#get-provinces-datas-offset-from-the-save-file-20190722)
 
 
 # [Get Portraits from `KAODATA.DAT` (Trial 1) (2023.03.09)](#list)
@@ -115,16 +115,14 @@ a great journey to construct RTK2(Romance of The Three Kingdoms II, KOEI, 1989) 
   </details>
 
 
-## [General - Taiki 2 (2021.03.18)](#list)
+## [Get Generals' Data from `TAIKI.DAT` 2 (2021.03.18)](#list)
 
 - call and print outside generals' data from `TAIKI.DAT`
 - use `os` `bytes()`
 - not a large size data but still is open to faster enhancement
 
-  #### `RTK2_General_Taiki_2.py`
-
   <details>
-    <summary>Mainly added/changed part</summary>
+    <summary>RTK2_General_Taiki_2.py : Mainly added/changed part</summary>
 
   ```python
   # 4. Read The Data
@@ -160,7 +158,7 @@ a great journey to construct RTK2(Romance of The Three Kingdoms II, KOEI, 1989) 
   > ……
 
 
-## [General - Taiki (2020.03.01)](#list)
+## [Get Generals' Data from `TAIKI.DAT` 1 (2020.03.01)](#list)
 
 - call outside generals' data from `TAIKI.DAT`
 - succeed in separating each general's data, but they should convert from `ASCII Code(int)` to `string`
@@ -255,7 +253,7 @@ a great journey to construct RTK2(Romance of The Three Kingdoms II, KOEI, 1989) 
   </details>
 
 
-## [Province - Pandas (2019.08.12)](#list)
+## [Get Provinces' Data from the Save File with `Pandas` (2019.08.12)](#list)
 
 - upgrade : adopt `Numpy` & `Pandas` and convert to a `class`
 - The parameter `lord` of the def `dataload` doesn't work yet.
@@ -343,14 +341,12 @@ a great journey to construct RTK2(Romance of The Three Kingdoms II, KOEI, 1989) 
   > 4  268000  30000  2700000  15  100  100  100  16   1  48  
 
 
-## [Province (2019.07.23)](#list)
+## [Get Provinces' Data from the Save File (2019.07.23)](#list)
 
 - call each province's data of population, gold, food and so on from a save file
 
-  #### `RTK2_Province.py`
-
   <details>
-    <summary>Codes and Results</summary>
+    <summary>Codes : RTK2_Province.py</summary>
 
   ```python
   # province_offset_data - from Offset.py (2019.07.22)
@@ -434,7 +430,7 @@ a great journey to construct RTK2(Romance of The Three Kingdoms II, KOEI, 1989) 
   > 10       1010800         30000   3000000         33 83 96 100 100 6  
 
 
-## [Province - Offset (2019.07.22)](#list)
+## [Get Provinces Data's Offset from the Save File (2019.07.22)](#list)
 
 - make offset locations' list before call the save data
 
