@@ -17,15 +17,15 @@ a great journey to construct RTK2(Romance of The Three Kingdoms II, KOEI, 1989) 
 
 - Try to extract portraits from binary data
   - Known that each 3-bits chunk indicates a pixel of 8 colored `GIF` image
-  - But the exact data pattern is not discoverd yet
-  - Assumtion : All data would be entirely sequential
+  - But the exact data pattern is not discovered yet
+  - Assumption : All data would be entirely sequential
   - Use temporary palette
 - Results & Next Tasks
   - Failed
-  - Seems to need understading about the data structure
-  - Maybe the best way is to analyse other existing code; [aaidee/RTK2face](https://github.com/aaidee/RTK2face)
+  - Seems to need understanding about the data structure
+  - Maybe the best way is to analyse other existing codes; [aaidee/RTK2face](https://github.com/aaidee/RTK2face)
 
-
+  <br>
   <details>
     <summary>Codes : RTK2_Portraits_1.py</summary>
 
