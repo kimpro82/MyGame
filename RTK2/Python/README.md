@@ -16,12 +16,12 @@ a great journey to construct RTK2(Romance of The Three Kingdoms II, KOEI, 1989) 
 # [Get Portraits from `KAODATA.DAT` (Trial 1) (2023.03.09)](#list)
 
 - Try to extract portraits from binary data
-  - Known that each 3-bits chunk indicates a pixel of 8 colored `GIF` image
+  - Known that each **3-bits** chunk indicates a pixel of 8 colored `GIF` image
   - But the exact data pattern is not discovered yet
   - Assumption : All data would be entirely sequential
   - Use temporary palette
 - Results & Next Tasks
-  - Failed
+  - **Failed**
   - Seems to need understanding about the data structure
   - Maybe the best way is to analyse other existing codes; [aaidee/RTK2face](https://github.com/aaidee/RTK2face)
 
@@ -117,9 +117,9 @@ a great journey to construct RTK2(Romance of The Three Kingdoms II, KOEI, 1989) 
 
 ## [Get Generals' Data from `TAIKI.DAT` 2 (2021.03.18)](#list)
 
-- call and print outside generals' data from `TAIKI.DAT`
-- use `os` `bytes()`
-- not a large size data but still is open to faster enhancement
+- Call and print outside generals' data from `TAIKI.DAT`
+- Use `os` `bytes()`
+- Not a large size data but still is open to faster enhancement
 
   <details>
     <summary>RTK2_General_Taiki_2.py : Mainly added/changed part</summary>
@@ -160,9 +160,9 @@ a great journey to construct RTK2(Romance of The Three Kingdoms II, KOEI, 1989) 
 
 ## [Get Generals' Data from `TAIKI.DAT` 1 (2020.03.01)](#list)
 
-- call outside generals' data from `TAIKI.DAT`
-- succeed in separating each general's data, but they should convert from `ASCII Code(int)` to `string`
-- use `os`
+- Call outside generals' data from `TAIKI.DAT`
+- Succeed in separating each general's data, but they should convert from `ASCII Code(int)` to `string`
+- Use `os`
 
   #### `RTK2_General_Taiki.py`
 
@@ -172,7 +172,7 @@ a great journey to construct RTK2(Romance of The Three Kingdoms II, KOEI, 1989) 
   ```
 
   <details>
-    <summary>1. heck If TAIKI.DAT Exists and get the file's length</summary>
+    <summary>1. Check If TAIKI.DAT Exists and get the file's length</summary>
 
   ```python
   import os
@@ -255,7 +255,7 @@ a great journey to construct RTK2(Romance of The Three Kingdoms II, KOEI, 1989) 
 
 ## [Get Provinces' Data from the Save File with `Pandas` (2019.08.12)](#list)
 
-- upgrade : adopt `Numpy` & `Pandas` and convert to a `class`
+- Upgrade : Adopt `Numpy` & `Pandas` and convert to a `class`
 - The parameter `lord` of the def `dataload` doesn't work yet.
 - The columns aren't named yet, too.
 
@@ -343,7 +343,7 @@ a great journey to construct RTK2(Romance of The Three Kingdoms II, KOEI, 1989) 
 
 ## [Get Provinces' Data from the Save File (2019.07.23)](#list)
 
-- call each province's data of population, gold, food and so on from a save file
+- Call each province's data of population, gold, food and so on from a save file
 
   <details>
     <summary>Codes : RTK2_Province.py</summary>
@@ -432,7 +432,7 @@ a great journey to construct RTK2(Romance of The Three Kingdoms II, KOEI, 1989) 
 
 ## [Get Provinces Data's Offset from the Save File (2019.07.22)](#list)
 
-- make offset locations' list before call the save data
+- Make offset locations' list before call the save data
 
   #### `RTK2_Province_Offset.py`
 
