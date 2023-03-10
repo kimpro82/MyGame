@@ -5,11 +5,114 @@ a great journey to construct RTK2(Romance of The Three Kingdoms II, KOEI, 1989) 
 
 ## List
 
+- [Get Portraits from `KAODATA.DAT` (Trial 1) (2023.03.09)](#get-portraits-from-kaodatadat-trial-1-20230309)
 - [General - Taiki 2 (2021.03.18)](#general---taiki-2-20210318)
 - [General - Taiki (2020.03.01)](#general---taiki-20200301)
 - [Province - Pandas (2019.08.12)](#province---pandas-20190812)
 - [Province (2019.07.23)](#province-20190723)
 - [Province - Offset (2019.07.22)](#province---offset-20190722)
+
+
+# [Get Portraits from `KAODATA.DAT` (Trial 1) (2023.03.09)](#list)
+
+- Try to extract portraits from binary data
+  - Known that each 3-bits chunk indicates a pixel of 8 colored `GIF` image
+  - But the exact data pattern is not discoverd yet
+  - Assumtion : All data would be entirely sequential
+  - Use temporary palette
+- Results & Next Tasks
+  - Failed
+  - Seems to need understading about the data structure
+  - Maybe the best way is to analyse other existing code; [aaidee/RTK2face](https://github.com/aaidee/RTK2face)
+
+
+  <details>
+    <summary>Codes : RTK2_Portraits_1.py</summary>
+
+  ```py
+  import os
+  from PIL import Image
+  ```
+  ```py
+  # Parameters
+  test = True                                                                     # True : Test Mode
+  path = "C:\Game\KOEI\RTK2\KAODATA.DAT"
+  palette = [
+      (0, 0, 0),        # Black
+      (255, 255, 255),  # White
+      (255, 0, 0),      # Red
+      (0, 255, 0),      # Green
+      (0, 0, 255),      # Blue
+      (255, 255, 0),    # Yellow
+      (255, 0, 255),    # Magenta
+      (0, 255, 255),    # Cyan
+  ]
+  ```
+  ```py
+  def ReadPath(path):
+      if (os.path.isfile(path)):
+          with open(path, "rb") as f:
+              data = f.read()
+              if test:
+                  print("test : ", data[0], type(data[0]), bin(data[0]))          # OK : 0 85 <class 'int'> 0b1010101 ……
+              return data
+      else:
+          print("There's no target file.")
+          exit()
+  ```
+  ```py
+  def Extract3Bits(data):
+      pixels = []
+      for byte in data:
+          for i in range(8):                                                      # Iterate over 8 bits (== 1 byte)
+              pixel_value = (byte >> (3*i)) & 0b111                               # Extract 3-bit data and guarantee always between 0 and 7 by adding `& 0b111`
+              pixels.append(pixel_value)
+      if test:
+          print("pixels : ", pixels[:5])                                          # OK : [5, 2, 1, 0, 0]
+      return pixels
+  ```
+  ```py
+  def ConvertColors(pixels):
+      image_data = [palette[pixel_value] for pixel_value in pixels]
+      if test:
+          print("converted colors : ", image_data[:5])                            # OK : [(255, 255, 0), (255, 0, 0), (255, 255, 255), (0, 0, 0), (0, 0, 0)]
+      return image_data
+  ```
+  ```py
+  def SaveImage(image_data):
+      width = 64
+      height = int(len(image_data) / width)
+      im = Image.new("RGB", (width, height))
+      im.putdata(image_data)
+      if test:
+          crop_box = (0, 0, width, min(200, height))                              # (x, y, width, height)
+          image_cropped = im.crop(crop_box)
+          image_cropped.save("./Images/RTK2_Portraits_Cropped.gif")
+      else:
+          im.save("./Images/RTK2_Portraits.gif")
+  ```
+  ```py
+  # Run
+  if __name__ == "__main__":
+
+      # 1. Read data or do exit() if not exists
+      data = ReadPath(path)
+
+      # 2. Extract data in 3-bit chunks
+      pixels = Extract3Bits(data)
+
+      # 3. Convert each pixel value to a color from the palette
+      image_data = ConvertColors(pixels)
+
+      # 4. Save into a gif file
+      SaveImage(image_data)
+  ```
+  </details>
+  <details open="">
+    <summary>Output (Not entire but partially cropped)</summary>
+
+  ![Cropped](./Images/RTK2_Portraits_Cropped.gif)
+  </details>
 
 
 ## [General - Taiki 2 (2021.03.18)](#list)
