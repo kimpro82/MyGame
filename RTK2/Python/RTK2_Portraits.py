@@ -50,11 +50,12 @@ def SaveImage(image_data):
     height = int(len(image_data) / width)
     im = Image.new("RGB", (width, height))
     im.putdata(image_data)
-    im.save("./Images/RTK2_Portraits.gif")
     if test:
         crop_box = (0, 0, width, min(200, height))                              # (x, y, width, height)
         image_cropped = im.crop(crop_box)
         image_cropped.save("./Images/RTK2_Portraits_Cropped.gif")
+    else:
+        im.save("./Images/RTK2_Portraits.gif")
 
 
 # Run
