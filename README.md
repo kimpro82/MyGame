@@ -4,7 +4,7 @@ Game is to handle data
 
 
 
-# Gaming Tool
+# Gaming Tools
 
 
 ## [Play Time Estimator](/PlayTimeEstimator#play-time-estimator)
@@ -53,7 +53,7 @@ GK4(Genghis Khan Ⅳ, KOEI, 1998) ERP
 
 
 
-# Game
+# Games
 
 
 ## [Sudoku](./Sudoku/)
