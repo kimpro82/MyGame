@@ -5,23 +5,124 @@ a great journey to construct RTK2(Romance of The Three Kingdoms II, KOEI, 1989) 
 
 ## List
 
-- [General - Taiki 2 (2021.03.18)](#general---taiki-2-20210318)
-- [General - Taiki (2020.03.01)](#general---taiki-20200301)
-- [Province - Pandas (2019.08.12)](#province---pandas-20190812)
-- [Province (2019.07.23)](#province-20190723)
-- [Province - Offset (2019.07.22)](#province---offset-20190722)
+- [Get Portraits from `KAODATA.DAT` (Trial 1) (2023.03.09)](#get-portraits-from-kaodatadat-trial-1-20230309)
+- [Get Generals' Data from `TAIKI.DAT` 2 (2021.03.18)](#get-generals-data-from-taikidat-2-20210318)
+- [Get Generals' Data from `TAIKI.DAT` 1 (2020.03.01)](#get-generals-data-from-taikidat-1-20200301)
+- [Get Provinces' Data from the Save File with `Pandas` (2019.08.12)](#get-provinces-data-from-the-save-file-with-pandas-20190812)
+- [Get Provinces' Data from the Save File (2019.07.23)](#get-provinces-data-from-the-save-file-20190723)
+- [Get Provinces Data's Offset from the Save File (2019.07.22)](#get-provinces-datas-offset-from-the-save-file-20190722)
 
 
-## [General - Taiki 2 (2021.03.18)](#list)
+# [Get Portraits from `KAODATA.DAT` (Trial 1) (2023.03.09)](#list)
 
-- call and print outside generals' data from `TAIKI.DAT`
-- use `os` `bytes()`
-- not a large size data but still is open to faster enhancement
+- Try to extract portraits from binary data
+  - Known that each **3-bits** chunk indicates a pixel of 8 colored `GIF` image
+  - But the exact data pattern is not discovered yet
+  - Assumption : All data would be entirely sequential
+  - Use temporary palette
+- Results & Next Tasks
+  - **Failed**
+  - Seems to need understanding about the data structure
+  - Maybe the best way is to analyse other existing codes; [aaidee/RTK2face](https://github.com/aaidee/RTK2face)
 
-  #### `RTK2_General_Taiki_2.py`
+  <br>
+  <details>
+    <summary>Codes : RTK2_Portraits_1.py</summary>
+
+  ```py
+  import os
+  from PIL import Image
+  ```
+  ```py
+  # Parameters
+  test = True                                                                     # True : Test Mode
+  path = "C:\Game\KOEI\RTK2\KAODATA.DAT"
+  palette = [
+      (0, 0, 0),        # Black
+      (255, 255, 255),  # White
+      (255, 0, 0),      # Red
+      (0, 255, 0),      # Green
+      (0, 0, 255),      # Blue
+      (255, 255, 0),    # Yellow
+      (255, 0, 255),    # Magenta
+      (0, 255, 255),    # Cyan
+  ]
+  ```
+  ```py
+  def ReadPath(path):
+      if (os.path.isfile(path)):
+          with open(path, "rb") as f:
+              data = f.read()
+              if test:
+                  print("test : ", data[0], type(data[0]), bin(data[0]))          # OK : 0 85 <class 'int'> 0b1010101 ……
+              return data
+      else:
+          print("There's no target file.")
+          exit()
+  ```
+  ```py
+  def Extract3Bits(data):
+      pixels = []
+      for byte in data:
+          for i in range(8):                                                      # Iterate over 8 bits (== 1 byte)
+              pixel_value = (byte >> (3*i)) & 0b111                               # Extract 3-bit data and guarantee always between 0 and 7 by adding `& 0b111`
+              pixels.append(pixel_value)
+      if test:
+          print("pixels : ", pixels[:5])                                          # OK : [5, 2, 1, 0, 0]
+      return pixels
+  ```
+  ```py
+  def ConvertColors(pixels):
+      image_data = [palette[pixel_value] for pixel_value in pixels]
+      if test:
+          print("converted colors : ", image_data[:5])                            # OK : [(255, 255, 0), (255, 0, 0), (255, 255, 255), (0, 0, 0), (0, 0, 0)]
+      return image_data
+  ```
+  ```py
+  def SaveImage(image_data):
+      width = 64
+      height = int(len(image_data) / width)
+      im = Image.new("RGB", (width, height))
+      im.putdata(image_data)
+      if test:
+          crop_box = (0, 0, width, min(200, height))                              # (x, y, width, height)
+          image_cropped = im.crop(crop_box)
+          image_cropped.save("./Images/RTK2_Portraits_Cropped.gif")
+      else:
+          im.save("./Images/RTK2_Portraits.gif")
+  ```
+  ```py
+  # Run
+  if __name__ == "__main__":
+
+      # 1. Read data or do exit() if not exists
+      data = ReadPath(path)
+
+      # 2. Extract data in 3-bit chunks
+      pixels = Extract3Bits(data)
+
+      # 3. Convert each pixel value to a color from the palette
+      image_data = ConvertColors(pixels)
+
+      # 4. Save into a gif file
+      SaveImage(image_data)
+  ```
+  </details>
+  <details open="">
+    <summary>Output (Not entire but partially cropped)</summary>
+
+  ![Cropped](./Images/RTK2_Portraits_Cropped.gif)
+  </details>
+
+
+## [Get Generals' Data from `TAIKI.DAT` 2 (2021.03.18)](#list)
+
+- Call and print outside generals' data from `TAIKI.DAT`
+- Use `os` `bytes()`
+- Not a large size data but still is open to faster enhancement
 
   <details>
-    <summary>Mainly added/changed part</summary>
+    <summary>RTK2_General_Taiki_2.py : Mainly added/changed part</summary>
 
   ```python
   # 4. Read The Data
@@ -57,11 +158,11 @@ a great journey to construct RTK2(Romance of The Three Kingdoms II, KOEI, 1989) 
   > ……
 
 
-## [General - Taiki (2020.03.01)](#list)
+## [Get Generals' Data from `TAIKI.DAT` 1 (2020.03.01)](#list)
 
-- call outside generals' data from `TAIKI.DAT`
-- succeed in separating each general's data, but they should convert from `ASCII Code(int)` to `string`
-- use `os`
+- Call outside generals' data from `TAIKI.DAT`
+- Succeed in separating each general's data, but they should convert from `ASCII Code(int)` to `string`
+- Use `os`
 
   #### `RTK2_General_Taiki.py`
 
@@ -71,7 +172,7 @@ a great journey to construct RTK2(Romance of The Three Kingdoms II, KOEI, 1989) 
   ```
 
   <details>
-    <summary>1. heck If TAIKI.DAT Exists and get the file's length</summary>
+    <summary>1. Check If TAIKI.DAT Exists and get the file's length</summary>
 
   ```python
   import os
@@ -152,9 +253,9 @@ a great journey to construct RTK2(Romance of The Three Kingdoms II, KOEI, 1989) 
   </details>
 
 
-## [Province - Pandas (2019.08.12)](#list)
+## [Get Provinces' Data from the Save File with `Pandas` (2019.08.12)](#list)
 
-- upgrade : adopt `Numpy` & `Pandas` and convert to a `class`
+- Upgrade : Adopt `Numpy` & `Pandas` and convert to a `class`
 - The parameter `lord` of the def `dataload` doesn't work yet.
 - The columns aren't named yet, too.
 
@@ -240,14 +341,12 @@ a great journey to construct RTK2(Romance of The Three Kingdoms II, KOEI, 1989) 
   > 4  268000  30000  2700000  15  100  100  100  16   1  48  
 
 
-## [Province (2019.07.23)](#list)
+## [Get Provinces' Data from the Save File (2019.07.23)](#list)
 
-- call each province's data of population, gold, food and so on from a save file
-
-  #### `RTK2_Province.py`
+- Call each province's data of population, gold, food and so on from a save file
 
   <details>
-    <summary>Codes and Results</summary>
+    <summary>Codes : RTK2_Province.py</summary>
 
   ```python
   # province_offset_data - from Offset.py (2019.07.22)
@@ -331,9 +430,9 @@ a great journey to construct RTK2(Romance of The Three Kingdoms II, KOEI, 1989) 
   > 10       1010800         30000   3000000         33 83 96 100 100 6  
 
 
-## [Province - Offset (2019.07.22)](#list)
+## [Get Provinces Data's Offset from the Save File (2019.07.22)](#list)
 
-- make offset locations' list before call the save data
+- Make offset locations' list before call the save data
 
   #### `RTK2_Province_Offset.py`
 
