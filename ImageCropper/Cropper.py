@@ -50,7 +50,7 @@ def GetImageFileList(path):
 
     imageExtensions = ['.jpg', '.jpeg', '.png', '.bmp']     # can be added more
     imageFiles = []
-    cwdImages = os.path.join(os.getcwd(), path[1])
+    cwdImages = os.path.join(os.getcwd(), path[0])
 
     for file_name in os.listdir(cwdImages):
         ext = os.path.splitext(file_name)[-1].lower()
@@ -68,7 +68,7 @@ def GetImageFileList(path):
 # Get the path for saving cropped image file
 def GetSavePath(imageFile, path):
 
-    croppedImageFile = os.path.join(os.getcwd(), path[2], os.path.basename(imageFile))
+    croppedImageFile = os.path.join(os.getcwd(), path[1], os.path.basename(imageFile))
 
     return croppedImageFile
 
@@ -119,7 +119,7 @@ def CropImages(imageFiles, coordinates, path):
         print("\n- CropImages()")
 
     # make a new directory to save cropped image files if not exists (do not need `if` statement)
-    os.makedirs(os.path.join(os.getcwd(), path[2]), exist_ok=True)
+    os.makedirs(os.path.join(os.getcwd(), path[1]), exist_ok=True)
 
     for imageFile in imageFiles:
 
