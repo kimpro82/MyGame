@@ -1,4 +1,6 @@
+.vscode/
 *.code-workspace
+
 *.dat
 *.gk
 *.txt
