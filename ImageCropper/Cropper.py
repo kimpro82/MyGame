@@ -80,10 +80,10 @@ def FindExist(croppedImageFile):
 
     if os.path.exists(croppedImageFile):
         while True:
-            overwrite = input(f"{os.path.basename(croppedImageFile)} already exists. Do you want to overwrite it? (y/n) ")
-            if overwrite.lower() == "y":
+            overwrite = input(f"{os.path.basename(croppedImageFile)} already exists. Do you want to overwrite it? (y/n) ").lower()
+            if overwrite == "y":
                 break
-            elif overwrite.lower() == "n":
+            elif overwrite == "n":
                 break
             else:
                 print("Invalid input. Please enter y or n.")
@@ -99,8 +99,10 @@ def GetOption(imageFile):
     imageFileName, ext = os.path.splitext(imageFile)        # `ext` won't be used
     underscoreIndex = imageFileName.rfind("_")              # find the string after the last "_"
 
+    # Exception : Can have no option → underscoreIndex = -1
     if underscoreIndex > 0:
         option, ext = os.path.splitext(imageFileName[underscoreIndex+1:])
+        # Exception 2 : Can be not valid option
         if option not in coordinates:
             option = "no valid option"
 
@@ -108,6 +110,15 @@ def GetOption(imageFile):
         print(f"({option})".ljust(20), end="")
 
     return option
+
+
+# Print Sav in `CropImages()`
+def PrintSavingInfo(i, cntImageFiles, overwrite, croppedImageFile):
+
+    if overwrite == "y":
+        print(f"({i}/{cntImageFiles}) File saved. :", croppedImageFile)
+    else:
+        print(f"({i}/{cntImageFiles}) File not saved. :", croppedImageFile)
 
 
 # Crop and save images
@@ -118,30 +129,34 @@ def CropImages(imageFiles, coordinates, path):
     if test:
         print("\n- CropImages()")
 
-    # make a new directory to save cropped image files if not exists (do not need `if` statement)
+    # Make a new directory to save cropped image files if not exists (do not need `if` statement)
     os.makedirs(os.path.join(os.getcwd(), path[1]), exist_ok=True)
 
-    for imageFile in imageFiles:
+    cntImageFiles = len(imageFiles)
+    cntDone = 0                                             # to count files that saved well
+    for i in range(cntImageFiles):
 
+        imageFile = imageFiles[i]
         croppedImageFile = GetSavePath(imageFile, path)
         overwrite = FindExist(croppedImageFile)
-        # if no same name's file or allowed to be overwrited
 
-        if overwrite.lower() == "y":
+        # If no same name's file or allowed to be overwrited
+        if overwrite == "y":
             option = GetOption(imageFile)
             image = Image.open(imageFile)
-        
+            cntDone += 1
+
+            # Crop the image or save the original depending on the option
             if option in coordinates:
                 cropBox = coordinates[option]
                 imageCropped = image.crop(cropBox)
                 imageCropped.save(croppedImageFile)
-
             else:
                 image.save(croppedImageFile)                # the same with the original image when no option
-            print("File saved. :", croppedImageFile)
 
-        else:
-            print("File not saved. :", croppedImageFile)
+        PrintSavingInfo(i, cntImageFiles, overwrite, croppedImageFile)
+
+    return cntDone, cntImageFiles
 
 
 # Run
@@ -150,5 +165,5 @@ if __name__ == "__main__":
     FindIfTest()                                            # control global variable `test`
     coordinates, path = ReadJson()
     imageFiles = GetImageFileList(path)
-    CropImages(imageFiles, coordinates, path)
-    print("Works ended.")
+    cntDone, cntImageFiles = CropImages(imageFiles, coordinates, path)
+    print(f"({cntDone}/{cntImageFiles}) files have saved.")
