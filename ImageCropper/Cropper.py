@@ -121,7 +121,7 @@ def PrintSavingInfo(i, cntImageFiles, overwrite, croppedImageFile):
         print(f"({i}/{cntImageFiles}) File not saved. :", croppedImageFile)
 
 
-# Crop and save images
+# Crop and save images; Can be more divided but I am tired ……
 def CropImages(imageFiles, coordinates, path):
 
     global test
