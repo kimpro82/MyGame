@@ -14,7 +14,7 @@
 
     "path":
     [
-        "Images",
-        "Images\\Cropped"
+        "Images\\Sample",
+        "Images\\Sample\\Cropped"
     ]
 }
