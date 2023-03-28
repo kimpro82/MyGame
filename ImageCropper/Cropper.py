@@ -65,10 +65,10 @@ def GetImageFileList(path):
     return imageFiles
 
 
-# Get the path for saving cropped image file
+# Get the path for saving cropped image file in `CropImages()`
 def GetSavePath(imageFile, path):
 
-    croppedImageFile = os.path.join(os.getcwd(), path[1], os.path.basename(imageFile))
+    croppedImageFile = os.path.join(os.getcwd(), path[1], "Cropped_" + os.path.basename(imageFile))
 
     return croppedImageFile
 
@@ -112,7 +112,7 @@ def GetOption(imageFile):
     return option
 
 
-# Print Sav in `CropImages()`
+# Print saving info in `CropImages()`
 def PrintSavingInfo(i, cntImageFiles, overwrite, croppedImageFile):
 
     if overwrite == "y":
