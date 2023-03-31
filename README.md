@@ -14,6 +14,13 @@ Estimate game play time and frequency based on capture images' information
 - [Play Time Estimator (2022.07.18)](/PlayTimeEstimator#play-time-estimator-20220718)
 
 
+## [Game Capture Image Cropper](./ImageCropper/)
+
+Automate image cropping for repetitive and standardized tasks such as writing game reviews
+
+- [Image Cropper 1 (2022.03.28)](./ImageCropper/README.md)
+
+
 ## RTK2 ERP
 
 RTK2(Romance of The Three Kingdoms II, KOEI, 1989) ERP  
