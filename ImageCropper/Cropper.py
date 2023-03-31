@@ -20,7 +20,7 @@ def FindIfTest():
     global test                                             # must be declared in each udf
     args = sys.argv
 
-    if len(args) >= 2 and args[1] == "test":
+    if len(args) >= 2 and args[1].lower() == "test":
         test = True
         print("<Test Mode>")
 
@@ -116,9 +116,9 @@ def GetOption(imageFile):
 def PrintSavingInfo(i, cntImageFiles, overwrite, croppedImageFile):
 
     if overwrite == "y":
-        print(f"({i}/{cntImageFiles}) File saved. :", croppedImageFile)
+        print(f"({i + 1}/{cntImageFiles}) File saved. :", croppedImageFile)
     else:
-        print(f"({i}/{cntImageFiles}) File not saved. :", croppedImageFile)
+        print(f"({i + 1}/{cntImageFiles}) File not saved. :", croppedImageFile)
 
 
 # Crop and save images; Can be more divided but I am tired ……
