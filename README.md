@@ -4,14 +4,14 @@ Game is to handle data
 
 
 
-# Gaming Tools
+# [Gaming Tools](./GamingTools/)
 
 
-## [Play Time Estimator](./Utility/PlaytimeEstimator/)
+## [Play Time Estimator](./GamingTools//PlaytimeEstimator/)
 
 Estimate game play time and frequency based on capture images' information
 
-- [Play Time Estimator (2022.07.18)](./Utility/PlaytimeEstimator/README.md#play-time-estimator-20220718)
+- [Play Time Estimator (2022.07.18)](./GamingTools/PlaytimeEstimator/README.md#play-time-estimator-20220718)
 
 
 ## [Game Capture Image Cropper](./ImageCropper/)
