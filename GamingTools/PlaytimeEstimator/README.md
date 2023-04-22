@@ -4,7 +4,106 @@ Estimate game play time and frequency based on capture images' information
 
 ### \<List>
 
+- [Play Time Estimator 2 (2023.04.21)](#play-time-estimator-2-20230421)
 - [Play Time Estimator (2022.07.18)](#play-time-estimator-20220718)
+
+
+## [Play Time Estimator 2 (2023.04.21)](#list)
+
+- Estimate the execution time of the `.exe` file directly, without relying on captured image saving times indirectly
+  - *Estimattion* or *Measurement*? Philosophically, Execution time is still a proxy of playtime, so I've determined to regard it as 'estimation`.
+- In this code, the target `.exe` file has been replaced with `TestExecutionFile.bat`.
+- Future improvements
+  - Calculate cumulative playtime.
+  - Record data for each save file that shares the same executable file.
+  - Exception handling: Address abnormal terminations.
+
+  <details open>
+    <summary>Codes : TestExecutionFile.bat</summary>
+
+  ```bat
+  @echo off
+
+  @REM "almost" written by ChatGPT
+
+  setlocal enableextensions enabledelayedexpansion
+
+  set /a "n = %random% %% 3 + 1"
+  set start_time=!time!
+  timeout /t %n% > nul
+  set end_time=!time!
+
+  @REM set /a "start_ms=((1!start_time:~0,2!-100)*3600 + (1!start_time:~3,2!-100)*60 + (1!start_time:~6,2!-100))*100 + (1!start_time:~9,2!-100)"
+  @REM set /a "end_ms=((1!end_time:~0,2!-100)*3600 + (1!end_time:~3,2!-100)*60 + (1!end_time:~6,2!-100))*100 + (1!end_time:~9,2!-100)"
+  @REM set /a "elapsed_time=(end_ms - start_ms) / 100"
+  @REM 균형이 맞지 않는 괄호
+
+  echo [%0 starts running.]
+  echo  Running time : %start_time% ~ %end_time%
+  @REM echo  Running time : %elapsed_time%?? (%start_time% ~ %end_time% )
+  echo [%0 has ended.]
+
+  endlocal
+  ```
+  </details>
+
+  <details open>
+    <summary>Codes : PlaytimeEstimator2.bat</summary>
+
+  ```bat
+  @echo off
+
+  :: "almost" written by ChatGPT
+
+  :: Setting
+  setlocal
+  set program=TestExecutionFile.bat
+  set log_file=Playtime.ini
+
+  :: Run the program and measure its start and end time
+  set start_time=%time%
+  call %program%
+  set end_time=%time%
+
+  :: Calculate elapsed time.
+  :: set /a elapsed_time=(1%end_time:~0,2%-100)*3600 + (1%end_time:~3,2%-100)*60 + (1%end_time:~6,2%-100) - ((1%start_time:~0,2%-100)*3600 + (1%start_time:~3,2%-100)*60 + (1%start_time:~6,2%-100))
+  :: 균형이 맞지 않는 괄호
+
+  :: Save execution date and time to log file.
+  echo [%program%] >> %log_file%
+  echo date=%date% >> %log_file%
+  echo start_time=%start_time% >> %log_file%
+  echo end_time=%end_time% >> %log_file%
+  echo elapsed_time=%elapsed_time% >> %log_file%
+  echo.>> %log_file%
+
+  echo The recent playtime has been saved into "%log_file%".
+  ```
+  </details>
+
+  <details open>
+      <summary>Output : Playtime.ini</summary>
+
+  ```ini
+  [TestExecutionFile.bat] 
+  date=2023-04-22 
+  start_time= 2:25:42.10 
+  end_time= 2:25:43.22 
+  elapsed_time= 
+
+  [TestExecutionFile.bat] 
+  date=2023-04-22 
+  start_time= 2:25:45.91 
+  end_time= 2:25:47.18 
+  elapsed_time= 
+
+  [TestExecutionFile.bat] 
+  date=2023-04-22 
+  start_time= 2:26:01.03 
+  end_time= 2:26:04.22 
+  elapsed_time= 
+  ```
+  </details>
 
 
 ## [Play Time Estimator (2022.07.18)](#list)
