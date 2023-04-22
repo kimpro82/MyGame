@@ -18,7 +18,8 @@ Estimate game play time and frequency based on capture images' information
   - Record data for each save file that shares the same executable file.
   - Exception handling: Address abnormal terminations.
 
-  <details open>
+  <br>
+  <details>
     <summary>Codes : TestExecutionFile.bat</summary>
 
   ```bat
@@ -47,7 +48,7 @@ Estimate game play time and frequency based on capture images' information
   ```
   </details>
 
-  <details open>
+  <details>
     <summary>Codes : PlaytimeEstimator2.bat</summary>
 
   ```bat
@@ -81,7 +82,7 @@ Estimate game play time and frequency based on capture images' information
   ```
   </details>
 
-  <details open>
+  <details>
       <summary>Output : Playtime.ini</summary>
 
   ```ini
