@@ -19,6 +19,29 @@ Estimate game play time and frequency based on capture images' information
   - Exception handling: Address abnormal terminations.
 
   <br>
+  <details open>
+    <summary>Output : Playtime.ini</summary>
+
+  ```ini
+  [TestExecutionFile.bat] 
+  date=2023-04-22 
+  start_time= 2:25:42.10 
+  end_time= 2:25:43.22 
+  elapsed_time= 
+
+  [TestExecutionFile.bat] 
+  date=2023-04-22 
+  start_time= 2:25:45.91 
+  end_time= 2:25:47.18 
+  elapsed_time= 
+
+  [TestExecutionFile.bat] 
+  date=2023-04-22 
+  start_time= 2:26:01.03 
+  end_time= 2:26:04.22 
+  elapsed_time= 
+  ```
+  </details>
   <details>
     <summary>Codes : TestExecutionFile.bat</summary>
 
@@ -79,30 +102,6 @@ Estimate game play time and frequency based on capture images' information
   echo.>> %log_file%
 
   echo The recent playtime has been saved into "%log_file%".
-  ```
-  </details>
-
-  <details>
-      <summary>Output : Playtime.ini</summary>
-
-  ```ini
-  [TestExecutionFile.bat] 
-  date=2023-04-22 
-  start_time= 2:25:42.10 
-  end_time= 2:25:43.22 
-  elapsed_time= 
-
-  [TestExecutionFile.bat] 
-  date=2023-04-22 
-  start_time= 2:25:45.91 
-  end_time= 2:25:47.18 
-  elapsed_time= 
-
-  [TestExecutionFile.bat] 
-  date=2023-04-22 
-  start_time= 2:26:01.03 
-  end_time= 2:26:04.22 
-  elapsed_time= 
   ```
   </details>
 
