@@ -1,15 +1,15 @@
-# [Play Time Estimator](../../README.md#play-time-estimator)
+# [Playtime Estimator](../../README.md#play-time-estimator)
 
-Estimate game play time and frequency based on capture images' information
+Estimate game playtime and frequency based on capture images' information
 
 
 ### \<List>
 
-- [Play Time Estimator 2 (2023.04.21)](#play-time-estimator-2-20230421)
-- [Play Time Estimator (2022.07.18)](#play-time-estimator-20220718)
+- [Playtime Estimator 2 (2023.04.21)](#playtime-estimator-2-20230421)
+- [Playtime Estimator (2022.07.18)](#playtime-estimator-20220718)
 
 
-## [Play Time Estimator 2 (2023.04.21)](#list)
+## [Playtime Estimator 2 (2023.04.21)](#list)
 
 - Features
   - Estimate the execution time of the `.exe` file directly by *batchfile*(`.bat`), without relying on captured image saving times indirectly  
@@ -110,7 +110,7 @@ Estimate game play time and frequency based on capture images' information
   </details>
 
 
-## [Play Time Estimator (2022.07.18)](#list)
+## [Playtime Estimator (2022.07.18)](#list)
 
 - Assumption : If the interval between two images is short enough, that are captured steadily during play, I would play continuously during the period.
 - Technique : deal VBA objects related with the file system
@@ -122,12 +122,12 @@ Estimate game play time and frequency based on capture images' information
 
   <br>
 
-  ![Play Time Estimator](Images/PlayTimeEstimator.PNG)
+  ![Playtime Estimator](Images/PlaytimeEstimator.PNG)
 
-  ![Play Time Estimator Architecture](Images/PlayTimeEstimator_Architecture_20220718.PNG)
+  ![Playtime Estimator Architecture](Images/PlaytimeEstimator_Architecture_20220718.PNG)
 
   <details>
-    <summary>Codes : PlayTimeEstimator.bas</summary>
+    <summary>Codes : PlaytimeEstimator.bas</summary>
 
   ##### Modul1
   ```vba
