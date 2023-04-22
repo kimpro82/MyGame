@@ -11,6 +11,7 @@ Game is to handle data
 
 Estimate game play time and frequency based on capture images' information
 
+- [Play Time Estimator 2 (2023.04.21)](./GamingTools/PlaytimeEstimator/README.md#play-time-estimator-2-20230421)
 - [Play Time Estimator (2022.07.18)](./GamingTools/PlaytimeEstimator/README.md#play-time-estimator-20220718)
 
 
