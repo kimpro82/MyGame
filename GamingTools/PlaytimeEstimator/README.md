@@ -10,13 +10,16 @@ Estimate game play time and frequency based on capture images' information
 
 ## [Play Time Estimator 2 (2023.04.21)](#list)
 
-- Estimate the execution time of the `.exe` file directly, without relying on captured image saving times indirectly
-  - *Estimattion* or *Measurement*? Philosophically, Execution time is still a proxy of playtime, so I've determined to regard it as 'estimation`.
-- In this code, the target `.exe` file has been replaced with `TestExecutionFile.bat`.
+- Features
+  - Estimate the execution time of the `.exe` file directly by *batchfile*(`.bat`), without relying on captured image saving times indirectly  
+    - *Estimation* or *Measurement*? Philosophically, execution time is still a proxy of playtime, so I've determined to regard it as *estimation*.
+  - Save `date` `start_time` and `end_time` into a `.ini` file (`elapsed_time` is failed)
+  - In this code, the target `.exe` file has been replaced with `TestExecutionFile.bat`.
 - Future improvements
-  - Calculate cumulative playtime.
-  - Record data for each save file that shares the same executable file.
-  - Exception handling: Address abnormal terminations.
+  - Calculate cumulative playtime  
+    (can adopt any other languages or even change the data format from `.ini`)
+  - Record data for each save file that shares the same executable file
+  - Exception handling: Address abnormal terminations
 
   <br>
   <details open>
