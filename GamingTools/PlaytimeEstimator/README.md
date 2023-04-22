@@ -1,6 +1,7 @@
-# Play Time Estimator
+# [Play Time Estimator](../../README.md#play-time-estimator)
 
 Estimate game play time and frequency based on capture images' information
+
 
 ### \<List>
 
