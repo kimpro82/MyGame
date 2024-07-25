@@ -69,24 +69,24 @@ GK4(Genghis Khan Ⅳ, KOEI, 1998) ERP
 - [Conway's Game of Life in Excel - Version 0.9 Beta (2024.07.25)](/Game/ConwaysGameOfLife/README.md#conways-game-of-life-in-excel---version-09-beta-20240725)
 
 
-## [Sudoku](./Sudoku/)
+## [Sudoku in Excel](/Game/Sudoku/)
 
-0. [Initialization (2022.12.22)](./Sudoku/README.md#0-initialization-20221222)
-1. [Generating a Sudoku puzzle (2022.12.28)](./Sudoku/README.md#1-generating-a-sudoku-puzzle-20221228)
-2. [Masking the puzzle by level (2022.12.29)](./Sudoku/README.md#2-masking-the-puzzle-by-level-20221229)
-3. [Evaluating the Answer (2022.12.30)](./Sudoku/README.md#3-evaluating-the-answer-20221230)
-4. [Hint (2022.12.31)](./Sudoku/README.md#4-hint-20221231)
-5. [Auto-Solving (2023.01.02)](./Sudoku/README.md#5-auto-solving-20230102)
-6. [Shading the Puzzle (2023.01.21)](./Sudoku/README.md#6-shading-the-puzzle-20230121)
+0. [Initialization (2022.12.22)](/Game/Sudoku/README.md#0-initialization-20221222)
+1. [Generating a Sudoku puzzle (2022.12.28)](/Game/Sudoku/README.md#1-generating-a-sudoku-puzzle-20221228)
+2. [Masking the puzzle by level (2022.12.29)](/Game/Sudoku/README.md#2-masking-the-puzzle-by-level-20221229)
+3. [Evaluating the Answer (2022.12.30)](/Game/Sudoku/README.md#3-evaluating-the-answer-20221230)
+4. [Hint (2022.12.31)](/Game/Sudoku/README.md#4-hint-20221231)
+5. [Auto-Solving (2023.01.02)](/Game/Sudoku/README.md#5-auto-solving-20230102)
+6. [Shading the Puzzle (2023.01.21)](/Game/Sudoku/README.md#6-shading-the-puzzle-20230121)
 
 
-## [Roguelike Game](/Game/Roguelike/)
+## [Roguelike Game in Excel](/Game/Roguelike/)
 
 1. [Set map size (2022.11.30)](/Game/Roguelike/README.md#1-set-map-size-20221130)
 2. [Set starting and ending location (2022.11.30)](/Game/Roguelike/README.md#2-set-starting-and-ending-location-20221130)
 
 
-## [AlphaCa (AI Tic-Tac-Toe)](/Game/AlphaCa/)
+## [AlphaCa (AI Tic-Tac-Toe) in R](/Game/AlphaCa/)
 
 Rage against the **AlphaGo**
 
