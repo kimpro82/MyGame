@@ -98,11 +98,11 @@ GK4(Genghis Khan Ⅳ, KOEI, 1998) ERP
 
 ### [DOS Environment-related Works](/DOS#my-dos-environment-related-works)
 
-- [Modify Autoexec.bat in DOSBox (2021.08.19)](/DOS#modify-autoexecbat-in-dosbox-20210819)
-- [Nostalgic Game.bat (2021.08.19)](/DOS#nostalgic-gamebat-20210819)
+- [Modify `AUTOEXEC.BAT` in DOSBox (2021.08.19)](/DOS#modify-autoexecbat-in-dosbox-20210819)
+- [Nostalgic `GAME.BAT` (2021.08.19)](/DOS#nostalgic-gamebat-20210819)
 
 
 ### [Fundamentals](/Fundamentals/)
 
-- [Player2 (2019.12.15)](/Fundamentals/README.md#player2-20191215)
+- [Player 2 (2019.12.15)](/Fundamentals/README.md#player2-20191215)
 - [Player (2019.03.12) - maybe?](/Fundamentals/README.md#player-20190312---maybe)
