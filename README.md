@@ -88,8 +88,6 @@ GK4(Genghis Khan Ⅳ, KOEI, 1998) ERP
 
 ## [AlphaCa (AI Tic-Tac-Toe) in R](/Game/AlphaCa/)
 
-Rage against the **AlphaGo**
-
 - [AlphaCa 2. Find the winner (2016.03.13)](/Game/AlphaCa/README.md#alphaca-2-find-the-winner-20160313)
 - [AlphaCa 1. Generate randomized cases as array (2016.03.11)](/Game/AlphaCa/README.md#alphaca-1-generate-randomized-cases-as-array-20160311)
 
