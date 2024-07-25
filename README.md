@@ -64,6 +64,11 @@ GK4(Genghis Khan Ⅳ, KOEI, 1998) ERP
 # Games
 
 
+## [Conway's Game of Life in Excel](/Game/ConwaysGameOfLife/)
+
+- [Conway's Game of Life in Excel - Version 0.9 Beta (2024.07.25)](/Game/ConwaysGameOfLife/README.md#conways-game-of-life-in-excel---version-09-beta-20240725)
+
+
 ## [Sudoku](./Sudoku/)
 
 0. [Initialization (2022.12.22)](./Sudoku/README.md#0-initialization-20221222)
