@@ -86,7 +86,7 @@ GK4(Genghis Khan Ⅳ, KOEI, 1998) ERP
 2. [Set starting and ending location (2022.11.30)](./Roguelike/README.md#2-set-starting-and-ending-location-20221130)
 
 
-## [AlphaCa (AI Tic-Tac-Toe)](/AlphaCa#alphaca-ai-tic-tac-toe)
+## [AlphaCa (AI Tic-Tac-Toe)](/Game/AlphaCa/)
 
 Rage against the **AlphaGo**
 

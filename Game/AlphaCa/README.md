@@ -1,4 +1,4 @@
-# [AlphaCa (AI Tic-Tac-Toe)](/README.md#alphaca-ai-tic-tac-toe)
+# [Game > AlphaCa (AI Tic-Tac-Toe)](/README.md#alphaca-ai-tic-tac-toe)
 
 Rage against the **AlphaGo**
 
