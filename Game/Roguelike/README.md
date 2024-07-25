@@ -1,4 +1,4 @@
-# [Roguelike Game](../README.md#roguelike-game)
+# [Game > Roguelike Game](/README.md#roguelike-game)
 
 Let's make a roguelike game!
 

@@ -80,10 +80,10 @@ GK4(Genghis Khan Ⅳ, KOEI, 1998) ERP
 6. [Shading the Puzzle (2023.01.21)](./Sudoku/README.md#6-shading-the-puzzle-20230121)
 
 
-## [Roguelike Game](./Roguelike/)
+## [Roguelike Game](/Game/Roguelike/)
 
-1. [Set map size (2022.11.30)](./Roguelike/README.md#1-set-map-size-20221130)
-2. [Set starting and ending location (2022.11.30)](./Roguelike/README.md#2-set-starting-and-ending-location-20221130)
+1. [Set map size (2022.11.30)](/Game/Roguelike/README.md#1-set-map-size-20221130)
+2. [Set starting and ending location (2022.11.30)](/Game/Roguelike/README.md#2-set-starting-and-ending-location-20221130)
 
 
 ## [AlphaCa (AI Tic-Tac-Toe)](/Game/AlphaCa/)
