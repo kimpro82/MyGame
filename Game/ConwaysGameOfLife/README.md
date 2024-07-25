@@ -1,4 +1,4 @@
-# [Game > Conway's Game Of Life](../README.md#roguelike-game)
+# [Game > Conway's Game Of Life](/README.md#conways-game-of-life-in-excel)
 
 Long live the cells
 
