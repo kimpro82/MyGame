@@ -3,6 +3,11 @@
 Long live the cells
 
 
+### \<References>
+
+- [Wikipedia > Conway's Game of Life](https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life)
+
+
 ### \<List>
 
 - [Conway's Game of Life in Excel - Version 0.9 Beta (2024.07.25)](#conways-game-of-life-in-excel---version-09-beta-20240725)
@@ -11,7 +16,9 @@ Long live the cells
 ## [Conway's Game of Life in Excel - Version 0.9 Beta (2024.07.25)](#list)
 
 - Features
+
   ![ConwaysGameOfLife_0_9_Beta.gif](./Images/ConwaysGameOfLife_0_9_Beta.gif)
+
   - Configurable number of turns and speed
   - Fixed grid size (11 * 11)
   - Provides a fixed initial pattern in the shape of a cross
