@@ -1,6 +1,6 @@
-# [Roguelike Game](../README.md#roguelike-game)
+# [Game > Roguelike Game in Excel](/README.md#roguelike-game-in-excel)
 
-Let's make a roguelike game!
+Let's make a roguelike game in Excel VBA!
 
 
 ## List

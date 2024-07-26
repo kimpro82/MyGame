@@ -1,6 +1,6 @@
-# [Sudoku](../README.md#sudoku)
+# [Game > Sudoku in Excel](/README.md#sudoku-in-excel)
 
-Let's make a **Sudoku** game in VBA!
+Let's make a **Sudoku** game in Excel VBA!
 
 
 ## List
