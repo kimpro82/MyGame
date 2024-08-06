@@ -1,4 +1,4 @@
-# Repeated Hit
+# [Repeated Hit](/README.md#repeated-hit)
 
 
 ### \<List>
@@ -8,16 +8,18 @@
 
 ## [Repeated Hit (2022.09.08)](#list)
 
-- To use in **WWF WrestleFest** (Technos, 1991)
+- Repeat `x` 20 times in **WWF WrestleFest** (Technos, 1991)
 
-![WWF WrestleFest GetUp](Images/WWF_WrestleFest_GetUp.png)
+  ![WWF WrestleFest GetUp](./Images/WWF_WrestleFest_GetUp.png)
 
-#### `RepeatedHit.ahk`
-repeat 'x' 20 times
-```ahk
-^+Space::
-    Send, xxxxxxxxxxxxxxxxxxxx
-```
+- Code : RepeatedHit.ahk
+    ```ahk
+    ^+Space::
+        Send, xxxxxxxxxxxxxxxxxxxx
+    ```
 
-![WWF WrestleFest Perfect Win](Images/WWF_WrestleFest_PerfectWin.png)  
-It leads a perfect win!
+- Result
+
+  ![WWF WrestleFest Perfect Win](Images/WWF_WrestleFest_PerfectWin.png)  
+
+  It leads a perfect win!
