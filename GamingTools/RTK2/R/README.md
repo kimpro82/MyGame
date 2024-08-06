@@ -1,4 +1,4 @@
-# [RTK2 ERP / R](../../README.md#rtk2-erp)
+# [RTK2 ERP / R](/README.md#rtk2-erp)
 
 a great journey to construct RTK2(Romance of The Three Kingdoms II, KOEI, 1989) ERP
 
@@ -20,7 +20,7 @@ a great journey to construct RTK2(Romance of The Three Kingdoms II, KOEI, 1989) 
 
 ## [0.1 Practice : Load raw data from a scenario (2022.06.24)](#list)
 
-#### `RTK2_General_Analysis_0.R`
+- Code : `RTK2_General_Analysis_0.R`
 
   <details>
     <summary>1) Read binary data</summary>
@@ -37,7 +37,6 @@ a great journey to construct RTK2(Romance of The Three Kingdoms II, KOEI, 1989) 
   [1] 00 00 bc 00 0b 0f
   ```
   </details>
-
   <details>
     <summary>2) Read a general's data in S5</summary>
 
@@ -55,8 +54,7 @@ a great journey to construct RTK2(Romance of The Three Kingdoms II, KOEI, 1989) 
   [1] 108  10   0   0  95  91  95  60  65  99   0   0   1 255   0   1   1   0  16  39 232   3  10   0   0 155 103   0  67  97 111  32  67  97 111   0   0   0   0   0   0   0   0
   ```
   </details>
-
-  <details open="">
+  <details>
     <summary>3) Read all generals' data in S5</summary>
 
   ```R
@@ -71,7 +69,6 @@ a great journey to construct RTK2(Romance of The Three Kingdoms II, KOEI, 1989) 
   ……
   ```
   </details>
-
   <details>
     <summary>4) Read all generals' names in S5</summary>
 
@@ -94,12 +91,10 @@ a great journey to construct RTK2(Romance of The Three Kingdoms II, KOEI, 1989) 
   </details>
 
 
-  ## [0.2 Find all the locations of the general data (2022.11.25)](#list)
+## [0.2 Find all the locations of the general data (2022.11.25)](#list)
 
-  - Declare a dataframe that contains the general data's locations
-
-  
-#### `RTK2_General_Analysis_0.R`
+- Declare a dataframe that contains the general data's locations
+- Code : `RTK2_General_Analysis_0.R`
 
   <details>
     <summary>1) Find all the scenario' general data locations</summary>
