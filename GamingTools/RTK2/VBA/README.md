@@ -1,4 +1,4 @@
-# [RTK2 ERP / VBA](../../README.md#rtk2-erp)
+# [RTK2 ERP / VBA](/README.md#rtk2-erp)
 
 a great journey to construct RTK2(Romance of The Three Kingdoms II, KOEI, 1989) ERP
 

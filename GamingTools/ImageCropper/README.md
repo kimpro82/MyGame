@@ -1,4 +1,4 @@
-# [Game Capture Image Cropper](../README.md#game-capture-image-cropper)
+# [Game Capture Image Cropper](/README.md#game-capture-image-cropper)
 
 Automate image cropping for repetitive and standardized tasks such as writing game reviews
 
@@ -33,8 +33,9 @@ Automate image cropping for repetitive and standardized tasks such as writing ga
 ![ImageCropper_1](./Images/ImageCropper_1.PNG)
 ![ImageCropper_2](./Images/ImageCropper_2.PNG)
 
+- Code
   <details>
-    <summary>Codes : Cropper_Setting.json (Sample)</summary>
+    <summary>Cropper_Setting.json (Sample)</summary>
 
   ```json
   {
@@ -59,8 +60,8 @@ Automate image cropping for repetitive and standardized tasks such as writing ga
   }
   ```
   </details>
-  <details open>
-    <summary>Codes : Cropper.py</summary>
+  <details>
+    <summary>Cropper.py</summary>
 
   ```py
   # Libraries
@@ -230,5 +231,4 @@ Automate image cropping for repetitive and standardized tasks such as writing ga
       cntDone, cntImageFiles = CropImages(imageFiles, coordinates, path)
       print(f"({cntDone}/{cntImageFiles}) files have saved.")
   ```
-
   </details>
