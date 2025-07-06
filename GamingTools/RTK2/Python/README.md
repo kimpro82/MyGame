@@ -28,14 +28,16 @@ a great journey to construct RTK2(Romance of The Three Kingdoms II, KOEI, 1989) 
   ```mermaid
   flowchart TD
       A[Start: Main] --> B[read_binary_file]
-      B --> C[extract_general_data]
-      C --> D[extract_province_data]
-      D --> E[extract_ruler_data]
-      E --> F[arrange_province_data]
-      F --> G[arrange_general_data]
-      G --> H[Print sample outputs]
-      H --> I[save_dataframes_to_csv]
-      I --> J[End]
+      B --> C[extract_generals_from_save]
+      C --> D[extract_provinces_with_generals]
+      D --> E[extract_rulers_with_provinces_and_generals]
+      E --> F[link_provinces_by_ruler]
+      F --> G[link_generals_by_province]
+      G --> H[summarize_province_with_generals]
+      H --> I[summarize_ruler_with_provinces_and_generals]
+      I --> J[Print sample outputs]
+      J --> K[save_dataframes_to_csv]
+      K --> L[End]
 
       subgraph Extraction
           B
@@ -47,9 +49,13 @@ a great journey to construct RTK2(Romance of The Three Kingdoms II, KOEI, 1989) 
           F
           G
       end
-      subgraph Output
+      subgraph Aggregation
           H
           I
+      end
+      subgraph Output
+          J
+          K
       end
   ```
   </details>
@@ -58,30 +64,34 @@ a great journey to construct RTK2(Romance of The Three Kingdoms II, KOEI, 1989) 
     <summary>Console Output</summary>
 
   ```bash
+  General DataFrame (first 5 rows):
+    general_idx  next_gen_idx       name  int  war  cha  fai  vir  ...  soldiers  weapons  trainning  birth  face  prov_idx  prov_governor  prov_ruler
+  0            0            60    Cao Cao   95   91   95   60   65  ...     10000     1000         80    155   103        17        Cao Cao     Cao Cao
+  1           60            76    Sima Yi   98   67   93   88   73  ...      1000      100         80    179    79        17        Cao Cao     Cao Cao
+  2           76            86     Cao Pi   76   70   80   82   84  ...      1000      100         80    187   104        17        Cao Cao     Cao Cao
+  3           86            87  Cao Zhang   60   92   72   86   78  ...      1000      100         80    190    98        17        Cao Cao     Cao Cao
+  4           87            88    Cao Zhi   80   15   80   82   82  ...      1000      100         80    192    99        17        Cao Cao     Cao Cao
+
+  [5 rows x 21 columns] 
+
+  Province DataFrame 2 (first 5 rows):
+    prov_idx  next_prov_idx  governor_idx     governor  gold   food     pop  ...  rate  merch  state  ruler_name  soldiers_sum  gen_cnt  free_cnt
+  0        17             18             0      Cao Cao  3000  70000  200000  ...    55   True      9     Cao Cao         20000       11         0
+  1        18             13            18   Zhang Liao  2500  45000  250000  ...    57  False      9     Cao Cao         12000        8         0
+  2        13              8            14     Zhang Lu  2500  30000  240000  ...    52  False      6     Cao Cao          5000        1         0
+  3         8             29             9   Xiahou Dun  2500  35000   80000  ...    55  False      3     Cao Cao          6000        2         0
+  4        29             11            27  Xiahou Yuan  2500  45000  300000  ...    48   True     12     Cao Cao         10000        6         0
+
+  [5 rows x 20 columns] 
+
   Ruler DataFrame (first 5 rows):
-     ruler_idx ruler_name capital_idx  advisor_idx advisor_name  trust  gold_sum  food_sum  pop_sum  soldiers_sum  generals_cnt
-  0          0    Cao Cao          17           60      Sima Yi     50     45500    680000  4560000        143000            66
-  1          1    Liu Bei          33           40  Zhuge Liang     50      4000    210000  2830000         87000            54
-  2          2   Sun Quan          24           54        Lu Su     50      6500    200000  2790000         92000            39
-  3          3   Meng Huo          36           -1                  50      1000     35000    85000         17000             8
-  4         -1                                  -1                   0         0         0        0             0             0 
-  
-  Arranged Province DataFrame (first 5 rows):
-     prov_idx  next_prov_idx  governor_idx     governor  gold   food     pop  ruler_idx  loy  land  flood  horses  forts  rate  merch  state ruler_name
-  0        17             18             0      Cao Cao  3000  70000  200000          0   73    74     67      10      4    55   True      9    Cao Cao
-  1        18             13            18   Zhang Liao  2500  45000  250000          0   72    66     66      10      3    57  False      9    Cao Cao
-  2        13              8            14     Zhang Lu  2500  30000  240000          0   70    80     75      10      3    52  False      6    Cao Cao
-  3         8             29             9   Xiahou Dun  2500  35000   80000          0   65    67     72      10      2    55  False      3    Cao Cao
-  4        29             11            27  Xiahou Yuan  2500  45000  300000          0   65    81     67       5      3    48   True     12    Cao Cao 
-  
-  Arranged General DataFrame (first 5 rows):
-     general_idx  next_gen_idx       name  int  war  cha  fai  vir  amb  ruler_idx  loy  exp  syn  soldiers  weapons  trainning  birth  face  prov_idx prov_governor prov_ruler
-  0            0            60    Cao Cao   95   91   95   60   65   99          0    0    1    1     10000     1000         80    155   103        17       Cao Cao    Cao Cao
-  1           60            76    Sima Yi   98   67   93   88   73   98          0   95    1    2      1000      100         80    179    79        17       Cao Cao    Cao Cao
-  2           76            86     Cao Pi   76   70   80   82   84   83          0  100    1    1      1000      100         80    187   104        17       Cao Cao    Cao Cao
-  3           86            87  Cao Zhang   60   92   72   86   78   76          0  100    1    1      1000      100         80    190    98        17       Cao Cao    Cao Cao
-  4           87            88    Cao Zhi   80   15   80   82   82   18          0  100    1    1      1000      100         80    192    99        17       Cao Cao    Cao Cao 
-  
+    ruler_idx ruler_name capital_idx  advisor_idx advisor_name  trust  prov_cnt  gold_sum  food_sum  pop_sum  soldiers_sum  gen_cnt  free_cnt
+  0          0    Cao Cao          17           60      Sima Yi     50        18     45500    680000  4560000        143000       66         0
+  1          1    Liu Bei          33           40  Zhuge Liang     50         7      4000    210000  2830000         87000       54         0
+  2          2   Sun Quan          24           54        Lu Su     50        12      6500    200000  2790000         92000       39         0
+  3          3   Meng Huo          36           -1                  50         1      1000     35000    85000         17000        8         0
+  4         -1                                  -1                   0         0         0         0        0             0        0         0 
+
   DataFrames have been saved to ./Data as CSV files (sep=',').
   ```
   </details>
