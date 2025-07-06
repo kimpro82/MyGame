@@ -1,5 +1,5 @@
 """
-RTK2 ERP / Extract and Arrange the Ruler, General, and Province Data from the Save File.
+RTK2 ERP / Extract and Arrange the Ruler, Province, and General Data from the Save File.
 
 Author : kimpro82
 Date: 2025.07.06
