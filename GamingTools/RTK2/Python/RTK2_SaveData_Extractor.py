@@ -68,6 +68,7 @@ def extract_generals_from_save(data_bytes, start=32, length=43, count=255):
 
     return pd.DataFrame(generals_list)
 
+
 def extract_provinces_with_generals(data_bytes, df_generals, start=11660, length=35, count=41):
     """
     Extract province data from the binary file.
