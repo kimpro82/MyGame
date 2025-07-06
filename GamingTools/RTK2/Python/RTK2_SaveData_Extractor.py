@@ -66,10 +66,7 @@ def extract_generals_from_save(data_bytes, start=32, length=43, count=255):
         # if general["birth"] >= 0:
         generals_list.append(general)
 
-    df_generals = pd.DataFrame(generals_list)
-
-    return df_generals
-
+    return pd.DataFrame(generals_list)
 
 def extract_provinces_with_generals(data_bytes, df_generals, start=11660, length=35, count=41):
     """
