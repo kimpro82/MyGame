@@ -21,8 +21,10 @@ import pandas as pd
 
 def read_binary_file(filename):
     """Read the specified file in binary mode and return the byte data."""
+
     with open(filename, "rb") as f:
         data = f.read()
+
     return data
 
 
@@ -31,6 +33,7 @@ def extract_general_data(data, start=32, length=43, count=255):
     Extract general (officer) data from the binary file.
     Returns a DataFrame with one row per general.
     """
+
     generals = []
     for i in range(count):
         offset = start + i * length
@@ -55,9 +58,11 @@ def extract_general_data(data, start=32, length=43, count=255):
             "birth": chunk[25],
             "face": chunk[26] + chunk[27] * 256,
         }
-        if general["birth"] >= 0:
-            generals.append(general)
+        # if general["birth"] >= 0:
+        generals.append(general)
+
     df = pd.DataFrame(generals)
+
     return df
 
 
@@ -67,12 +72,13 @@ def extract_province_data(data, generals_df, start=11660, length=35, count=41):
     Returns a DataFrame with one row per province.
     Each province contains a linked list pointer (next_prov_idx) and a governor index.
     """
+
     provinces = []
     for i in range(count):
         offset = start + i * length
         chunk = data[offset:offset+length]
         ruler_idx = chunk[16]
-        governor_idx = int((chunk[2] + chunk[3] * 256 - 88) / 43)
+        governor_idx = int(max((chunk[2] + chunk[3] * 256 - 88) / 43, -1))
         province = {
             "prov_idx": i + 1,  # 1-based province index
             "next_prov_idx": int(max((chunk[0] + chunk[1] * 256 - 21 -11660)/35, -1)),  # Next province in ruler's list
@@ -88,9 +94,11 @@ def extract_province_data(data, generals_df, start=11660, length=35, count=41):
             "horses" : chunk[25],
             "forts" : chunk[26],
             "rate" : chunk[27],
+            "merch" : bool((chunk[19] % 4) > 0),
             "state" : chunk[34],
         }
         provinces.append(province)
+
     return pd.DataFrame(provinces)
 
 
@@ -100,13 +108,13 @@ def extract_ruler_data(data, provinces_df, generals_df, start=11004, length=41, 
     Returns a DataFrame with one row per ruler.
     Each ruler contains a capital province index and summary stats.
     """
+
     rulers = []
     for i in range(count):
         offset = start + i * length
         chunk = data[offset:offset+length]
         ruler_idx = int(max((chunk[0] + chunk[1] * 256 -88)/43, -1))
         advisor_idx = int(max((chunk[4] + chunk[5] * 256 - 88)/43, -1))
-
         ruler_idx = int(max((chunk[0] + chunk[1] * 256 -88)/43, -1))
         capital_idx = int((chunk[2] + chunk[3] * 256 - 21 -11660)/35)  # Capital province index
         advisor_idx = int(max((chunk[4] + chunk[5] * 256- 88)/43, -1))
@@ -139,6 +147,7 @@ def arrange_province_data(rulers_df, provinces_df):
     Collect all province rows in order for each ruler. After all rulers, add remaining unowned provinces (ruler_idx == 255).
     Returns a DataFrame with the arranged province order.
     """
+
     arranged_rows = []
     visited = set()
     for _, ruler in rulers_df.iterrows():
@@ -154,6 +163,7 @@ def arrange_province_data(rulers_df, provinces_df):
                 prov_idx = row["next_prov_idx"]
             else:
                 break
+
     # Add unowned provinces (ruler_idx == 255) that were not visited
     empty = provinces_df[(provinces_df["ruler_idx"] == 255) & (~provinces_df["prov_idx"].isin(visited))]
     for _, row in empty.iterrows():
@@ -161,7 +171,9 @@ def arrange_province_data(rulers_df, provinces_df):
         row_dict["ruler_idx"] = 255
         row_dict["ruler_name"] = "Empty"
         arranged_rows.append(row_dict)
+
     arranged_provinces_df = pd.DataFrame(arranged_rows)
+
     return arranged_provinces_df
 
 
@@ -171,6 +183,7 @@ def arrange_general_data(arranged_provinces_df, generals_df):
     Collect all general rows in order for each province.
     Returns a DataFrame with the arranged general order.
     """
+
     arranged_rows = []
     for _, province in arranged_provinces_df.iterrows():
         gen_idx = province["governor_idx"]
@@ -187,7 +200,9 @@ def arrange_general_data(arranged_provinces_df, generals_df):
                 gen_idx = row["next_gen_idx"]
             else:
                 break
+
     arranged_generals_df = pd.DataFrame(arranged_rows)
+
     return arranged_generals_df
 
 
@@ -199,12 +214,16 @@ def save_dataframes_to_csv(data_frames, save_dir="./Data", sep=","):
         save_dir (str): Directory to save CSV files.
         sep (str): Delimiter to use (default: ','). Use '\t' for tab-separated.
     """
+
     if not os.path.exists(save_dir):
         os.makedirs(save_dir)
     for name, df in data_frames.items():
         path = os.path.join(save_dir, f"{name}.csv")
         df.to_csv(path, index=False, sep=sep)
+
     print(f"DataFrames have been saved to {save_dir} as CSV files (sep='{sep}').")
+
+    return
 
 
 if __name__ == "__main__":
