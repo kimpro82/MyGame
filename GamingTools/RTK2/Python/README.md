@@ -75,7 +75,7 @@ a great journey to construct RTK2(Romance of The Three Kingdoms II, KOEI, 1989) 
   4        29             11            27  Xiahou Yuan  2500  45000  300000          0   65    81     67       5      3    48   True     12    Cao Cao 
   
   Arranged General DataFrame (first 5 rows):
-     general_idx  next_gen_idx       name  int  war  cha  fai  vir  emb  ruler_idx  loy  exp  syn  soldiers  weapons  trainning  birth  face  prov_idx prov_governor prov_ruler
+     general_idx  next_gen_idx       name  int  war  cha  fai  vir  amb  ruler_idx  loy  exp  syn  soldiers  weapons  trainning  birth  face  prov_idx prov_governor prov_ruler
   0            0            60    Cao Cao   95   91   95   60   65   99          0    0    1    1     10000     1000         80    155   103        17       Cao Cao    Cao Cao
   1           60            76    Sima Yi   98   67   93   88   73   98          0   95    1    2      1000      100         80    179    79        17       Cao Cao    Cao Cao
   2           76            86     Cao Pi   76   70   80   82   84   83          0  100    1    1      1000      100         80    187   104        17       Cao Cao    Cao Cao
