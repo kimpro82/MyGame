@@ -26,8 +26,10 @@ import pandas as pd
 
 def read_binary_file(filename):
     """Read the specified file in binary mode and return the byte data."""
+
     with open(filename, "rb") as f:
         data_bytes = f.read()
+
     return data_bytes
 
 
@@ -102,9 +104,7 @@ def extract_provinces_with_generals(data_bytes, df_generals, start=11660, length
         }
         provinces_list.append(province)
 
-    df_provinces = pd.DataFrame(provinces_list)
-
-    return df_provinces
+    return pd.DataFrame(provinces_list)
 
 
 def extract_rulers_with_provinces_and_generals(data_bytes, df_generals, start=11004, length=41, count=16):
@@ -131,9 +131,7 @@ def extract_rulers_with_provinces_and_generals(data_bytes, df_generals, start=11
         }
         rulers_list.append(ruler)
 
-    df_rulers = pd.DataFrame(rulers_list)
-
-    return df_rulers
+    return pd.DataFrame(rulers_list)
 
 
 def link_provinces_by_ruler(df_rulers, df_provinces):
@@ -211,6 +209,7 @@ def summarize_province_with_generals(df_provinces, df_generals):
         prov_ruler_idx = prov_row["ruler_idx"]
         mask_prov = df_generals['prov_idx'] == prov_idx
         generals_in_prov = df_generals[mask_prov]
+
         row_summary = prov_row.copy()
         row_summary['soldiers_sum'] = generals_in_prov['soldiers'].sum()
         row_summary['gen_cnt'] = (generals_in_prov['ruler_idx'] == prov_ruler_idx).sum()
@@ -238,6 +237,7 @@ def summarize_ruler_with_provinces_and_generals(df_rulers, df_provinces, df_gene
         ruler_name = ruler_row.get('ruler_name', '')
         mask_prov = df_provinces['ruler_idx'] == ruler_idx
         mask_gen = df_generals['prov_ruler'] == ruler_name
+
         row_summary = ruler_row.copy()
         row_summary['prov_cnt'] = mask_prov.sum()
         row_summary['gold_sum'] = df_provinces.loc[mask_prov, 'gold'].sum()
