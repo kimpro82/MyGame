@@ -47,7 +47,7 @@ def extract_general_data(data, start=32, length=43, count=255):
             "cha": chunk[6],
             "fai": chunk[7],
             "vir": chunk[8],
-            "emb": chunk[9],
+            "amb": chunk[9],
             "ruler_idx": chunk[10],  # Ruler index this general belongs to
             "loy": chunk[11],
             "exp": chunk[12],
