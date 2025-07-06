@@ -21,7 +21,7 @@ a great journey to construct RTK2(Romance of The Three Kingdoms II, KOEI, 1989) 
 - Successfully analyzed the linked list structure of the save data and sorted ruler, province, and general data accordingly.
 - For practical use in gameplay, migration to VBA is required.
 
-- Code Structure : `RTK2_ArrangeSaveData.py`
+- Code Structure : `RTK2_SaveData_Extractor.py`
   <details>
     <summary>Flowchart</summary>
 
