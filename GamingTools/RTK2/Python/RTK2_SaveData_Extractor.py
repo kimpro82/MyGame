@@ -56,6 +56,8 @@ def extract_generals_from_save(data_bytes, start=32, length=43, count=255):
             "ruler_idx": chunk[10],  # Ruler index this general belongs to
             "loy": chunk[11],
             "exp": chunk[12],
+            "spy_idx": chunk[13],
+            "spy_exp": chunk[14],
             "syn": chunk[15],
             "soldiers": chunk[18] + chunk[19] * 256,
             "weapons": chunk[20] + chunk[21] * 256,
