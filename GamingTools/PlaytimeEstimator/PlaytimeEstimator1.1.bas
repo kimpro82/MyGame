@@ -39,36 +39,38 @@ End Sub
 ' Main workflow: collects file info, prints to sheet, sorts, and calculates playtime
 Sub Main()
 
-    ' Set reference points for reading, printing, and calculation
+    ' Set reference cells for input, output, and calculation
     Dim readZero    As Range
     Dim printZero   As Range
     Dim calZero     As Range
     Call SetZero(readZero, printZero, calZero)
 
-    ' Define and clear the output area
+    ' Clear the output area for new data
     Dim usingArea   As Range
     Call SetUsingArea(printZero, usingArea)
 
-    ' Get list of paths to scan
+    ' Read folder paths from worksheet
     Dim path(1 To MAX_PATH) As String
-    Dim pathLen     As Integer
+    Dim pathLen             As Integer
     Call GetPath(readZero, path, pathLen)
 
-    ' Collect file information
-    Dim data(1 To MAX_ROW) As FileInfo
-    Dim numFiles As Integer
+    ' Collect file information from folders
+    Dim data(1 To MAX_ROW)  As FileInfo
+    Dim numFiles            As Integer
     Call CollectFileInfos(path, pathLen, data, numFiles)
 
-    ' 파일 정보 출력
+    ' Print file information to worksheet
     Call PrintFileInfos(printZero, data, numFiles)
-    ' 시간순 정렬
+    ' Sort file data by last modified date
     Call SortData(printZero)
-    ' 플레이타임 계산용 배열 선언
+
+    ' Declare arrays for playtime and frequency
     Dim playTime(1 To 4) As Double
     Dim playFreq(1 To 4) As Integer
-    ' 플레이타임 계산 (정렬된 데이터 기준)
+    ' Calculate playtime and frequency (based on sorted data)
     Call GetPlayTime(printZero, calZero, numFiles, playTime, playFreq)
-    ' 결과 출력 (요약 및 플레이타임)
+
+    ' Print summary and playtime results
     Call PrintAllResults(printZero, calZero, data, numFiles, playTime, playFreq, pathLen)
 
 End Sub
@@ -77,7 +79,7 @@ End Sub
 ' Set reference cells for reading input, printing output, and calculation area
 Private Sub SetZero(ByRef readZero As Range, printZero As Range, calZero As Range)
 
-    Set readZero = Range("B2")      ' Input path list starts here
+    Set readZero = Range("B2")      ' Path list input starts here
     Set printZero = Range("A11")    ' Output data starts here
     Set calZero = Range("F3")       ' Calculation area starts here
 
@@ -201,18 +203,20 @@ End Sub
 
 
 ' Calculates playtime statistics and prints the results
-
 Private Sub GetPlayTime(ByRef printZero As Range, ByRef calZero As Range, ByRef numFiles As Integer, ByRef playTime() As Double, ByRef playFreq() As Integer)
+
     Dim terms(1 To 4) As Single
     ' Initialize playFreq array
     Dim i           As Integer
     For i = 1 To 4
         playFreq(i) = 1
     Next i
+
     ' Set playtime calculation terms (in hours)
     Call SetTerms(printZero, calZero, terms)
     ' Calculate playtime and frequency
     Call CalPlayTime(printZero, numFiles, terms, playTime, playFreq)
+
 End Sub
 
 
