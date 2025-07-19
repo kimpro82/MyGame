@@ -59,17 +59,17 @@ Sub Main()
     Dim numFiles As Integer
     Call CollectFileInfos(path, pathLen, data, numFiles)
 
-    ' Print file info to worksheet
+    ' 파일 정보 출력
     Call PrintFileInfos(printZero, data, numFiles)
-
-    ' Print summary info
-    Call PrintSummary(calZero, pathLen, numFiles)
-
-    ' Sort the printed data by last modified date
+    ' 시간순 정렬
     Call SortData(printZero)
-
-    ' Calculate and print playtime statistics
-    Call GetPlayTime(printZero, calZero, numFiles)
+    ' 플레이타임 계산용 배열 선언
+    Dim playTime(1 To 4) As Double
+    Dim playFreq(1 To 4) As Integer
+    ' 플레이타임 계산 (정렬된 데이터 기준)
+    Call GetPlayTime(printZero, calZero, numFiles, playTime, playFreq)
+    ' 결과 출력 (요약 및 플레이타임)
+    Call PrintAllResults(printZero, calZero, data, numFiles, playTime, playFreq, pathLen)
 
 End Sub
 
@@ -189,15 +189,6 @@ Private Sub PrintFileInfos(printZero As Range, data() As FileInfo, numFiles As I
 End Sub
 
 
-' Print summary information to the worksheet
-Private Sub PrintSummary(calZero As Range, pathLen As Integer, numFiles As Integer)
-
-    calZero.Offset(0, 0).Value = pathLen
-    calZero.Offset(2, 0).Value = numFiles
-
-End Sub
-
-
 ' Sorts the printed file data by last modified date (ascending)
 Private Sub SortData(ByRef printZero As Range)
 
@@ -210,25 +201,18 @@ End Sub
 
 
 ' Calculates playtime statistics and prints the results
-Private Sub GetPlayTime(ByRef printZero As Range, ByRef calZero As Range, ByRef numFiles As Integer)
 
-    Dim playTime(1 To 4) As Double
-    Dim playFreq(1 To 4) As Integer
+Private Sub GetPlayTime(ByRef printZero As Range, ByRef calZero As Range, ByRef numFiles As Integer, ByRef playTime() As Double, ByRef playFreq() As Integer)
     Dim terms(1 To 4) As Single
-
     ' Initialize playFreq array
     Dim i           As Integer
     For i = 1 To 4
         playFreq(i) = 1
     Next i
-
     ' Set playtime calculation terms (in hours)
     Call SetTerms(printZero, calZero, terms)
     ' Calculate playtime and frequency
     Call CalPlayTime(printZero, numFiles, terms, playTime, playFreq)
-    ' Print playtime calculation results
-    Call PrintPlayTime(calZero, numFiles, playTime, playFreq)
-
 End Sub
 
 
@@ -277,13 +261,22 @@ Private Sub CalPlayTime(ByRef printZero As Range, ByRef numFiles As Integer, ByR
                 playFreq(j) = playFreq(j) + 1
             End If
         Next j
-        ' Print intermediate results to worksheet
 
+        ' Print intermediate results to worksheet
         For j = 1 To 4
             printZero.Offset(i, 5 + 2 * (j - 1)).Value = playTime(j)
             printZero.Offset(i, 6 + 2 * (j - 1)).Value = playFreq(j)
         Next j
     Next i
+
+End Sub
+
+
+' Print summary information to the worksheet
+Private Sub PrintSummary(calZero As Range, pathLen As Integer, numFiles As Integer)
+
+    calZero.Offset(0, 0).Value = pathLen
+    calZero.Offset(2, 0).Value = numFiles
 
 End Sub
 
@@ -301,5 +294,15 @@ Private Sub PrintPlayTime(ByRef calZero As Range, numFiles As Integer, playTime 
             calZero.Offset(i - 1, 4).Value = 0
         End If
     Next i
+
+End Sub
+
+
+' Print all outputs (file info, summary, playtime)
+Private Sub PrintAllResults(printZero As Range, calZero As Range, data() As FileInfo, numFiles As Integer, playTime As Variant, playFreq As Variant, pathLen As Integer)
+
+    Call PrintFileInfos(printZero, data, numFiles)
+    Call PrintSummary(calZero, pathLen, numFiles)
+    Call PrintPlayTime(calZero, numFiles, playTime, playFreq)
 
 End Sub
