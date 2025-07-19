@@ -96,16 +96,19 @@ End Sub
 
 
 ' Collect file information from the specified paths into the data array
+
+' CollectFileInfos: Orchestrates folder collection and file info extraction
 Private Sub CollectFileInfos(path As Variant, pathLen As Integer, ByRef data() As FileInfo, ByRef numFiles As Integer)
-    Dim oFSO        As Object
-    Dim oFolder(1 To MAX_PATH)  As Object
-    Dim oFile       As Object
-    Dim i           As Integer
-    Dim idx         As Integer
-    On Error GoTo FolderErr
+    Dim oFolder(1 To MAX_PATH) As Object
+    Call CollectFolders(path, pathLen, oFolder)
+    Call CollectPngFileInfos(oFolder, pathLen, data, numFiles)
+End Sub
+
+' CollectFolders: Get folder objects from path array, handle missing folders
+Private Sub CollectFolders(path As Variant, pathLen As Integer, ByRef oFolder() As Object)
+    Dim oFSO As Object
+    Dim i As Integer
     Set oFSO = CreateObject("Scripting.FileSystemObject")
-    numFiles = 0
-    idx = 1
     For i = 1 To pathLen
         On Error Resume Next
         Set oFolder(i) = oFSO.GetFolder(path(i))
@@ -115,6 +118,16 @@ Private Sub CollectFileInfos(path As Variant, pathLen As Integer, ByRef data() A
             Set oFolder(i) = Nothing
         End If
         On Error GoTo 0
+    Next i
+End Sub
+
+' CollectPngFileInfos: Extract info for "알씨 PNG 파일" from folders into data array
+Private Sub CollectPngFileInfos(oFolder() As Object, pathLen As Integer, ByRef data() As FileInfo, ByRef numFiles As Integer)
+    Dim oFile As Object
+    Dim i As Integer
+    Dim idx As Integer
+    idx = 1
+    For i = 1 To pathLen
         If Not oFolder(i) Is Nothing Then
             For Each oFile In oFolder(i).Files
                 If oFile.Type = "알씨 PNG 파일" Then
@@ -129,10 +142,6 @@ Private Sub CollectFileInfos(path As Variant, pathLen As Integer, ByRef data() A
     Next i
     numFiles = idx - 1
     Debug.Print "numFiles : " & numFiles
-    Exit Sub
-FolderErr:
-    Debug.Print "FSO error: " & Err.Description
-    On Error GoTo 0
 End Sub
 
 ' Print file information to the worksheet
