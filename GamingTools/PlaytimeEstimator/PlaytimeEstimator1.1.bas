@@ -62,13 +62,13 @@ Sub Main()
     ' Print file information to worksheet
     Call PrintFileInfos(printZero, data, numFiles)
     ' Sort file data by last modified date
-    Call SortData(printZero)
+    Call SortData(data, numFiles)
 
     ' Declare arrays for playtime and frequency
     Dim playTime(1 To 4) As Double
     Dim playFreq(1 To 4) As Integer
     ' Calculate playtime and frequency (based on sorted data)
-    Call GetPlayTime(printZero, calZero, numFiles, playTime, playFreq)
+    Call GetPlayTime(data, printZero, calZero, numFiles, playTime, playFreq)
 
     ' Print summary and playtime results
     Call PrintAllResults(printZero, calZero, data, numFiles, playTime, playFreq, pathLen)
@@ -191,19 +191,27 @@ Private Sub PrintFileInfos(printZero As Range, data() As FileInfo, numFiles As I
 End Sub
 
 
-' Sorts the printed file data by last modified date (ascending)
-Private Sub SortData(ByRef printZero As Range)
 
-    ' Debug.Print printZero.End(xlDown).Address  ' e.g. $A$1416
-    Range(printZero, printZero.End(xlDown).Offset(0, 4)).Sort _
-        Key1:=printZero.Offset(0, 4), _
-        Order1:=xlAscending
+' Sorts the data array by fileDateLastModified (ascending)
+Private Sub SortData(ByRef data() As FileInfo, ByVal numFiles As Integer)
+
+    Dim i As Integer, j As Integer
+    Dim temp As FileInfo
+    For i = 1 To numFiles - 1
+        For j = i + 1 To numFiles
+            If data(i).fileDateLastModified > data(j).fileDateLastModified Then
+                temp = data(i)
+                data(i) = data(j)
+                data(j) = temp
+            End If
+        Next j
+    Next i
 
 End Sub
 
 
 ' Calculates playtime statistics and prints the results
-Private Sub GetPlayTime(ByRef printZero As Range, ByRef calZero As Range, ByRef numFiles As Integer, ByRef playTime() As Double, ByRef playFreq() As Integer)
+Private Sub GetPlayTime(ByRef data() As FileInfo, ByRef printZero As Range, ByRef calZero As Range, ByRef numFiles As Integer, ByRef playTime() As Double, ByRef playFreq() As Integer)
 
     Dim terms(1 To 4) As Single
     ' Initialize playFreq array
@@ -215,7 +223,7 @@ Private Sub GetPlayTime(ByRef printZero As Range, ByRef calZero As Range, ByRef 
     ' Set playtime calculation terms (in hours)
     Call SetTerms(printZero, calZero, terms)
     ' Calculate playtime and frequency
-    Call CalPlayTime(printZero, numFiles, terms, playTime, playFreq)
+    Call CalPlayTime(data, printZero, numFiles, terms, playTime, playFreq)
 
 End Sub
 
@@ -239,18 +247,29 @@ Private Sub SetTerms(ByRef printZero As Range, ByRef calZero As Range, ByRef ter
 End Sub
 
 
-' Calculates playtime and frequency arrays based on file modification times
-Private Sub CalPlayTime(ByRef printZero As Range, ByRef numFiles As Integer, ByRef terms As Variant, ByRef playTime As Variant, ByRef playFreq As Variant)
+
+' Calculates playtime and frequency arrays based on file modification times (using data array)
+Private Sub CalPlayTime(ByRef data() As FileInfo, ByRef printZero As Range, ByVal numFiles As Integer, ByRef terms As Variant, ByRef playTime As Variant, ByRef playFreq As Variant)
 
     Dim diff        As Double
     Dim i           As Integer
     Dim j           As Integer
     Dim continuous  As Integer
 
-    ' Calculate playTime() and playFreq()
-    For i = 1 To numFiles - 1
-        diff = (printZero.Offset(i, 4).Value - printZero.Offset(i - 1, 4).Value) * 24   ' hour
+    For i = 1 To 4
+        playTime(i) = 0
+        playFreq(i) = 1
+    Next i
+
+    For i = 1 To numFiles
+        If i = 1 Then
+            diff = 0
+        Else
+            diff = (data(i).fileDateLastModified - data(i - 1).fileDateLastModified) * 24   ' hour
+        End If
+
         continuous = 99
+
         For j = 1 To 4
             If diff < terms(j) Then
                 continuous = j
