@@ -1,84 +1,86 @@
+' Playtime Estimator Main Module / Version 1.1
+'
+' Date   : 2025.7.19.
+' Author : kimpro82
+'
+' This VBA module scans directories, collects file information, prints the data to the worksheet, and calculates playtime statistics.
+
+
 Option Explicit
 
+' Constants
+Const MAX_PATH  As Integer = 5  ' Maximum number of paths to scan
+Const MAX_ROW   As Long = 10000 ' Maximum number of rows and columns for output area
+Const MAX_COL   As Long = 12
 
-Const MAX_PATH As Integer = 5
-Const MAX_ROW As Long = 10000
-Const MAX_COL As Long = 12
-
-
+' Structure to hold file information
 Private Type FileInfo
-
-    fileName                As String
-    fileType                As String
-    fileSize                As Integer
-    fileDateLastModified    As Date
-
+    fileName                As String   ' Name of the file
+    fileType                As String   ' File type description
+    fileSize                As Integer  ' File size in bytes
+    fileDateLastModified    As Date     ' Last modified date
 End Type
 
-
+' Entry point for the button click event
 Private Sub btnRun_Click()
-
     Application.Calculation = xlManual
-        Call Main
+    Call Main
     Application.Calculation = xlAutomatic
-
 End Sub
 
-
+' Main workflow: collects file info, prints to sheet, sorts, and calculates playtime
 Sub Main()
-
-    ' Set zero points
+    ' Set reference points for reading, printing, and calculation
     Dim readZero    As Range
     Dim printZero   As Range
     Dim calZero     As Range
     Call SetZero(readZero, printZero, calZero)
 
-    ' Set area to print
+    ' Define and clear the output area
     Dim usingArea   As Range
     Call SetUsingArea(printZero, usingArea)
 
-    ' Get path
+    ' Get list of paths to scan
     Dim path(1 To MAX_PATH) As String
     Dim pathLen     As Integer
     Call GetPath(readZero, path, pathLen)
 
-    ' Get oFile collection's informations to 'data' array
-    Dim numFiles    As Integer
-    Call GetFileList(printZero, calZero, path, pathLen, numFiles)
+    ' Collect file information
+    Dim data(1 To MAX_ROW) As FileInfo
+    Dim numFiles As Integer
+    Call CollectFileInfos(path, pathLen, data, numFiles)
 
-    ' Sort data on the sheet by DateCreated
+    ' Print file info to worksheet
+    Call PrintFileInfos(printZero, data, numFiles)
+
+    ' Print summary info
+    Call PrintSummary(calZero, pathLen, numFiles)
+
+    ' Sort the printed data by last modified date
     Call SortData(printZero)
 
-    ' Get play time
+    ' Calculate and print playtime statistics
     Call GetPlayTime(printZero, calZero, numFiles)
-
 End Sub
 
-
-Sub SetZero(ByRef readZero As Range, printZero As Range, calZero As Range)
-
-    Set readZero = Range("B2")
-    Set printZero = Range("A11")
-    Set calZero = Range("F3")
-
+' Set reference cells for reading input, printing output, and calculation area
+Private Sub SetZero(ByRef readZero As Range, printZero As Range, calZero As Range)
+    Set readZero = Range("B2")      ' Input path list starts here
+    Set printZero = Range("A11")    ' Output data starts here
+    Set calZero = Range("F3")       ' Calculation area starts here
 End Sub
 
-
-Sub SetUsingArea(ByRef printZero As Range, ByRef usingArea As Range)
-
+' Clear the output area for fresh data
+Private Sub SetUsingArea(ByRef printZero As Range, ByRef usingArea As Range)
     Set usingArea = Range(printZero, printZero.Offset(MAX_ROW, MAX_COL))
-
     usingArea.ClearContents
-    ' usingArea.VerticalAlignment = xlCenter                                            ' why doesn't it work? aligned manually on the sheet
-
+    ' usingArea.VerticalAlignment = xlCenter  ' (Manual alignment on the sheet)
 End Sub
 
-
-Sub GetPath(ByRef readZero As Range, ByRef path As Variant, ByRef pathLen As Integer)   ' array should be passed as Variant
-
+' Read the list of folder paths from the worksheet
+Private Sub GetPath(ByRef readZero As Range, ByRef path As Variant, ByRef pathLen As Integer)
     pathLen = Range(readZero, readZero.End(xlDown)).Count
-        Debug.Print "pathLen : " & pathLen
-
+    Debug.Print "pathLen : " & pathLen
     If pathLen > 0 And readZero <> "" Then
         Dim i As Integer
         For i = 1 To pathLen
@@ -90,41 +92,29 @@ Sub GetPath(ByRef readZero As Range, ByRef path As Variant, ByRef pathLen As Int
         pathLen = 1
         Debug.Print path(1)
     End If
-
 End Sub
 
 
-Sub GetFileList(ByRef printZero As Range, ByRef calZero As Range, ByRef path As Variant, ByRef pathLen As Integer, ByRef numFiles As Integer)
-
+' Collect file information from the specified paths into the data array
+Private Sub CollectFileInfos(path As Variant, pathLen As Integer, ByRef data() As FileInfo, ByRef numFiles As Integer)
     Dim oFSO        As Object
     Dim oFolder(1 To MAX_PATH)  As Object
     Dim oFile       As Object
     Dim i           As Integer
     Dim idx         As Integer
-
     On Error GoTo FolderErr
     Set oFSO = CreateObject("Scripting.FileSystemObject")
     numFiles = 0
-    ' Get the length of the struct array
+    idx = 1
     For i = 1 To pathLen
         On Error Resume Next
         Set oFolder(i) = oFSO.GetFolder(path(i))
         If Err.Number <> 0 Then
-            Debug.Print "폴더를 찾을 수 없습니다: " & path(i)
+            Debug.Print "Folder not found: " & path(i)
             Err.Clear
             Set oFolder(i) = Nothing
         End If
         On Error GoTo 0
-        numFiles = numFiles + oFolder(i).Files.Count
-    Next i
-
-    ' Save data into the struct array
-    Dim data()      As FileInfo
-    If numFiles > 0 Then
-        ReDim data(1 To numFiles)
-    End If
-    idx = 1
-    For i = 1 To pathLen
         If Not oFolder(i) Is Nothing Then
             For Each oFile In oFolder(i).Files
                 If oFile.Type = "알씨 PNG 파일" Then
@@ -133,19 +123,21 @@ Sub GetFileList(ByRef printZero As Range, ByRef calZero As Range, ByRef path As 
                     data(idx).fileSize = oFile.Size
                     data(idx).fileDateLastModified = oFile.DateLastModified
                     idx = idx + 1
-                Else
-                    numFiles = numFiles - 1
                 End If
             Next oFile
         End If
     Next i
+    numFiles = idx - 1
     Debug.Print "numFiles : " & numFiles
+    Exit Sub
+FolderErr:
+    Debug.Print "FSO error: " & Err.Description
+    On Error GoTo 0
+End Sub
 
-    ' Print pathLen and numFiles
-    calZero.Offset(0, 0).Value = pathLen
-    calZero.Offset(2, 0).Value = numFiles
-
-    ' Print data on the sheet
+' Print file information to the worksheet
+Private Sub PrintFileInfos(printZero As Range, data() As FileInfo, numFiles As Integer)
+    Dim i As Integer
     For i = 1 To numFiles
         printZero.Offset(i - 1, 0) = i
         printZero.Offset(i - 1, 1) = data(i).fileName
@@ -153,87 +145,71 @@ Sub GetFileList(ByRef printZero As Range, ByRef calZero As Range, ByRef path As 
         printZero.Offset(i - 1, 3) = data(i).fileSize
         printZero.Offset(i - 1, 4) = data(i).fileDateLastModified
     Next i
-
-    Exit Sub
-
-FolderErr:
-    Debug.Print "FSO 오류 발생: " & Err.Description
-    On Error GoTo 0
-
 End Sub
 
+' Print summary information to the worksheet
+Private Sub PrintSummary(calZero As Range, pathLen As Integer, numFiles As Integer)
+    calZero.Offset(0, 0).Value = pathLen
+    calZero.Offset(2, 0).Value = numFiles
+End Sub
 
-Sub SortData(ByRef printZero As Range)
-
-    ' Debug.Print printZero.End(xlDown).Address                                         ' ok : $A$1416
+' Sorts the printed file data by last modified date (ascending)
+Private Sub SortData(ByRef printZero As Range)
+    ' Debug.Print printZero.End(xlDown).Address  ' e.g. $A$1416
     Range(printZero, printZero.End(xlDown).Offset(0, 4)).Sort _
         Key1:=printZero.Offset(0, 4), _
         Order1:=xlAscending
-
 End Sub
 
-
-Sub GetPlayTime(ByRef printZero As Range, ByRef calZero As Range, ByRef numFiles As Integer)
-
+' Calculates playtime statistics and prints the results
+Private Sub GetPlayTime(ByRef printZero As Range, ByRef calZero As Range, ByRef numFiles As Integer)
     Dim playTime(1 To 4) As Double
     Dim playFreq(1 To 4) As Integer
     Dim terms(1 To 4) As Single
-
-    ' Set playFreq() start from 1
+    ' Initialize playFreq array
     Dim i           As Integer
     For i = 1 To 4
         playFreq(i) = 1
     Next i
-
-    ' Set terms for calculating playTime
+    ' Set playtime calculation terms (in hours)
     Call SetTerms(printZero, calZero, terms)
-
-    ' Calculate
+    ' Calculate playtime and frequency
     Call CalPlayTime(printZero, numFiles, terms, playTime, playFreq)
-
-    ' Print calculation results
+    ' Print playtime calculation results
     Call PrintPlayTime(calZero, numFiles, playTime, playFreq)
-
 End Sub
 
-
-Sub SetTerms(ByRef printZero As Range, ByRef calZero As Range, ByRef terms As Variant)
-
-    ' Set terms for calculating playTime
+' Sets the playtime calculation terms and prints headers
+Private Sub SetTerms(ByRef printZero As Range, ByRef calZero As Range, ByRef terms As Variant)
+    ' Set terms for calculating playTime (in hours)
     terms(1) = 0.5
     terms(2) = 1
     terms(3) = 1.5
     terms(4) = 2
-
     Dim i As Integer
     For i = 1 To 4
         calZero.Offset(i - 1, 1).Value = terms(i) & "h"
         printZero.Offset(-1, 5 + 2 * (i - 1)).Value = terms(i) & "h"
         printZero.Offset(-1, 6 + 2 * (i - 1)).Value = "Freq" & terms(i) & "h"
     Next i
-
 End Sub
 
-
-Sub CalPlayTime(ByRef printZero As Range, ByRef numFiles As Integer, ByRef terms As Variant, ByRef playTime As Variant, ByRef playFreq As Variant)
-
+' Calculates playtime and frequency arrays based on file modification times
+Private Sub CalPlayTime(ByRef printZero As Range, ByRef numFiles As Integer, ByRef terms As Variant, ByRef playTime As Variant, ByRef playFreq As Variant)
     Dim diff        As Double
     Dim i           As Integer
     Dim j           As Integer
     Dim continuous  As Integer
-
     ' Calculate playTime() and playFreq()
     For i = 1 To numFiles - 1
         diff = (printZero.Offset(i, 4).Value - printZero.Offset(i - 1, 4).Value) * 24   ' hour
-
         continuous = 99
         For j = 1 To 4
             If diff < terms(j) Then
                 continuous = j
-                Exit For                                                                ' break
+                Exit For  ' break
             End If
         Next j
-
         For j = 1 To 4
             If continuous <= j Then
                 playTime(j) = playTime(j) + diff
@@ -241,24 +217,24 @@ Sub CalPlayTime(ByRef printZero As Range, ByRef numFiles As Integer, ByRef terms
                 playFreq(j) = playFreq(j) + 1
             End If
         Next j
-
+        ' Print intermediate results to worksheet
         For j = 1 To 4
             printZero.Offset(i, 5 + 2 * (j - 1)).Value = playTime(j)
             printZero.Offset(i, 6 + 2 * (j - 1)).Value = playFreq(j)
         Next j
     Next i
-
 End Sub
 
-
-Sub PrintPlayTime(ByRef calZero As Range, numFiles As Integer, playTime As Variant, playFreq As Variant)
-
-    ' Print calculation results
+' Prints the final playtime statistics to the worksheet
+Private Sub PrintPlayTime(ByRef calZero As Range, numFiles As Integer, playTime As Variant, playFreq As Variant)
     Dim i As Integer
     For i = 1 To 4
         calZero.Offset(i - 1, 2).Value = playTime(i)
         calZero.Offset(i - 1, 3).Value = playFreq(i)
-        calZero.Offset(i - 1, 4).Value = playTime(i) / playFreq(i)
+        If playFreq(i) <> 0 Then
+            calZero.Offset(i - 1, 4).Value = playTime(i) / playFreq(i)
+        Else
+            calZero.Offset(i - 1, 4).Value = 0
+        End If
     Next i
-
 End Sub
