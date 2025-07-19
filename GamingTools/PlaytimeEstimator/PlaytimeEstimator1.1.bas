@@ -58,10 +58,6 @@ Sub Main()
     Dim data(1 To MAX_ROW)  As FileInfo
     Dim numFiles            As Integer
     Call CollectFileInfos(path, pathLen, data, numFiles)
-
-    ' Print file information to worksheet
-    Call PrintFileInfos(printZero, data, numFiles)
-    ' Sort file data by last modified date
     Call SortData(data, numFiles)
 
     ' Declare arrays for playtime and frequency
@@ -176,22 +172,6 @@ Private Sub CollectPngFileInfos(oFolder() As Object, pathLen As Integer, ByRef d
 End Sub
 
 
-' Print file information to the worksheet
-Private Sub PrintFileInfos(printZero As Range, data() As FileInfo, numFiles As Integer)
-
-    Dim i As Integer
-    For i = 1 To numFiles
-        printZero.Offset(i - 1, 0) = i
-        printZero.Offset(i - 1, 1) = data(i).fileName
-        printZero.Offset(i - 1, 2) = data(i).fileType
-        printZero.Offset(i - 1, 3) = data(i).fileSize
-        printZero.Offset(i - 1, 4) = data(i).fileDateLastModified
-    Next i
-
-End Sub
-
-
-
 ' Sorts the data array by fileDateLastModified (ascending)
 Private Sub SortData(ByRef data() As FileInfo, ByVal numFiles As Integer)
 
@@ -290,6 +270,21 @@ Private Sub CalPlayTime(ByRef data() As FileInfo, ByRef printZero As Range, ByVa
             printZero.Offset(i, 5 + 2 * (j - 1)).Value = playTime(j)
             printZero.Offset(i, 6 + 2 * (j - 1)).Value = playFreq(j)
         Next j
+    Next i
+
+End Sub
+
+
+' Print file information to the worksheet
+Private Sub PrintFileInfos(printZero As Range, data() As FileInfo, numFiles As Integer)
+
+    Dim i As Integer
+    For i = 1 To numFiles
+        printZero.Offset(i - 1, 0) = i
+        printZero.Offset(i - 1, 1) = data(i).fileName
+        printZero.Offset(i - 1, 2) = data(i).fileType
+        printZero.Offset(i - 1, 3) = data(i).fileSize
+        printZero.Offset(i - 1, 4) = data(i).fileDateLastModified
     Next i
 
 End Sub
