@@ -9,12 +9,6 @@
 Option Explicit
 
 
-' Constants
-Const MAX_PATH  As Integer = 5  ' Maximum number of paths to scan
-Const MAX_ROW   As Long = 10000 ' Maximum number of rows and columns for output area
-Const MAX_COL   As Long = 12
-
-
 ' Structure to hold file information
 Private Type FileInfo
 
@@ -24,6 +18,23 @@ Private Type FileInfo
     fileDateLastModified    As Date     ' Last modified date
 
 End Type
+
+
+' Constants
+Const MAX_PATH  As Integer = 5  ' Maximum number of paths to scan
+Const MAX_ROW   As Long = 10000 ' Maximum number of rows and columns for output area
+Const MAX_COL   As Long = 12
+
+Private Const PLAYTIME_TERM_COUNT As Integer = 4
+Private PLAYTIME_TERMS(1 To PLAYTIME_TERM_COUNT) As Double
+Private Sub InitPlaytimeTerms() ' Initialize playtime terms
+
+    PLAYTIME_TERMS(1) = 0.5
+    PLAYTIME_TERMS(2) = 1
+    PLAYTIME_TERMS(3) = 1.5
+    PLAYTIME_TERMS(4) = 2
+
+End Sub
 
 
 ' Entry point for the button click event
@@ -60,6 +71,8 @@ Sub Main()
     Call CollectFileInfos(path, pathLen, data, numFiles)
     Call SortData(data, numFiles)
 
+    ' Initialize playtime terms
+    Call InitPlaytimeTerms
     ' Declare arrays for playtime and frequency
     Dim playTime(1 To 4) As Double
     Dim playFreq(1 To 4) As Integer
@@ -87,7 +100,7 @@ Private Sub SetUsingArea(ByRef printZero As Range, ByRef usingArea As Range)
 
     Set usingArea = Range(printZero, printZero.Offset(MAX_ROW, MAX_COL))
     usingArea.ClearContents
-    ' usingArea.VerticalAlignment = xlCenter  ' (Manual alignment on the sheet)
+    ' usingArea.VerticalAlignment = xlCenter  ' (Doesn't work, instead, manual alignment on the sheet)
 
 End Sub
 
@@ -211,21 +224,15 @@ End Sub
 ' Sets the playtime calculation terms and prints headers
 Private Sub SetTerms(ByRef printZero As Range, ByRef calZero As Range, ByRef terms As Variant)
 
-    ' Set terms for calculating playTime (in hours)
-    terms(1) = 0.5
-    terms(2) = 1
-    terms(3) = 1.5
-    terms(4) = 2
-
     Dim i As Integer
-    For i = 1 To 4
+    For i = 1 To PLAYTIME_TERM_COUNT
+        terms(i) = PLAYTIME_TERMS(i)
         calZero.Offset(i - 1, 1).Value = terms(i) & "h"
         printZero.Offset(-1, 5 + 2 * (i - 1)).Value = terms(i) & "h"
         printZero.Offset(-1, 6 + 2 * (i - 1)).Value = "Freq" & terms(i) & "h"
     Next i
 
 End Sub
-
 
 
 ' Calculates playtime and frequency arrays based on file modification times (using data array)
@@ -264,29 +271,27 @@ Private Sub CalPlayTime(ByRef data() As FileInfo, ByRef printZero As Range, ByVa
                 playFreq(j) = playFreq(j) + 1
             End If
         Next j
-
-        ' Print intermediate results to worksheet
-        For j = 1 To 4
-            printZero.Offset(i, 5 + 2 * (j - 1)).Value = playTime(j)
-            printZero.Offset(i, 6 + 2 * (j - 1)).Value = playFreq(j)
-        Next j
     Next i
 
 End Sub
 
 
 ' Print file information to the worksheet
-Private Sub PrintFileInfos(printZero As Range, data() As FileInfo, numFiles As Integer)
-
-    Dim i As Integer
+Private Sub PrintFileInfos(printZero As Range, data() As FileInfo, numFiles As Integer, Optional playTime As Variant, Optional playFreq As Variant)
+    Dim i As Integer, j As Integer
     For i = 1 To numFiles
         printZero.Offset(i - 1, 0) = i
         printZero.Offset(i - 1, 1) = data(i).fileName
         printZero.Offset(i - 1, 2) = data(i).fileType
         printZero.Offset(i - 1, 3) = data(i).fileSize
         printZero.Offset(i - 1, 4) = data(i).fileDateLastModified
+        If Not IsMissing(playTime) And Not IsMissing(playFreq) Then
+            For j = 1 To 4
+                printZero.Offset(i, 5 + 2 * (j - 1)).Value = playTime(j)
+                printZero.Offset(i, 6 + 2 * (j - 1)).Value = playFreq(j)
+            Next j
+        End If
     Next i
-
 End Sub
 
 
@@ -319,7 +324,7 @@ End Sub
 ' Print all outputs (file info, summary, playtime)
 Private Sub PrintAllResults(printZero As Range, calZero As Range, data() As FileInfo, numFiles As Integer, playTime As Variant, playFreq As Variant, pathLen As Integer)
 
-    Call PrintFileInfos(printZero, data, numFiles)
+    Call PrintFileInfos(printZero, data, numFiles, playTime, playFreq)
     Call PrintSummary(calZero, pathLen, numFiles)
     Call PrintPlayTime(calZero, numFiles, playTime, playFreq)
 
