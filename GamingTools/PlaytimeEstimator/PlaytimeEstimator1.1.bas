@@ -188,6 +188,7 @@ Private Sub PrintFileInfos(printZero As Range, data() As FileInfo, numFiles As I
 
 End Sub
 
+
 ' Print summary information to the worksheet
 Private Sub PrintSummary(calZero As Range, pathLen As Integer, numFiles As Integer)
 
@@ -283,6 +284,7 @@ Private Sub CalPlayTime(ByRef printZero As Range, ByRef numFiles As Integer, ByR
             printZero.Offset(i, 6 + 2 * (j - 1)).Value = playFreq(j)
         Next j
     Next i
+
 End Sub
 
 
