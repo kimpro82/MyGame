@@ -74,8 +74,10 @@ Sub Main()
     ' Initialize playtime terms
     Call InitPlaytimeTerms
     ' Declare arrays for playtime and frequency
-    Dim playTime(1 To 4) As Double
-    Dim playFreq(1 To 4) As Integer
+    Dim playTime() As Double
+    Dim playFreq() As Integer
+    ReDim playTime(1 To numFiles, 1 To 4) As Double
+    ReDim playFreq(1 To numFiles, 1 To 4) As Integer
     ' Calculate playtime and frequency (based on sorted data)
     Call GetPlayTime(data, printZero, calZero, numFiles, playTime, playFreq)
 
@@ -207,11 +209,6 @@ End Sub
 Private Sub GetPlayTime(ByRef data() As FileInfo, ByRef printZero As Range, ByRef calZero As Range, ByRef numFiles As Integer, ByRef playTime() As Double, ByRef playFreq() As Integer)
 
     Dim terms(1 To 4) As Single
-    ' Initialize playFreq array
-    Dim i           As Integer
-    For i = 1 To 4
-        playFreq(i) = 1
-    Next i
 
     ' Set playtime calculation terms (in hours)
     Call SetTerms(printZero, calZero, terms)
@@ -243,34 +240,36 @@ Private Sub CalPlayTime(ByRef data() As FileInfo, ByRef printZero As Range, ByVa
     Dim j           As Integer
     Dim continuous  As Integer
 
-    For i = 1 To 4
-        playTime(i) = 0
-        playFreq(i) = 1
-    Next i
-
     For i = 1 To numFiles
         If i = 1 Then
+            For j = 1 To 4
+                playTime(i, j) = 0
+                playFreq(i, j) = 1
+            Next j
             diff = 0
         Else
             diff = (data(i).fileDateLastModified - data(i - 1).fileDateLastModified) * 24   ' hour
+        
+            continuous = 99
+    
+            For j = 1 To 4
+                If diff < terms(j) Then
+                    continuous = j
+                    Exit For  ' break
+                End If
+            Next j
+    
+            For j = 1 To 4
+                ' Debug.Print i, j, playTime(i - 1, j), playFreq(i - 1, j)                  ' For Test
+                If continuous <= j Then
+                    playTime(i, j) = playTime(i - 1, j) + diff
+                    playFreq(i, j) = playFreq(i - 1, j)
+                Else
+                    playFreq(i, j) = playFreq(i - 1, j) + 1
+                    playTime(i, j) = playTime(i - 1, j)
+                End If
+            Next j
         End If
-
-        continuous = 99
-
-        For j = 1 To 4
-            If diff < terms(j) Then
-                continuous = j
-                Exit For  ' break
-            End If
-        Next j
-
-        For j = 1 To 4
-            If continuous <= j Then
-                playTime(j) = playTime(j) + diff
-            Else
-                playFreq(j) = playFreq(j) + 1
-            End If
-        Next j
     Next i
 
 End Sub
@@ -278,6 +277,7 @@ End Sub
 
 ' Print file information to the worksheet
 Private Sub PrintFileInfos(printZero As Range, data() As FileInfo, numFiles As Integer, Optional playTime As Variant, Optional playFreq As Variant)
+
     Dim i As Integer, j As Integer
     For i = 1 To numFiles
         printZero.Offset(i - 1, 0) = i
@@ -287,11 +287,12 @@ Private Sub PrintFileInfos(printZero As Range, data() As FileInfo, numFiles As I
         printZero.Offset(i - 1, 4) = data(i).fileDateLastModified
         If Not IsMissing(playTime) And Not IsMissing(playFreq) Then
             For j = 1 To 4
-                printZero.Offset(i, 5 + 2 * (j - 1)).Value = playTime(j)
-                printZero.Offset(i, 6 + 2 * (j - 1)).Value = playFreq(j)
+                printZero.Offset(i - 1, 5 + 2 * (j - 1)).Value = playTime(i, j)
+                printZero.Offset(i - 1, 6 + 2 * (j - 1)).Value = playFreq(i, j)
             Next j
         End If
     Next i
+
 End Sub
 
 
@@ -309,10 +310,10 @@ Private Sub PrintPlayTime(ByRef calZero As Range, numFiles As Integer, playTime 
 
     Dim i As Integer
     For i = 1 To 4
-        calZero.Offset(i - 1, 2).Value = playTime(i)
-        calZero.Offset(i - 1, 3).Value = playFreq(i)
-        If playFreq(i) <> 0 Then
-            calZero.Offset(i - 1, 4).Value = playTime(i) / playFreq(i)
+        calZero.Offset(i - 1, 2).Value = playTime(numFiles, i)
+        calZero.Offset(i - 1, 3).Value = playFreq(numFiles, i)
+        If playFreq(numFiles, i) <> 0 Then
+            calZero.Offset(i - 1, 4).Value = playTime(numFiles, i) / playFreq(numFiles, i)
         Else
             calZero.Offset(i - 1, 4).Value = 0
         End If
