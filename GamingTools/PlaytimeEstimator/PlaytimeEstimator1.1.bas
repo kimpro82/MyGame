@@ -21,13 +21,17 @@ End Type
 
 
 ' Constants
-Const MAX_PATH  As Integer = 5  ' Maximum number of paths to scan
-Const MAX_ROW   As Long = 10000 ' Maximum number of rows and columns for output area
-Const MAX_COL   As Long = 12
+Const CELL_PATH_INPUT   As String = "B2"    ' Path list input starts here
+Const CELL_OUTPUT_START As String = "A11"   ' Output data starts here
+Const CELL_CALC_START   As String = "F3"    ' Calculation area starts here
+
+Const MAX_PATH          As Integer = 5      ' Maximum number of paths to scan
+Const MAX_ROW           As Long = 10000     ' Maximum number of rows and columns for output area
+Const MAX_COL           As Long = 12
 
 Private Const PLAYTIME_TERM_COUNT As Integer = 4
 Private PLAYTIME_TERMS(1 To PLAYTIME_TERM_COUNT) As Double
-Private Sub InitPlaytimeTerms() ' Initialize playtime terms
+Private Sub InitPlaytimeTerms()             ' Initialize playtime terms
 
     PLAYTIME_TERMS(1) = 0.5
     PLAYTIME_TERMS(2) = 1
@@ -91,9 +95,9 @@ End Sub
 ' Set reference cells for reading input, printing output, and calculation area
 Private Sub SetZero(ByRef readZero As Range, printZero As Range, calZero As Range)
 
-    Set readZero = Range("B2")      ' Path list input starts here
-    Set printZero = Range("A11")    ' Output data starts here
-    Set calZero = Range("F3")       ' Calculation area starts here
+    Set readZero = Range(CELL_PATH_INPUT)
+    Set printZero = Range(CELL_OUTPUT_START)
+    Set calZero = Range(CELL_CALC_START)
 
 End Sub
 
