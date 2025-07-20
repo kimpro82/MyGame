@@ -5,8 +5,48 @@ Estimate game playtime and frequency based on capture images' information
 
 ### \<List>
 
+- [Playtime Estimator 1.1 (2025.07.19)](#playtime-estimator-11-20250719)
 - [Playtime Estimator 2 (2023.04.21)](#playtime-estimator-2-20230421)
 - [Playtime Estimator (2022.07.18)](#playtime-estimator-20220718)
+
+
+## [Playtime Estimator 1.1 (2025.07.19)](#list)
+
+- Refactor from [Playtime Estimator (2022.07.18)](#playtime-estimator-20220718)
+
+  ![PlayTimeEstimator_1.1_20250719](./Images/PlayTimeEstimator_1.1_20250719.PNG)
+
+- Improvements
+  - Modular Code Structure and Readability
+    - `GetFileList()` → `CollectFileInfos()` with `CollectFolders()` `CollectPngFileInfos()`
+    - Seperate `InitPlaytimeTerms()` from `SetTerms()`
+    - Integrate `PrintFileInfos()` `PrintSummary()` `PrintPlayTime()` into `PrintAllResults()`
+  - Array-Based Data Processing
+    - Deal with `data` through `CollectFileInfos()` `SortData()` `GetPlayTime()` `PrintAllResults()`
+  - Maintainability via Constants
+    - Declare constants `MAX_PATH` `MAX_ROW` `MAX_COL` `PLAYTIME_TERM_COUNT`
+  <details>
+  <summary>Flowchart</summary>
+
+  ```mermaid
+  flowchart TD
+      A[btnRun_Click] --> B
+      B[Get & Set Arguements : SetZero, SetUsingArea, and GetPath] -->  C
+      C[Collect Folders and Files' Infos : CollectFileInfos with CollectFolders, and CollectPngFileInfos] --> D
+      D[Sort Data in Array Operation : SortData] --> E
+      E[Get Play Time : InitPlaytimeTerms, GetPlayTime with SetTerms, and CalPlayTime] --> F
+      F[Print The Results : PrintAllResults with PrintFileInfos, PrintSummary, and PrintPlayTime] --> G
+      G[End]
+  
+      subgraph Main
+          B
+          C
+          D
+          E
+          F
+      end
+  ```
+  </details>
 
 
 ## [Playtime Estimator 2 (2023.04.21)](#list)
