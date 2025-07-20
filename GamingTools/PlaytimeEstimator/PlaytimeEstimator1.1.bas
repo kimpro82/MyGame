@@ -40,6 +40,7 @@ End Sub
 ' Entry point for the button click event
 Private Sub btnRun_Click()
 
+    ' Temporarily set calculation to manual for performance, then run main logic
     Application.Calculation = xlManual
     Call Main
     Application.Calculation = xlAutomatic
@@ -47,7 +48,7 @@ Private Sub btnRun_Click()
 End Sub
 
 
-' Main workflow: collects file info, prints to sheet, sorts, and calculates playtime
+' Main workflow: collects file info, sorts, calculates playtime, and prints results
 Sub Main()
 
     ' Set reference cells for input, output, and calculation
@@ -97,7 +98,7 @@ Private Sub SetZero(ByRef readZero As Range, printZero As Range, calZero As Rang
 End Sub
 
 
-' Clear the output area for fresh data
+' Clear the output area for new data
 Private Sub SetUsingArea(ByRef printZero As Range, ByRef usingArea As Range)
 
     Set usingArea = Range(printZero, printZero.Offset(MAX_ROW, MAX_COL))
@@ -128,7 +129,7 @@ Private Sub GetPath(ByRef readZero As Range, ByRef path As Variant, ByRef pathLe
 End Sub
 
 
-' Orchestrates folder collection and file info extraction
+' Collect folder objects and PNG file information
 Private Sub CollectFileInfos(path As Variant, pathLen As Integer, ByRef data() As FileInfo, ByRef numFiles As Integer)
 
     Dim oFolder(1 To MAX_PATH) As Object
