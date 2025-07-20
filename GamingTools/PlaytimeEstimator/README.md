@@ -18,7 +18,7 @@ Estimate game playtime and frequency based on capture images' information
 
 - Improvements
   - Modular Code Structure and Readability
-    - `GetFileList()` → `CollectFileInfos()` with `CollectFolders()` `CollectPngFileInfos()`
+    - Divide `GetFileList()` into `CollectFileInfos()` with `CollectFolders()` `CollectPngFileInfos()`
     - Seperate `InitPlaytimeTerms()` from `SetTerms()`
     - Integrate `PrintFileInfos()` `PrintSummary()` `PrintPlayTime()` into `PrintAllResults()`
   - Array-Based Data Processing
