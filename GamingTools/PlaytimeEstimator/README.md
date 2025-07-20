@@ -19,10 +19,11 @@ Estimate game playtime and frequency based on capture images' information
 - Improvements
   - Modular Code Structure and Readability
     - Divide `GetFileList()` into `CollectFileInfos()` with `CollectFolders()` `CollectPngFileInfos()`
-    - Seperate `InitPlaytimeTerms()` from `SetTerms()`
+    - Separate `InitPlaytimeTerms()` from `SetTerms()`
     - Integrate `PrintFileInfos()` `PrintSummary()` `PrintPlayTime()` into `PrintAllResults()`
   - Array-Based Data Processing
-    - Deal with `data` through `CollectFileInfos()` `SortData()` `GetPlayTime()` `PrintAllResults()`
+    - Deal with `data` array through all major steps; `CollectFileInfos()` `SortData()` `GetPlayTime()` `PrintAllResults()`
+    - Playtime and frequency data are calculated and accumulated in arrays, rather than on the worksheet
   - Maintainability via Constants
     - Declare constants `MAX_PATH` `MAX_ROW` `MAX_COL` `PLAYTIME_TERM_COUNT`
   <details>
