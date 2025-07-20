@@ -25,7 +25,7 @@ Estimate game playtime and frequency based on capture images' information
     - Deal with `data` array through all major steps; `CollectFileInfos()` `SortData()` `GetPlayTime()` `PrintAllResults()`
     - Playtime and frequency data are calculated and accumulated in arrays, rather than on the worksheet
   - Maintainability via Constants
-    - Declare constants `MAX_PATH` `MAX_ROW` `MAX_COL` `PLAYTIME_TERM_COUNT`
+    - Declare constants `CELL_PATH_INPUT` `CELL_OUTPUT_START` `CELL_CALC_START` `MAX_PATH` `MAX_ROW` `MAX_COL` `PLAYTIME_TERM_COUNT`
   <details>
   <summary>Flowchart</summary>
 
