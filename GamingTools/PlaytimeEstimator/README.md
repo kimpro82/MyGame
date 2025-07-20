@@ -5,11 +5,52 @@ Estimate game playtime and frequency based on capture images' information
 
 ### \<List>
 
-- [Playtime Estimator 2 (2023.04.21)](#playtime-estimator-2-20230421)
-- [Playtime Estimator (2022.07.18)](#playtime-estimator-20220718)
+- [Playtime Estimator 1.1 (VBA, 2025.07.19)](#playtime-estimator-11-vba-20250719)
+- [Playtime Estimator 2 (Batchfile, 2023.04.21)](#playtime-estimator-2-batchfile-20230421)
+- [Playtime Estimator 1 (VBA, 2022.07.18)](#playtime-estimator-1-vba-20220718)
 
 
-## [Playtime Estimator 2 (2023.04.21)](#list)
+## [Playtime Estimator 1.1 (VBA, 2025.07.19)](#list)
+
+- Refactor from [Playtime Estimator (2022.07.18)](#playtime-estimator-20220718)
+
+  ![PlayTimeEstimator_1.1_20250719](./Images/PlayTimeEstimator_1.1_20250719.PNG)
+
+- Improvements
+  - Modular Code Structure and Readability
+    - Divide `GetFileList()` into `CollectFileInfos()` with `CollectFolders()` `CollectPngFileInfos()`
+    - Separate `InitPlaytimeTerms()` from `SetTerms()`
+    - Integrate `PrintFileInfos()` `PrintSummary()` `PrintPlayTime()` into `PrintAllResults()`
+  - Array-Based Data Processing
+    - Deal with `data` array through all major steps; `CollectFileInfos()` `SortData()` `GetPlayTime()` `PrintAllResults()`
+    - Playtime and frequency data are calculated and accumulated in arrays, rather than on the worksheet
+  - Maintainability via Constants
+    - Declare constants `CELL_PATH_INPUT` `CELL_OUTPUT_START` `CELL_CALC_START` `MAX_PATH` `MAX_ROW` `MAX_COL` `PLAYTIME_TERM_COUNT`
+  <details>
+  <summary>Flowchart</summary>
+
+  ```mermaid
+  flowchart TD
+      A[btnRun_Click] --> B
+      B[Get & Set Arguements : SetZero, SetUsingArea, and GetPath] -->  C
+      C[Collect Folders and Files' Infos : CollectFileInfos with CollectFolders, and CollectPngFileInfos] --> D
+      D[Sort Data in Array Operation : SortData] --> E
+      E[Get Play Time : InitPlaytimeTerms, GetPlayTime with SetTerms, and CalPlayTime] --> F
+      F[Print The Results : PrintAllResults with PrintFileInfos, PrintSummary, and PrintPlayTime] --> G
+      G[End]
+  
+      subgraph Main
+          B
+          C
+          D
+          E
+          F
+      end
+  ```
+  </details>
+
+
+## [Playtime Estimator 2 (Batchfile, 2023.04.21)](#list)
 
 - Features
   - Estimate the execution time of the `.exe` file directly by *batchfile*(`.bat`), without relying on captured image saving times indirectly  
@@ -110,7 +151,7 @@ Estimate game playtime and frequency based on capture images' information
   </details>
 
 
-## [Playtime Estimator (2022.07.18)](#list)
+## [Playtime Estimator 1 (VBA, 2022.07.18)](#list)
 
 - Assumption : If the interval between two images is short enough, that are captured steadily during play, I would play continuously during the period.
 - Technique : deal VBA objects related with the file system

@@ -11,8 +11,9 @@ Game is to handle data
 
 Estimate game playtime and frequency based on capture images' information
 
-- [Playtime Estimator 2 (2023.04.21)](/GamingTools/PlaytimeEstimator/README.md#playtime-estimator-2-20230421)
-- [Playtime Estimator (2022.07.18)](/GamingTools/PlaytimeEstimator/README.md#playtime-estimator-20220718)
+- [Playtime Estimator 1.1 (VBA, 2025.07.19)](/GamingTools/PlaytimeEstimator/README.md#playtime-estimator-11-vba-20250719)
+- [Playtime Estimator 2 (Batchfile, 2023.04.21)](/GamingTools/PlaytimeEstimator/README.md#playtime-estimator-2-batchfile-20230421)
+- [Playtime Estimator 1 (VBA, 2022.07.18)](/GamingTools/PlaytimeEstimator/README.md#playtime-estimator-1-vba-20220718)
 
 
 ### [Game Capture Image Cropper](/GamingTools/ImageCropper/)
