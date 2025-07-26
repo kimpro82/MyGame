@@ -116,7 +116,7 @@ End Function
 
 ' Ruler 데이터 추출
 Function ExtractRulers(dataBytes() As Byte, generals As Variant) As Variant
-    Dim rulers(1 To 16, 1 To 40) As Variant
+    Dim rulers(1 To 16, 1 To 39) As Variant
     Dim i As Integer, j As Integer, offset As Long, rulerIdx As Integer, advisorIdx As Integer, capitalIdx As Integer
     For i = 1 To 16
         offset = 11004 + (i - 1) * 41
@@ -128,38 +128,190 @@ Function ExtractRulers(dataBytes() As Byte, generals As Variant) As Variant
         Else
             rulers(i, 2) = ""
         End If
-        rulers(i, 3) = capitalIdx
-        rulers(i, 4) = advisorIdx
+        rulers(i, 3) = (dataBytes(offset + 3) + dataBytes(offset + 4) * 256 - 21 - 11660) \ 35
         If advisorIdx >= 0 And advisorIdx <= 255 Then
-            rulers(i, 5) = generals(advisorIdx, 3) ' advisor_name
+            rulers(i, 4) = generals(advisorIdx, 3) ' advisor_name
         Else
-            rulers(i, 5) = ""
+            rulers(i, 4) = ""
         End If
-        rulers(i, 6) = dataBytes(offset + 7) ' trust
+        rulers(i, 5) = dataBytes(offset + 7) ' trust
         ' Debug.Print i, advisorIdx, capitalIdx, rulers(i, 2), rulers(i, 5), rulers(i, 6)  ' Ok
-        rulers(i, 7) = dataBytes(offset + 8) ' ?
-        rulers(i, 8) = dataBytes(offset + 9) ' ?
-        rulers(i, 9) = dataBytes(offset + 10) ' ?
-        rulers(i, 10) = dataBytes(offset + 11) ' ?
-        rulers(i, 11) = dataBytes(offset + 12) ' ?
-        rulers(i, 12) = dataBytes(offset + 13) ' ?
-        rulers(i, 13) = dataBytes(offset + 14) ' ?
+        rulers(i, 6) = dataBytes(offset + 8) ' ?
+        rulers(i, 7) = dataBytes(offset + 9) ' ?
+        rulers(i, 8) = dataBytes(offset + 10) ' ?
+        rulers(i, 9) = dataBytes(offset + 11) ' ?
+        rulers(i, 10) = dataBytes(offset + 12) ' ?
+        rulers(i, 11) = dataBytes(offset + 13) ' ?
+        rulers(i, 12) = dataBytes(offset + 14) ' ?
         For j = 15 To 30
-            rulers(i, j - 1) = dataBytes(offset + j) ' hostility
+            rulers(i, j - 2) = dataBytes(offset + j) ' hostility
         Next j
-        rulers(i, 30) = dataBytes(offset + 31) ' ?
-        rulers(i, 31) = dataBytes(offset + 32) ' ?
-        rulers(i, 32) = dataBytes(offset + 33) ' ?
-        rulers(i, 33) = dataBytes(offset + 34) ' ?
-        rulers(i, 34) = dataBytes(offset + 35) ' ?
-        rulers(i, 35) = dataBytes(offset + 36) ' ?
-        rulers(i, 36) = dataBytes(offset + 37) ' ?
-        rulers(i, 37) = dataBytes(offset + 38) ' ?
-        rulers(i, 38) = dataBytes(offset + 39) ' ?
-        rulers(i, 39) = dataBytes(offset + 40) ' ?
-        rulers(i, 40) = dataBytes(offset + 41) ' ?
+        rulers(i, 29) = dataBytes(offset + 31) ' ?
+        rulers(i, 30) = dataBytes(offset + 32) ' ?
+        rulers(i, 31) = dataBytes(offset + 33) ' ?
+        rulers(i, 32) = dataBytes(offset + 34) ' ?
+        rulers(i, 33) = dataBytes(offset + 35) ' ?
+        rulers(i, 34) = dataBytes(offset + 36) ' ?
+        rulers(i, 35) = dataBytes(offset + 37) ' ?
+        rulers(i, 36) = dataBytes(offset + 38) ' ?
+        rulers(i, 37) = dataBytes(offset + 39) ' ?
+        rulers(i, 38) = dataBytes(offset + 40) ' ?
+        rulers(i, 39) = dataBytes(offset + 41) ' ?
     Next i
     ExtractRulers = rulers
+End Function
+
+' Ruler의 capital_idx부터 province를 연결 리스트 순서대로 정렬
+Function LinkProvincesByRuler(rulers As Variant, provinces As Variant) As Variant
+    Dim linkedRows() As Variant
+    Dim visited() As Boolean
+    Dim i As Integer, j As Integer, currentIdx As Integer, nextIdx As Integer, rowCount As Integer
+    Dim provCount As Integer: provCount = UBound(provinces, 1)
+    ReDim visited(1 To provCount)
+    ReDim linkedRows(1 To provCount, 1 To UBound(provinces, 2) + 1) ' +1 for ruler_name
+
+    rowCount = 0
+    For i = 1 To UBound(rulers, 1)
+        currentIdx = rulers(i, 3) ' capital_idx
+        Do While currentIdx >= 1 And currentIdx <= provCount
+            If Not visited(currentIdx) Then
+                visited(currentIdx) = True
+                rowCount = rowCount + 1
+                For j = 1 To UBound(provinces, 2)
+                    linkedRows(rowCount, j) = provinces(currentIdx, j)
+                Next j
+                linkedRows(rowCount, UBound(provinces, 2) + 1) = rulers(i, 2) ' ruler_name
+                nextIdx = provinces(currentIdx, 2) ' next_prov_idx
+                currentIdx = nextIdx
+            End If
+        Loop
+    Next i
+    ' Unowned provinces 추가
+    For i = 1 To provCount
+        If provinces(i, 13) = 255 And Not visited(i) Then
+            rowCount = rowCount + 1
+            For j = 1 To UBound(provinces, 2)
+                linkedRows(rowCount, j) = provinces(i, j)
+            Next j
+            linkedRows(rowCount, 4) = Empty
+        End If
+    Next i
+    ' ReDim Preserve linkedRows(1 To rowCount, 1 To UBound(provinces, 2) + 1)
+    LinkProvincesByRuler = linkedRows
+End Function
+
+' Province의 governor_idx부터 general을 연결 리스트 순서대로 정렬
+Function LinkGeneralsByProvince(linkedProvinces As Variant, generals As Variant) As Variant
+    Dim linkedRows() As Variant
+    Dim rowCount As Integer: rowCount = 0
+    Dim genCount As Integer: genCount = UBound(generals, 1)
+    Dim i As Integer, currentGenIdx As Integer, nextGenIdx As Integer
+    ReDim linkedRows(1 To genCount * 2, 1 To UBound(generals, 2) + 3) ' +3 for prov_idx, prov_governor, prov_ruler
+
+    For i = 1 To UBound(linkedProvinces, 1)
+        currentGenIdx = linkedProvinces(i, 3) ' governor_idx
+        Dim visitedGen() As Boolean
+        ReDim visitedGen(1 To genCount)
+        Do While currentGenIdx <> -1 And currentGenIdx >= 1 And currentGenIdx <= genCount
+            If Not visitedGen(currentGenIdx) Then
+                visitedGen(currentGenIdx) = True
+                rowCount = rowCount + 1
+                Dim j As Integer
+                For j = 1 To UBound(generals, 2)
+                    linkedRows(rowCount, j) = generals(currentGenIdx, j)
+                Next j
+                linkedRows(rowCount, UBound(generals, 2) + 1) = linkedProvinces(i, 1) ' prov_idx
+                linkedRows(rowCount, UBound(generals, 2) + 2) = linkedProvinces(i, 5) ' prov_governor
+                linkedRows(rowCount, UBound(generals, 2) + 3) = linkedProvinces(i, UBound(linkedProvinces, 2)) ' prov_ruler
+                nextGenIdx = generals(currentGenIdx, 2) ' next_gen_idx
+                currentGenIdx = nextGenIdx
+            End If
+        Loop
+    Next i
+    If rowCount > 0 Then
+        ' ReDim Preserve linkedRows(1 To rowCount, 1 To UBound(generals, 2) + 3)
+        LinkGeneralsByProvince = linkedRows
+    Else
+        LinkGeneralsByProvince = Empty
+    End If
+End Function
+
+' Province별로 soldiers_sum, gen_cnt, free_cnt 집계
+Function SummarizeProvinceWithGenerals(linkedProvinces As Variant, linkedGenerals As Variant) As Variant
+    Dim summaryRows() As Variant
+    Dim i As Integer, j As Integer, rowCount As Integer
+    Dim provCount As Integer: provCount = UBound(linkedProvinces, 1)
+    ReDim summaryRows(1 To provCount, 1 To UBound(linkedProvinces, 2) + 3) ' +3 for soldiers_sum, gen_cnt, free_cnt
+
+    For i = 1 To provCount
+        Dim soldiersSum As Long: soldiersSum = 0
+        Dim genCnt As Long: genCnt = 0
+        Dim freeCnt As Long: freeCnt = 0
+        Dim provIdx As Integer: provIdx = linkedProvinces(i, 1)
+        Dim provRulerIdx As Integer: provRulerIdx = linkedProvinces(i, 8)
+        For j = 1 To UBound(linkedGenerals, 1)
+            If linkedGenerals(j, UBound(linkedGenerals, 2) - 2) = provIdx Then
+                soldiersSum = soldiersSum + linkedGenerals(j, 17) ' soldiers
+                If linkedGenerals(j, 11) = provRulerIdx Then genCnt = genCnt + 1
+                If linkedGenerals(j, 11) = 255 Then freeCnt = freeCnt + 1
+            End If
+        Next j
+        Dim k As Integer
+        For k = 1 To UBound(linkedProvinces, 2)
+            summaryRows(i, k) = linkedProvinces(i, k)
+        Next k
+        summaryRows(i, UBound(linkedProvinces, 2) + 1) = soldiersSum
+        summaryRows(i, UBound(linkedProvinces, 2) + 2) = genCnt
+        summaryRows(i, UBound(linkedProvinces, 2) + 3) = freeCnt
+    Next i
+    SummarizeProvinceWithGenerals = summaryRows
+End Function
+
+' Ruler별로 province/general 집계
+Function SummarizeRulerWithProvincesAndGenerals(rulers As Variant, summarizedProvinces As Variant, linkedGenerals As Variant) As Variant
+    Dim summaryRows() As Variant
+    Dim i As Integer, j As Integer, rowCount As Integer
+    Dim rulerCount As Integer: rulerCount = UBound(rulers, 1)
+    ReDim summaryRows(1 To rulerCount, 1 To UBound(rulers, 2) + 7) ' +6 for prov_cnt, gold_sum, food_sum, pop_sum, soldiers_sum, gen_cnt, free_cnt
+
+    For i = 1 To rulerCount
+        Dim provCnt As Long: provCnt = 0
+        Dim goldSum As Long: goldSum = 0
+        Dim foodSum As Long: foodSum = 0
+        Dim popSum As Long: popSum = 0
+        Dim soldiersSum As Long: soldiersSum = 0
+        Dim genCnt As Long: genCnt = 0
+        Dim freeCnt As Long: freeCnt = 0
+        Dim rulerIdx As Integer: rulerIdx = rulers(i, 1)
+        Dim rulerName As String: rulerName = rulers(i, 2)
+        For j = 1 To UBound(summarizedProvinces, 1)
+            If summarizedProvinces(j, 8) = rulerIdx Then
+                provCnt = provCnt + 1
+                goldSum = goldSum + summarizedProvinces(j, 6)
+                foodSum = foodSum + summarizedProvinces(j, 7)
+                popSum = popSum + summarizedProvinces(j, 8)
+                genCnt = genCnt + summarizedProvinces(j, UBound(summarizedProvinces, 2) - 1)
+                freeCnt = freeCnt + summarizedProvinces(j, UBound(summarizedProvinces, 2))
+            End If
+        Next j
+        For j = 1 To UBound(linkedGenerals, 1)
+            If linkedGenerals(j, UBound(linkedGenerals, 2)) = rulerName Then
+                soldiersSum = soldiersSum + linkedGenerals(j, 17)
+            End If
+        Next j
+        Dim k As Integer
+        For k = 1 To UBound(rulers, 2)
+            summaryRows(i, k) = rulers(i, k)
+        Next k
+        summaryRows(i, UBound(rulers, 2) + 1) = provCnt
+        summaryRows(i, UBound(rulers, 2) + 2) = goldSum
+        summaryRows(i, UBound(rulers, 2) + 3) = foodSum
+        summaryRows(i, UBound(rulers, 2) + 4) = popSum
+        summaryRows(i, UBound(rulers, 2) + 5) = soldiersSum
+        summaryRows(i, UBound(rulers, 2) + 6) = genCnt
+        summaryRows(i, UBound(rulers, 2) + 7) = freeCnt
+    Next i
+    SummarizeRulerWithProvincesAndGenerals = summaryRows
 End Function
 
 ' 시트에 배열 출력 예시
@@ -172,21 +324,32 @@ Sub OutputArraysToSheets()
     provinces = ExtractProvinces(dataBytes, generals)
     rulers = ExtractRulers(dataBytes, generals)
 
-    ' General 데이터 출력
-    Dim wsGen As Worksheet
-    Set wsGen = ThisWorkbook.Sheets(WS_NAME_GENERAL)
-    wsGen.Cells.Clear
-    wsGen.Range(START_CELL).Resize(UBound(generals, 1), UBound(generals, 2)).Value = generals
+    ' 1. Ruler별 Province 연결 리스트 순서대로 정렬
+    Dim linkedProvinces As Variant
+    linkedProvinces = LinkProvincesByRuler(rulers, provinces)
+    
+    ' 2. Province별 General 연결 리스트 순서대로 정렬
+    Dim linkedGenerals As Variant
+    linkedGenerals = LinkGeneralsByProvince(linkedProvinces, generals)
 
-    ' Province 데이터 출력
-    Dim wsProv As Worksheet
-    Set wsProv = ThisWorkbook.Sheets(WS_NAME_PROVINCE)
-    wsProv.Cells.Clear
-    wsProv.Range(START_CELL).Resize(UBound(provinces, 1), UBound(provinces, 2)).Value = provinces
+    Dim wsLinkedGen As Worksheet
+    Set wsLinkedGen = ThisWorkbook.Sheets(WS_NAME_GENERAL)
+    wsLinkedGen.Cells.Clear
+    wsLinkedGen.Range(START_CELL).Resize(UBound(linkedGenerals, 1), UBound(linkedGenerals, 2)).Value = linkedGenerals
 
-    ' Ruler 데이터 출력
-    Dim wsRul As Worksheet
-    Set wsRul = ThisWorkbook.Sheets(WS_NAME_RULER)
-    wsRul.Cells.Clear
-    wsRul.Range(START_CELL).Resize(UBound(rulers, 1), UBound(rulers, 2)).Value = rulers
+    ' 3. Province별 집계(soldiers_sum, gen_cnt, free_cnt)
+    Dim summarizedProvinces As Variant
+    summarizedProvinces = SummarizeProvinceWithGenerals(linkedProvinces, linkedGenerals)
+    Dim wsSumProv As Worksheet
+    Set wsSumProv = ThisWorkbook.Sheets(WS_NAME_PROVINCE)
+    wsSumProv.Cells.Clear
+    wsSumProv.Range(START_CELL).Resize(UBound(summarizedProvinces, 1), UBound(summarizedProvinces, 2)).Value = summarizedProvinces
+
+    ' 4. Ruler별 집계
+    Dim summarizedRulers As Variant
+    summarizedRulers = SummarizeRulerWithProvincesAndGenerals(rulers, summarizedProvinces, linkedGenerals)
+    Dim wsSumRul As Worksheet
+    Set wsSumRul = ThisWorkbook.Sheets(WS_NAME_RULER)
+    wsSumRul.Cells.Clear
+    wsSumRul.Range(START_CELL).Resize(UBound(summarizedRulers, 1), UBound(summarizedRulers, 2)).Value = summarizedRulers
 End Sub
