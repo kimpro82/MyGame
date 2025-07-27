@@ -5,12 +5,57 @@ a great journey to construct RTK2(Romance of The Three Kingdoms II, KOEI, 1989) 
 
 ## List
 
+- [Read the Save Data in a Linked List Structure (2025.07.26)](#read-the-save-data-in-a-linked-list-structure-20250726)
 - [Ruler 3 & General 2 (2022.07.10)](#ruler-3--general-2-20220710)
 - [Record (2022.06.19)](#record-20220619)
 - [Ruler 2 & Province 2 (2022.05.07)](#ruler-2--province-2-20220507)
 - [Ruler (2022.05.05)](#ruler-20220505)
 - [Province & Arbitrage System (2021.08.25)](#province--arbitrage-system-20210825)
 - [General (2021.08.24)](#general-20210824)
+
+
+## [Read the Save Data in a Linked List Structure (2025.07.26)](#list)
+- Migration from [RTK2 : Read the Save Data in a Linked List Structure (Python)](https://github.com/kimpro82/MyGame/pull/93)
+  - An upgraded version of the previous `General`, `Province`, and `Ruler`
+    - Sorts province and general data using the linked list structure from the binary save file
+    - Replaces the old inefficient operation with array-based operation
+  - Future Improvements
+    - Add column names and identify remaining unknown binary values
+    - Update `Play`(new), `Record`
+- Results : `RTK2_SaveData_Extractor.bas`
+    <details>
+        <summary>General</summary>
+
+    ```csv
+    1	61	Cao Cao	0	0	95	91	95	60	65	99	1	0	1	255	0	1	1	0	10000	1000	80	0	0	155	103	17	Cao Cao	Cao Cao
+    61	77	Sima Yi	0	0	98	67	93	88	73	98	1	95	1	255	0	2	0	0	1000	100	80	0	0	179	79	17	Cao Cao	Cao Cao
+    77	87	Cao Pi	0	0	76	70	80	82	84	83	1	100	1	255	0	1	1	0	1000	100	80	0	0	187	104	17	Cao Cao	Cao Cao
+    87	88	Cao Zhang	0	0	60	92	72	86	78	76	1	100	1	255	0	1	1	0	1000	100	80	0	0	190	98	17	Cao Cao	Cao Cao
+    88	89	Cao Zhi	0	0	80	15	80	82	82	18	1	100	1	255	0	1	1	0	1000	100	80	0	0	192	99	17	Cao Cao	Cao Cao
+    ```
+    </details>
+    <details>
+        <summary>Province</summary>
+
+    ```csv
+    17	18	1	Cao Cao	0	0	0	0	3000	70000	0	200000	1	255	0	51	TRUE	73	74	67	10	4	55	9	Cao Cao	20000	11	0
+    18	13	19	Zhang Liao	0	0	0	0	2500	45000	0	250000	1	255	0	48	FALSE	72	66	66	10	3	57	9	Cao Cao	12000	8	0
+    13	8	15	Zhang Lu	0	0	0	0	2500	30000	0	240000	1	255	0	48	FALSE	70	80	75	10	3	52	6	Cao Cao	5000	1	0
+    8	29	10	Xiahou Dun	0	0	18	8	2500	35000	0	80000	1	255	0	48	FALSE	65	67	72	10	2	55	3	Cao Cao	6000	2	0
+    29	11	28	Xiahou Yuan	0	0	0	0	2500	45000	0	300000	1	255	0	50	TRUE	65	81	67	5	3	48	12	Cao Cao	10000	6	0
+    ```
+    </details>
+    <details>
+        <summary>Ruler</summary>
+
+    ```csv
+    1	Cao Cao	17	Sima Yi	50	0	255	1	0	0	42	8	50	50	50	50	50	50	50	50	50	50	50	50	50	50	50	50	255	255	255	255	255	0	0	0	0	0	0	18	45500	680000	4560000	143000	66	0
+    2	Liu Bei	33	Zhuge Liang	50	0	255	0	0	0	130	5	50	50	50	50	50	50	50	50	50	50	50	50	50	50	50	50	255	255	255	255	255	0	0	0	0	0	0	7	4000	210000	2830000	87000	54	0
+    3	Sun Quan	24	Lu Su	50	0	255	1	0	0	30	5	50	50	50	50	50	50	50	50	50	50	50	50	50	50	50	50	255	255	255	255	255	0	0	0	0	0	0	12	6500	200000	2790000	92000	39	0
+    4	Meng Huo	36		50	0	255	1	0	0	250	0	50	50	50	50	50	50	50	50	50	50	50	50	50	50	50	50	255	255	255	255	255	0	0	0	0	0	0	1	1000	35000	85000	17000	8	0
+    5		-333		0	0	255	255	0	0	0	0	50	50	50	50	50	50	50	50	50	50	50	50	50	50	50	50	255	255	255	255	255	0	0	0	0	0	0	0	0	0	0	0	0	0
+    ```
+    </details>
 
 
 ## [Ruler 3 & General 2 (2022.07.10)](#list)
