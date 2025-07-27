@@ -16,10 +16,12 @@ a great journey to construct RTK2(Romance of The Three Kingdoms II, KOEI, 1989) 
 
 ## [Read the Save Data in a Linked List Structure (2025.07.26)](#list)
 - Migration from [RTK2 : Read the Save Data in a Linked List Structure (Python)](https://github.com/kimpro82/MyGame/pull/93)
-  - An upgraded version from the previous `General`, `Province`, and `Ruler`
+  - An upgraded version of the previous `General`, `Province`, and `Ruler`
     - Sorts province and general data using the linked list structure from the binary save file
-    - Replace the old inefficient operation with array-based operation
-  - Future Improvements : `Play`(new), `Record`
+    - Replaces the old inefficient operation with array-based operation
+  - Future Improvements
+    - Add column names and identify remaining unknown binary values
+    - Update `Play`(new), `Record`
 - Results
     <details>
         <summary>General</summary>
