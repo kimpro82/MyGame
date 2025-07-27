@@ -28,6 +28,7 @@ Automate image cropping for repetitive and standardized tasks such as writing ga
 RTK2(Romance of The Three Kingdoms II, KOEI, 1989) ERP  
 
 [**\<VBA>**](/GamingTools/RTK2/VBA/)
+[Read the Save Data in a Linked List Structure (2025.07.26)](/GamingTools/RTK2/VBA/README.md#read-the-save-data-in-a-linked-list-structure-20250726)
 - [Ruler 3 & General 2 (2022.07.10)](/GamingTools/RTK2/VBA/README.md#ruler-3--general-2-20220710)
 - [Record (2022.06.19)](/GamingTools/RTK2/VBA/README.md#record-20220619)
 - [Ruler 2 & Province 2 (2022.05.07)](/GamingTools/RTK2/VBA/README.md#ruler-2--province-2-20220507)
