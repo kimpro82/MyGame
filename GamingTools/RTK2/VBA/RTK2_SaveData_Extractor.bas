@@ -138,6 +138,7 @@ Function ExtractRulers(dataBytes() As Byte, generals As Variant) As Variant
     For i = 1 To 16
         offset = 11004 + (i - 1) * 41
         rulerIdx = (dataBytes(offset + 1) + dataBytes(offset + 2) * 256 - 88) \ 43 + 1
+        capitalIdx = (dataBytes(offset + 3) + dataBytes(offset + 4) * 256 - 21 - 11660) \ 35 ' -333 if it is empty
         advisorIdx = (dataBytes(offset + 5) + dataBytes(offset + 6) * 256 - 88) \ 43 + 1
 
         rulers(i, 1) = i
@@ -146,7 +147,11 @@ Function ExtractRulers(dataBytes() As Byte, generals As Variant) As Variant
         Else
             rulers(i, 2) = ""
         End If
-        rulers(i, 3) = (dataBytes(offset + 3) + dataBytes(offset + 4) * 256 - 21 - 11660) \ 35
+        If capitalIdx > 0 Then
+            rulers(i, 3) = capitalIdx
+        Else
+            rulers(i, 3) = -1
+        End If
         If advisorIdx >= 0 And advisorIdx <= 255 Then
             rulers(i, 4) = generals(advisorIdx, 3) ' advisor_name
         Else
@@ -286,7 +291,7 @@ Function SummarizeProvinceWithGenerals(linkedProvinces As Variant, linkedGeneral
         Dim provRulerIdx As Integer: provRulerIdx = linkedProvinces(i, 13)
 
         For j = 1 To UBound(linkedGenerals, 1)
-            If linkedGenerals(j, UBound(linkedGenerals, 2) - 2) = provIdx And linkedGenerals(j, 20) > 0 Then
+            If linkedGenerals(j, UBound(linkedGenerals, 2) - 2) = provIdx And linkedGenerals(j, 25) > 0 Then
                 soldiersSum = soldiersSum + linkedGenerals(j, 20) ' soldiers
                 If linkedGenerals(j, 12) = provRulerIdx Then genCnt = genCnt + 1
                 If linkedGenerals(j, 12) = 255 Then freeCnt = freeCnt + 1
