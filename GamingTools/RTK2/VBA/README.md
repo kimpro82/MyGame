@@ -22,7 +22,7 @@ a great journey to construct RTK2(Romance of The Three Kingdoms II, KOEI, 1989) 
   - Future Improvements
     - Add column names and identify remaining unknown binary values
     - Update `Play`(new), `Record`
-- Results
+- Results : `RTK2_SaveData_Extractor.bas`
     <details>
         <summary>General</summary>
 
