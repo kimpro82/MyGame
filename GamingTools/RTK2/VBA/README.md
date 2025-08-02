@@ -5,10 +5,10 @@ a great journey to construct RTK2(Romance of The Three Kingdoms II, KOEI, 1989) 
 
 ## List
 
-**<Version 2>**
+**Version 2**
 - [Read the Save Data in a Linked List Structure (2025.07.26)](#read-the-save-data-in-a-linked-list-structure-20250726)
 
-**<Version 1>**
+**Version 1**
 - [Ruler 1.2 & General 1.1 (2022.07.10)](#ruler-12--general-11-20220710)
 - [Record 1.0 (2022.06.19)](#record-10-20220619)
 - [Ruler 1.1 & Province 1.1 (2022.05.07)](#ruler-11--province-11-20220507)
