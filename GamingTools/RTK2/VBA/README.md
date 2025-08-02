@@ -211,7 +211,7 @@ a great journey to construct RTK2(Romance of The Three Kingdoms II, KOEI, 1989) 
 
 - Record the game data cumulatively and plot it
 - Small update on `RTK2_Ruler_1.1.bas` : `Sheet5` ↔ `Sheet7`
-- To-Do : Find an indicator to appear overall national power → done ([Ruler 3 & General 2 (2022.07.10)](#ruler-3--general-2-20220710))
+- To-Do : Find an indicator to appear overall national power → done ([Ruler 1.2 & General 1.1 (2022.07.10)](#ruler-12--general-11-20220710))
 
   ![Record](Images/RTK2_Record.PNG)
 
