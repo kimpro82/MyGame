@@ -5,13 +5,16 @@ a great journey to construct RTK2(Romance of The Three Kingdoms II, KOEI, 1989) 
 
 ## List
 
+**Version 2**
 - [Read the Save Data in a Linked List Structure (2025.07.26)](#read-the-save-data-in-a-linked-list-structure-20250726)
-- [Ruler 3 & General 2 (2022.07.10)](#ruler-3--general-2-20220710)
-- [Record (2022.06.19)](#record-20220619)
-- [Ruler 2 & Province 2 (2022.05.07)](#ruler-2--province-2-20220507)
-- [Ruler (2022.05.05)](#ruler-20220505)
-- [Province & Arbitrage System (2021.08.25)](#province--arbitrage-system-20210825)
-- [General (2021.08.24)](#general-20210824)
+
+**Version 1**
+- [Ruler 1.2 & General 1.1 (2022.07.10)](#ruler-12--general-11-20220710)
+- [Record 1.0 (2022.06.19)](#record-10-20220619)
+- [Ruler 1.1 & Province 1.1 (2022.05.07)](#ruler-11--province-11-20220507)
+- [Ruler 1.0 (2022.05.05)](#ruler-10-20220505)
+- [Province 1.0 & Arbitrage System (2021.08.25)](#province-10--arbitrage-system-20210825)
+- [General 1.0 (2021.08.24)](#general-10-20210824)
 
 
 ## [Read the Save Data in a Linked List Structure (2025.07.26)](#list)
@@ -22,7 +25,7 @@ a great journey to construct RTK2(Romance of The Three Kingdoms II, KOEI, 1989) 
   - Future Improvements
     - Add column names and identify remaining unknown binary values
     - Update `Play`(new), `Record`
-- Results : `RTK2_SaveData_Extractor.bas`
+- Results : `RTK2_SaveData_Extractor_2.0.bas`
     <details>
         <summary>General</summary>
 
@@ -58,7 +61,7 @@ a great journey to construct RTK2(Romance of The Three Kingdoms II, KOEI, 1989) 
     </details>
 
 
-## [Ruler 3 & General 2 (2022.07.10)](#list)
+## [Ruler 1.2 & General 1.1 (2022.07.10)](#list)
 
   - New indices :
     - `Total Measurement` : Province 0.125 (+ Productivuty 0.125) + Gold & Food 0.25 + Generals 0.125 (Manpower +0.125) + Arms 0.125 (+ Quality 0.125)
@@ -72,7 +75,7 @@ a great journey to construct RTK2(Romance of The Three Kingdoms II, KOEI, 1989) 
     ![Chart](Images/RTK2_Record_Chart_2.PNG)
 
     <details>
-        <summary>RTK2_Ruler_3.bas : Mainly changed part</summary>
+        <summary>RTK2_Ruler_1.2.bas : Mainly changed part</summary>
 
     ```vba
     Sub ReadRulerData()
@@ -114,7 +117,7 @@ a great journey to construct RTK2(Romance of The Three Kingdoms II, KOEI, 1989) 
     </details>
 
     <details>
-        <summary>RTK2_General_2.bas : Mainly changed part</summary>
+        <summary>RTK2_General_1.1.bas : Mainly changed part</summary>
 
     ```vba
     Sub ReadGeneralData()
@@ -139,7 +142,7 @@ a great journey to construct RTK2(Romance of The Three Kingdoms II, KOEI, 1989) 
     </details>
 
     <details>
-        <summary>RTK2_Record_2.bas : Mainly changed part</summary>
+        <summary>RTK2_Record_1.1.bas : Mainly changed part</summary>
 
     ```vba
     Sub RecordGameData()
@@ -204,18 +207,18 @@ a great journey to construct RTK2(Romance of The Three Kingdoms II, KOEI, 1989) 
     ```
     </details>
 
-## [Record (2022.06.19)](#list)
+## [Record 1.0 (2022.06.19)](#list)
 
 - Record the game data cumulatively and plot it
-- Small update on `RTK2_Ruler_2.bas` : `Sheet5` ↔ `Sheet7`
-- To-Do : Find an indicator to appear overall national power → done ([Ruler 3 & General 2 (2022.07.10)](#ruler-3--general-2-20220710))
+- Small update on `RTK2_Ruler_1.1.bas` : `Sheet5` ↔ `Sheet7`
+- To-Do : Find an indicator to appear overall national power → done ([Ruler 1.2 & General 1.1 (2022.07.10)](#ruler-12--general-11-20220710))
 
   ![Record](Images/RTK2_Record.PNG)
 
   ![Chart](Images/RTK2_Record_Chart.PNG)
 
     <details>
-        <summary>RTK2_Record.bas</summary>
+        <summary>RTK2_Record_1.0.bas</summary>
 
     ```vba
     Option Explicit
@@ -309,21 +312,21 @@ a great journey to construct RTK2(Romance of The Three Kingdoms II, KOEI, 1989) 
     <details>
 
 
-## [Ruler 2 & Province 2 (2022.05.07)](#list)
+## [Ruler 1.1 & Province 1.1 (2022.05.07)](#list)
 
 - Bring more data from other sheets of `Province` and `General` by `Application.WorksheetFunction`; `CountIf()` `CountIfs()` `SumIf()`
 - New indices :
   - `Productivity` : pop * (land + flood + loyalty) / 300
   - `Manpower` : count 1 if a capability value of a general is equal or more than 80
 - Do **line replacement** by using ` _`
-- To-do : Find the way to accumulate for drawing a time series chart → done ([Record (2022.06.19)](#record-20220619))
+- To-do : Find the way to accumulate for drawing a time series chart → done ([Record 1.0 (2022.06.19)](#record-10-20220619))
 
-    ![Read Province 2](Images/RTK2_ReadProvince_2.PNG)
+    ![Read Province 1.1](Images/RTK2_ReadProvince_2.PNG)
 
-    ![Read Ruler 2](Images/RTK2_ReadRuler_2.PNG)
+    ![Read Ruler 1.1](Images/RTK2_ReadRuler_2.PNG)
 
     <details>
-        <summary>RTK2_Province_2.bas : Mainly changed part</summary>
+        <summary>RTK2_Province_1.1.bas : Mainly changed part</summary>
 
     ```vba
     Sub ReadProvinceData()
@@ -368,9 +371,8 @@ a great journey to construct RTK2(Romance of The Three Kingdoms II, KOEI, 1989) 
     End Sub
     ```
     </details>
-
     <details>
-        <summary>RTK2_Ruler.bas : Mainly changed part</summary>
+        <summary>RTK2_Ruler_1.1.bas : Mainly changed part</summary>
 
     ```vba
     Sub ReadRulerData()
@@ -446,16 +448,16 @@ a great journey to construct RTK2(Romance of The Three Kingdoms II, KOEI, 1989) 
     </details>
 
 
-## [Ruler (2022.05.05)](#list)
+## [Ruler 1.0 (2022.05.05)](#list)
 
 - Read rulers' data from a savefile by **VBA**
 - Bring the rulers' and advisors' names from the other sheet by `Application.WorksheetFunction.IfError()` and `Application.VLookup()`
-- To-do : merge more data like population, armies, generals' number and so on and draw a line graph → done ([Record (2022.06.19)](#record-20220619))
+- To-do : merge more data like population, armies, generals' number and so on and draw a line graph → done ([Record 1.0 (2022.06.19)](#record-10-20220619))
 
     ![Read Ruler](Images/RTK2_ReadRuler.PNG)
 
     <details>
-        <summary>RTK2_Ruler.bas : Mainly changed part</summary>
+        <summary>RTK2_Ruler_1.0.bas : Mainly changed part</summary>
 
     ```vba
     Sub ReadRulerData()
@@ -499,7 +501,7 @@ a great journey to construct RTK2(Romance of The Three Kingdoms II, KOEI, 1989) 
     </details>
 
 
-## [Province & Arbitrage System (2021.08.25)](#list)
+## [Province 1.0 & Arbitrage System (2021.08.25)](#list)
 
 - read provinces' data from a savefile by **VBA**
 - link an excel table that can be used as an **arbitrage system**  
@@ -510,7 +512,7 @@ a great journey to construct RTK2(Romance of The Three Kingdoms II, KOEI, 1989) 
     ![Arbitrage System](Images/RTK2_ArbitrageSystem.png)
 
     <details>
-        <summary>RTK2_Province.bas : Mainly changed part</summary>
+        <summary>RTK2_Province_1.0.bas : Mainly changed part</summary>
 
     ```vba
     Sub ReadProvinceData()
@@ -560,7 +562,7 @@ a great journey to construct RTK2(Romance of The Three Kingdoms II, KOEI, 1989) 
     </details>
 
 
-## [General (2021.08.24)](#list)
+## [General 1.0 (2021.08.24)](#list)
 
 - read generals' data from a savefile by **VBA**
 - generalized structure to depend on parameters that user entered  
@@ -569,7 +571,7 @@ a great journey to construct RTK2(Romance of The Three Kingdoms II, KOEI, 1989) 
     ![Read Generals' data](Images/RTK2_ReadGeneral.gif)
 
     <details>
-        <summary>RTK2_General.bas</summary>
+        <summary>RTK2_General_1.0.bas</summary>
 
     ```vba
     Option Explicit
