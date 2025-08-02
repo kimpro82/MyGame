@@ -28,13 +28,17 @@ Automate image cropping for repetitive and standardized tasks such as writing ga
 RTK2(Romance of The Three Kingdoms II, KOEI, 1989) ERP  
 
 [**\<VBA>**](/GamingTools/RTK2/VBA/)
+
+**<Version 2>**
 - [Read the Save Data in a Linked List Structure (2025.07.26)](/GamingTools/RTK2/VBA/README.md#read-the-save-data-in-a-linked-list-structure-20250726)
-- [Ruler 3 & General 2 (2022.07.10)](/GamingTools/RTK2/VBA/README.md#ruler-3--general-2-20220710)
-- [Record (2022.06.19)](/GamingTools/RTK2/VBA/README.md#record-20220619)
-- [Ruler 2 & Province 2 (2022.05.07)](/GamingTools/RTK2/VBA/README.md#ruler-2--province-2-20220507)
-- [Ruler (2022.05.05)](/GamingTools/RTK2/VBA/README.md#ruler-20220505)
-- [Province & Arbitrage System (2021.08.25)](/GamingTools/RTK2/VBA/README.md#province--arbitrage-system-20210825)
-- [General (2021.08.24)](/GamingTools/RTK2/VBA/README.md#general-20210824)
+
+**<Version 1>**
+- [Ruler 1.2 & General 1.1 (2022.07.10)](/GamingTools/RTK2/VBA/README.md#ruler-12--general-11-20220710)
+- [Record 1.0 (2022.06.19)](/GamingTools/RTK2/VBA/README.md#record-10-20220619)
+- [Ruler 1.1 & Province 1.1 (2022.05.07)](/GamingTools/RTK2/VBA/README.md#ruler-11--province-11-20220507)
+- [Ruler 1.0 (2022.05.05)](/GamingTools/RTK2/VBA/README.md#ruler-10-20220505)
+- [Province 1.0 & Arbitrage System (2021.08.25)](/GamingTools/RTK2/VBA/README.md#province-10--arbitrage-system-20210825)
+- [General 1.0 (2021.08.24)](/GamingTools/RTK2/VBA/README.md#general-10-20210824)
 
 [**\<Python>**](/GamingTools/RTK2/Python/)
 - [Read the Save Data in a Linked List Structure (2025.07.06)](/GamingTools/RTK2/Python/README.md#read-the-save-data-in-a-linked-list-structure-20250706)
