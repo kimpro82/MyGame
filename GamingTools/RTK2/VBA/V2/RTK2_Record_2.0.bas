@@ -3,7 +3,7 @@
 '
 ' Author:  kimpro82
 ' Date: 2025.08.02.
-' 
+'
 ' This module provides routines for recording annual ruler statistics to the Record sheet.
 
 
@@ -54,8 +54,10 @@ Private Sub PrintAnnualRecordData(ByRef AnnualRecordData As Variant)
     Set wsRecord = ThisWorkbook.Sheets(THIS_SHEET_NAME)
     ' Get the starting row number for new data
     Dim rowNum As Integer
-    rowNum = wsRecord.UsedRange.Rows.Count - 1          ' Avoid formatting in data area to keep UsedRange accurate
-    wsRecord.Range(DATA_START_CELL).offset(rowNum, 0).Resize(UBound(AnnualRecordData, 1), UBound(AnnualRecordData, 2)).Value = AnnualRecordData
+    rowNum = wsRecord.UsedRange.Rows.Count  ' Avoid formatting in data area to keep UsedRange accurate
+    ' Debug.Print rowNum    ' Ok
+
+    wsRecord.Range("B1").offset(rowNum, 0).Resize(UBound(AnnualRecordData, 1), UBound(AnnualRecordData, 2)).Value = AnnualRecordData
 
 End Sub
 
