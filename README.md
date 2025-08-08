@@ -30,6 +30,7 @@ RTK2(Romance of The Three Kingdoms II, KOEI, 1989) ERP
 [**\<VBA>**](/GamingTools/RTK2/VBA/)
 
 **Version 2**
+- [Play 2.0, Record 2.0, and Pivot 2.0 (2025.08.02)](/GamingTools/RTK2/VBA/README.md#play-20-record-20-and-pivot-20-20250802)
 - [Read the Save Data in a Linked List Structure (2025.07.26)](/GamingTools/RTK2/VBA/README.md#read-the-save-data-in-a-linked-list-structure-20250726)
 
 **Version 1**
