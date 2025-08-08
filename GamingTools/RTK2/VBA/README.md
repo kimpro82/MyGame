@@ -6,6 +6,7 @@ a great journey to construct RTK2(Romance of The Three Kingdoms II, KOEI, 1989) 
 ## List
 
 **Version 2**
+- [Play 2.0, Record 2.0, and Pivot 2.0 (2025.08.02)](#play-20-record-20-and-pivot-20-20250802)
 - [Read the Save Data in a Linked List Structure (2025.07.26)](#read-the-save-data-in-a-linked-list-structure-20250726)
 
 **Version 1**
@@ -16,6 +17,152 @@ a great journey to construct RTK2(Romance of The Three Kingdoms II, KOEI, 1989) 
 - [Province 1.0 & Arbitrage System (2021.08.25)](#province-10--arbitrage-system-20210825)
 - [General 1.0 (2021.08.24)](#general-10-20210824)
 
+
+## [Play 2.0, Record 2.0, and Pivot 2.0 (2025.08.02)](#list)
+
+- Add `Play`, `Record`, and `Pivot` sheets
+  - `Play` : Player territory dashboard (generals, resources, arbitrage info)
+
+    ![Play](./Images/RTK2_VBA_Play_2.0.PNG)
+
+  - `Record` : Accumulate yearly/monthly ruler data for time-series analysis
+
+    ![Record](./Images/RTK2_VBA_Record_2.0.PNG)
+
+  - `Pivot` : Pivot tables/charts for status graphing
+
+    ![Pivot](./Images/RTK2_VBA_Pivot_2.0.png)
+
+- Update : `RTK2_SaveData_Extractor_2.1.bas`
+    <details>
+        <summary>Mainly changed parts</summary>
+
+    ```vba
+    ' Global variables for extracted data
+    Public dataBytes() As Byte              ' Raw save file bytes
+    Public yyy_mm As String                 ' Year-Month string extracted from save file
+    Public summarizedProvinces As Variant   ' Province summary array
+    Public summarizedRulers As Variant      ' Ruler summary array
+    ```
+    ```vba
+    ' Extracts year and month from the save file byte array
+    ' @param dataBytes: Byte array from save file
+    ' @return: String in "YYY-MM" format
+    Private Function ExtractYearMonth(ByRef dataBytes() As Byte) As String
+
+        Const YEAR_OFFSET As Integer = 13
+        Const MONTH_OFFSET As Integer = 15
+
+        Dim yearVal As Byte, monthVal As Byte, yearMonthStr As String
+        yearVal = dataBytes(YEAR_OFFSET)
+        monthVal = dataBytes(MONTH_OFFSET) + 1 ' Jan:0, Feb:1, so add 1
+        If monthVal < 10 Then
+            yearMonthStr = CStr(yearVal) & "-0" & CStr(monthVal)
+        Else
+            yearMonthStr = CStr(yearVal) & "-" & CStr(monthVal)
+        End If
+        ExtractYearMonth = yearMonthStr
+
+    End Function
+    ```
+    ```vba
+    ' Extracts general data from the save file byte array
+    ' @param dataBytes: Byte array from save file
+    ' @return: 2D array [general_idx, fields...]
+    Function ExtractGenerals(dataBytes() As Byte) As Variant
+
+        Const GENERAL_COUNT As Integer = 255
+        Const GENERAL_FIELD_COUNT As Integer = 26
+        Const GENERAL_BLOCK_SIZE As Integer = 43
+        Const GENERAL_START_OFFSET As Integer = 32
+
+        Dim generals(1 To GENERAL_COUNT, 1 To GENERAL_FIELD_COUNT) As Variant
+        ……
+        For i = 1 To GENERAL_COUNT
+            offset = GENERAL_START_OFFSET + (i - 1) * GENERAL_BLOCK_SIZE
+            ……
+
+            ……
+            generals(i, 2) = (dataBytes(offset + 1) + dataBytes(offset + 2) * 256 - 88) \ GENERAL_BLOCK_SIZE + 1 ' next_gen_idx
+            ……
+            generals(i, 22) = dataBytes(offset + 23) ' training
+            ……
+        Next i
+
+        ExtractGenerals = generals
+
+    End Function
+    ```
+    ```vba
+    ' Traverses the general linked list for each province and returns ordered generals
+    ' @param linkedProvinces: 2D array of linked provinces
+    ' @param generals: 2D array of general data
+    ' @return: 2D array of generals ordered by province
+    Function LinkGeneralsByProvince(linkedProvinces As Variant, generals As Variant) As Variant
+
+        ……
+        Dim visitedGen() As Boolean
+        ReDim visitedGen(1 To genCount)
+
+        ……
+
+        ' Add free generals (ruler_idx == 255)
+        For i = 1 To genCount
+            If Not visitedGen(i) Then
+                rowCount = rowCount + 1
+
+                For j = 1 To UBound(generals, 2)
+                    linkedRows(rowCount, j) = generals(i, j)
+                Next j
+
+                linkedRows(rowCount, UBound(generals, 2) + 1) = Empty ' prov_idx
+                linkedRows(rowCount, UBound(generals, 2) + 2) = Empty ' prov_governor
+                linkedRows(rowCount, UBound(generals, 2) + 3) = Empty ' prov_ruler
+                nextGenIdx = generals(i, 2) ' next_gen_idx
+                currentGenIdx = nextGenIdx
+            End If
+        Next i
+
+        LinkGeneralsByProvince = linkedRows
+
+    End Function
+    ```
+    ```vba
+    ' Main routine: extract, link, summarize and output arrays to sheets
+    ' Reads the save file, extracts and processes all data, and outputs to Excel sheets
+    Sub OutputArraysToSheets()
+
+        Dim file_path As String
+        file_path = PATH & FILENAME
+        dataBytes = ReadBinaryFile(file_path)
+        yyy_mm = ExtractYearMonth(dataBytes)
+
+        Dim generals As Variant, provinces As Variant, rulers As Variant
+        generals = ExtractGenerals(dataBytes)
+        provinces = ExtractProvinces(dataBytes, generals)
+        rulers = ExtractRulers(dataBytes, generals)
+
+        ' 1. Link provinces by ruler (linked list order)
+        ……
+
+        ' 2. Link generals by province (linked list order)
+        ……
+        wsLinkedGen.Range(DATA_START_CELL).Resize(UBound(linkedGenerals, 1), UBound(linkedGenerals, 2)).ClearContents
+        ……
+
+        ' 3. Province summary (soldiers_sum, gen_cnt, free_cnt)
+        ……
+        wsSumProv.Range(DATA_START_CELL).Resize(UBound(summarizedProvinces, 1), UBound(summarizedProvinces, 2)).ClearContents
+        ……
+
+        ' 4. Ruler summary
+        ……
+        wsSumRul.Range(DATA_START_CELL).Resize(UBound(summarizedRulers, 1), UBound(summarizedRulers, 2)).ClearContents
+        ……
+
+    End Sub
+    ```
+    </details>
 
 ## [Read the Save Data in a Linked List Structure (2025.07.26)](#list)
 - Migration from [RTK2 : Read the Save Data in a Linked List Structure (Python)](https://github.com/kimpro82/MyGame/pull/93)
