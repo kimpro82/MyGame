@@ -299,11 +299,11 @@ Function LinkGeneralsByProvince(linkedProvinces As Variant, generals As Variant)
     Dim genCount As Integer: genCount = UBound(generals, 1)
     Dim i As Integer, currentGenIdx As Integer, nextGenIdx As Integer
     ReDim linkedRows(1 To genCount, 1 To UBound(generals, 2) + 3) ' +3 for prov_idx, prov_governor, prov_ruler
+    Dim visitedGen() As Boolean
+    ReDim visitedGen(1 To genCount)
 
     For i = 1 To UBound(linkedProvinces, 1)
         currentGenIdx = linkedProvinces(i, 3) ' governor_idx
-        Dim visitedGen() As Boolean
-        ReDim visitedGen(1 To genCount)
 
         Do While currentGenIdx <> -1 And currentGenIdx >= 1 And currentGenIdx <= genCount
             If Not visitedGen(currentGenIdx) Then
@@ -324,12 +324,24 @@ Function LinkGeneralsByProvince(linkedProvinces As Variant, generals As Variant)
         Loop
     Next i
 
-    If rowCount > 0 Then
-        ' ReDim Preserve linkedRows(1 To rowCount, 1 To UBound(generals, 2) + 3)
-        LinkGeneralsByProvince = linkedRows
-    Else
-        LinkGeneralsByProvince = Empty
-    End If
+    ' Add free generals (ruler_idx == 255)
+    For i = 1 To genCount
+        If Not visitedGen(i) Then
+            rowCount = rowCount + 1
+
+            For j = 1 To UBound(generals, 2)
+                linkedRows(rowCount, j) = generals(i, j)
+            Next j
+
+            linkedRows(rowCount, UBound(generals, 2) + 1) = Empty ' prov_idx
+            linkedRows(rowCount, UBound(generals, 2) + 2) = Empty ' prov_governor
+            linkedRows(rowCount, UBound(generals, 2) + 3) = Empty ' prov_ruler
+            nextGenIdx = generals(i, 2) ' next_gen_idx
+            currentGenIdx = nextGenIdx
+        End If
+    Next i
+
+    LinkGeneralsByProvince = linkedRows
 
 End Function
 
