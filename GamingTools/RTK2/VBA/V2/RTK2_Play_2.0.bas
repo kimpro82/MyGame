@@ -41,7 +41,7 @@ Private Function GetPlayerSummaryData(ByRef summarizedProvinces As Variant) As V
             playerSummaryData(k, 7) = summarizedProvinces(i, 27)                ' Generals
             playerSummaryData(k, 8) = summarizedProvinces(i, 9)                 ' Gold
             playerSummaryData(k, 9) = summarizedProvinces(i, 10)                ' Food
-            playerSummaryData(k, 10) = summarizedProvinces(i, 16)               ' Rate
+            playerSummaryData(k, 10) = summarizedProvinces(i, 23)               ' Rate
             playerSummaryData(k, 11) = summarizedProvinces(i, 17)               ' Merchant
             playerSummaryData(k, 12) = summarizedProvinces(i, 18)               ' Loyalty
             playerSummaryData(k, 13) = summarizedProvinces(i, 19)               ' Land
