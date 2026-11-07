@@ -12,6 +12,7 @@ LOAD_PATH = BASE_DIR / "Data" / "KAODATA.DAT"
 PALETTE_PATH = BASE_DIR / "RTK2_Palette.json"
 PALETTE_NAME = "palette_rtk2_3"
 SAVE_PATH = BASE_DIR / "Images" / "RTK2_Portraits3.gif"
+IMAGE_FORMAT = "gif"
 PORTRAIT_WIDTH = 64
 PORTRAIT_HEIGHT = 40
 PORTRAITS_PER_ROW = 15
@@ -53,6 +54,7 @@ def save_image(
     palette,
     portraits_per_row=PORTRAITS_PER_ROW,
     path=SAVE_PATH,
+    image_format=IMAGE_FORMAT,
 ):
     """Arrange 64-by-40 portraits in rows and save the portrait sheet."""
     if portraits_per_row <= 0:
@@ -81,15 +83,17 @@ def save_image(
         image.paste(portrait, position)
 
     path.parent.mkdir(parents=True, exist_ok=True)
-    image.save(path)
+    pil_format = {"gif": "GIF", "png": "PNG", "jpg": "JPEG"}[image_format]
+    image.save(path, format=pil_format)
 
 
 def parse_key_value_args(arguments):
-    """Parse optional PORTRAITS_PER_ROW, PALETTE_NAME, and SAVE_PATH values."""
+    """Parse optional portrait layout, palette, output format, and path values."""
     options = {
         "PORTRAITS_PER_ROW": PORTRAITS_PER_ROW,
         "PALETTE_NAME": PALETTE_NAME,
         "SAVE_PATH": SAVE_PATH,
+        "IMAGE_FORMAT": IMAGE_FORMAT,
     }
     provided_keys = set()
 
@@ -111,7 +115,24 @@ def parse_key_value_args(arguments):
     if options["PORTRAITS_PER_ROW"] <= 0:
         raise ValueError("PORTRAITS_PER_ROW must be a positive integer")
 
-    options["SAVE_PATH"] = Path(options["SAVE_PATH"])
+    image_format = str(options["IMAGE_FORMAT"]).lower()
+    if image_format == "jpeg":
+        image_format = "jpg"
+    if image_format not in ("gif", "png", "jpg"):
+        raise ValueError("IMAGE_FORMAT must be gif, png, jpg, or jpeg")
+    options["IMAGE_FORMAT"] = image_format
+
+    suffix = ".jpg" if image_format == "jpg" else f".{image_format}"
+    save_path = Path(options["SAVE_PATH"])
+    if "SAVE_PATH" not in provided_keys:
+        save_path = SAVE_PATH.with_suffix(suffix)
+    elif not save_path.suffix:
+        save_path = save_path.with_suffix(suffix)
+    else:
+        valid_suffixes = {suffix, ".jpeg"} if image_format == "jpg" else {suffix}
+        if save_path.suffix.lower() not in valid_suffixes:
+            raise ValueError(f"SAVE_PATH extension must match IMAGE_FORMAT ({image_format})")
+    options["SAVE_PATH"] = save_path
     return options
 
 
@@ -126,7 +147,11 @@ if __name__ == "__main__":
             palette,
             portraits_per_row=options["PORTRAITS_PER_ROW"],
             path=options["SAVE_PATH"],
+            image_format=options["IMAGE_FORMAT"],
         )
     except ValueError as error:
         raise SystemExit(f"Error: {error}") from None
-    print(f"Saved {len(palette_indices)} pixels to {options['SAVE_PATH']}")
+    print(
+        f"Saved {len(palette_indices)} pixels as {options['IMAGE_FORMAT'].upper()} "
+        f"to {options['SAVE_PATH']}"
+    )
