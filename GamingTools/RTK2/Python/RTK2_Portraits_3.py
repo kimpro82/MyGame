@@ -10,13 +10,15 @@ RTK2_Palette.json.
 
 History:
     2026.11.07 : Added configurable palettes and image formats, plus row-based portrait
-                layout. GIF is the default output format.
+                layout and configurable sheet backgrounds. GIF is the default output
+                format, with transparent margins.
 
 Usage (run from GamingTools/RTK2/Python)::
 
     python RTK2_Portraits_3.py \
         PORTRAITS_PER_ROW=15 PALETTE_NAME=palette_rtk2_3 \
-        IMAGE_FORMAT=gif SAVE_PATH=Images/RTK2_Portraits3.gif
+        IMAGE_FORMAT=gif BACKGROUND=transparent \
+        SAVE_PATH=Images/RTK2_Portraits3.gif
 """
 
 import json
@@ -32,9 +34,15 @@ PALETTE_PATH = BASE_DIR / "RTK2_Palette.json"
 PALETTE_NAME = "palette_rtk2_3"
 SAVE_PATH = BASE_DIR / "Images" / "RTK2_Portraits3.gif"
 IMAGE_FORMAT = "gif"
+BACKGROUND = "transparent"
 PORTRAIT_WIDTH = 64
 PORTRAIT_HEIGHT = 40
 PORTRAITS_PER_ROW = 15
+BACKGROUND_COLORS = {
+    "white": (255, 255, 255),
+    "gray": (128, 128, 128),
+    "black": (0, 0, 0),
+}
 
 
 def read_data_file(path=LOAD_PATH):
@@ -112,6 +120,7 @@ def save_image(
     portraits_per_row=PORTRAITS_PER_ROW,
     path=SAVE_PATH,
     image_format=IMAGE_FORMAT,
+    background=BACKGROUND,
 ):
     """Arrange decoded portraits in a row-major sheet and save the image.
 
@@ -121,14 +130,21 @@ def save_image(
         portraits_per_row: Number of 64-by-40 portraits in each sheet row.
         path: Destination path. Its parent directories are created if needed.
         image_format: Output format: ``gif``, ``png``, or ``jpg``.
+        background: Empty-area style: ``transparent``, ``white``, ``gray``, or
+            ``black``. JPEG requires an opaque background.
 
     Raises:
         ValueError: If the row count is non-positive or the pixel count does
-            not contain complete portraits.
+            not contain complete portraits, or if the selected background is
+            unsupported by the output format.
         OSError: If the output image cannot be written.
     """
     if portraits_per_row <= 0:
         raise ValueError("PORTRAITS_PER_ROW must be a positive integer")
+    if background not in (*BACKGROUND_COLORS, "transparent"):
+        raise ValueError("BACKGROUND must be transparent, white, gray, or black")
+    if image_format == "jpg" and background == "transparent":
+        raise ValueError("JPEG does not support transparency; choose white, gray, or black")
 
     portrait_size = PORTRAIT_WIDTH * PORTRAIT_HEIGHT
     if len(palette_indices) % portrait_size:
@@ -136,34 +152,73 @@ def save_image(
 
     portrait_count = len(palette_indices) // portrait_size
     row_count = (portrait_count + portraits_per_row - 1) // portraits_per_row
-    image = Image.new(
-        "RGB",
-        (PORTRAIT_WIDTH * portraits_per_row, PORTRAIT_HEIGHT * row_count),
-    )
+    image_size = (PORTRAIT_WIDTH * portraits_per_row, PORTRAIT_HEIGHT * row_count)
+    background_rgb = BACKGROUND_COLORS.get(background)
 
-    for portrait_index in range(portrait_count):
-        start = portrait_index * portrait_size
-        end = start + portrait_size
-        portrait = Image.new("RGB", (PORTRAIT_WIDTH, PORTRAIT_HEIGHT))
-        portrait.putdata([tuple(palette[index]) for index in palette_indices[start:end]])
-        position = (
-            (portrait_index % portraits_per_row) * PORTRAIT_WIDTH,
-            (portrait_index // portraits_per_row) * PORTRAIT_HEIGHT,
+    if image_format == "gif":
+        # Reserve a separate palette entry for the blank area and its transparency.
+        background_index = len(palette)
+        image = Image.new("P", image_size, background_index)
+        gif_palette = [channel for color in palette for channel in color]
+        gif_palette.extend(
+            background_rgb if background_rgb is not None else (0, 0, 0)
         )
-        image.paste(portrait, position)
+        gif_palette.extend([0] * (768 - len(gif_palette)))
+        image.putpalette(gif_palette)
+
+        for portrait_index in range(portrait_count):
+            start = portrait_index * portrait_size
+            end = start + portrait_size
+            portrait = Image.new("P", (PORTRAIT_WIDTH, PORTRAIT_HEIGHT))
+            portrait.putpalette(gif_palette)
+            portrait.putdata(palette_indices[start:end])
+            position = (
+                (portrait_index % portraits_per_row) * PORTRAIT_WIDTH,
+                (portrait_index // portraits_per_row) * PORTRAIT_HEIGHT,
+            )
+            image.paste(portrait, position)
+
+        save_options = {"transparency": background_index} if background == "transparent" else {}
+    else:
+        mode = "RGBA" if image_format == "png" else "RGB"
+        if background == "transparent":
+            fill = (0, 0, 0, 0)
+        elif mode == "RGBA":
+            fill = (*background_rgb, 255)
+        else:
+            fill = background_rgb
+        image = Image.new(mode, image_size, fill)
+
+        for portrait_index in range(portrait_count):
+            start = portrait_index * portrait_size
+            end = start + portrait_size
+            portrait = Image.new(mode, (PORTRAIT_WIDTH, PORTRAIT_HEIGHT))
+            if mode == "RGBA":
+                portrait.putdata([(*palette[index], 255) for index in palette_indices[start:end]])
+            else:
+                portrait.putdata([tuple(palette[index]) for index in palette_indices[start:end]])
+            position = (
+                (portrait_index % portraits_per_row) * PORTRAIT_WIDTH,
+                (portrait_index // portraits_per_row) * PORTRAIT_HEIGHT,
+            )
+            image.paste(portrait, position)
+        save_options = {}
 
     path.parent.mkdir(parents=True, exist_ok=True)
     pil_format = {"gif": "GIF", "png": "PNG", "jpg": "JPEG"}[image_format]
-    image.save(path, format=pil_format)
+    image.save(path, format=pil_format, **save_options)
 
 
 def parse_key_value_args(arguments):
     """Parse optional command-line settings written as KEY=VALUE arguments.
 
     Supported keys are ``PORTRAITS_PER_ROW``, ``PALETTE_NAME``,
-    ``IMAGE_FORMAT``, and ``SAVE_PATH``. Missing values retain their defaults.
-    ``IMAGE_FORMAT`` accepts ``gif``, ``png``, ``jpg``, or ``jpeg``; JPEG is
-    normalized to ``jpg``. If the save path is omitted, its extension follows
+    ``IMAGE_FORMAT``, ``BACKGROUND``, and ``SAVE_PATH``. Missing values retain
+    their defaults. ``IMAGE_FORMAT`` accepts ``gif``, ``png``, ``jpg``, or
+    ``jpeg``; JPEG is normalized to ``jpg``. ``BACKGROUND`` accepts
+    ``transparent``, ``white``, ``gray``, or ``black``. Transparency is supported
+    by GIF and PNG, but not JPEG. If JPEG is selected without an explicit
+    background, white is used. If the save path is omitted, its extension follows
     the selected format. An explicitly supplied extension must match the format.
 
     Args:
@@ -182,6 +237,7 @@ def parse_key_value_args(arguments):
         "PALETTE_NAME": PALETTE_NAME,
         "SAVE_PATH": SAVE_PATH,
         "IMAGE_FORMAT": IMAGE_FORMAT,
+        "BACKGROUND": BACKGROUND,
     }
     provided_keys = set()
 
@@ -210,6 +266,15 @@ def parse_key_value_args(arguments):
         raise ValueError("IMAGE_FORMAT must be gif, png, jpg, or jpeg")
     options["IMAGE_FORMAT"] = image_format
 
+    background = str(options["BACKGROUND"]).lower()
+    if background not in (*BACKGROUND_COLORS, "transparent"):
+        raise ValueError("BACKGROUND must be transparent, white, gray, or black")
+    if image_format == "jpg" and background == "transparent":
+        if "BACKGROUND" in provided_keys:
+            raise ValueError("JPEG does not support transparency; choose white, gray, or black")
+        background = "white"
+    options["BACKGROUND"] = background
+
     suffix = ".jpg" if image_format == "jpg" else f".{image_format}"
     save_path = Path(options["SAVE_PATH"])
     if "SAVE_PATH" not in provided_keys:
@@ -236,6 +301,7 @@ if __name__ == "__main__":
             portraits_per_row=options["PORTRAITS_PER_ROW"],
             path=options["SAVE_PATH"],
             image_format=options["IMAGE_FORMAT"],
+            background=options["BACKGROUND"],
         )
     except ValueError as error:
         raise SystemExit(f"Error: {error}") from None
