@@ -10,13 +10,13 @@ arranged into a sheet and colored with the palette in RTK2_Palette.json.
 
 History:
     2026.11.07 : Added configurable palettes and image formats, plus row-based portrait
-                layout and configurable sheet backgrounds. GIF is the default output
-                format, with transparent margins.
+                layout and configurable sheet backgrounds. Set the default layout to
+                20 portraits per row. GIF is the default output with transparent margins.
 
 Usage (run from GamingTools/RTK2/Python)::
 
     python RTK2_Portraits_3.py \
-        PORTRAITS_PER_ROW=15 PALETTE_NAME=palette_rtk2_3 \
+        PORTRAITS_PER_ROW=20 PALETTE_NAME=palette_rtk2_3 \
         IMAGE_FORMAT=gif BACKGROUND=transparent \
         SAVE_PATH=Images/RTK2_Portraits3.gif
 """
@@ -39,7 +39,7 @@ PORTRAIT_WIDTH = 64
 PORTRAIT_DATA_HEIGHT = 40
 PORTRAIT_SCALE_Y = 2
 PORTRAIT_HEIGHT = PORTRAIT_DATA_HEIGHT * PORTRAIT_SCALE_Y
-PORTRAITS_PER_ROW = 15
+PORTRAITS_PER_ROW = 20
 BACKGROUND_COLORS_NAME = "BACKGROUND_COLORS"
 
 
