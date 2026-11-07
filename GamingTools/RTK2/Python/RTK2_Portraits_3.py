@@ -1,5 +1,6 @@
 """Decode RTK2 portraits from the 3-bit-plane KAODATA.DAT format."""
 
+import json
 from pathlib import Path
 
 from PIL import Image
@@ -7,26 +8,22 @@ from PIL import Image
 
 BASE_DIR = Path(__file__).resolve().parent
 LOAD_PATH = BASE_DIR / "Data" / "KAODATA.DAT"
+PALETTE_PATH = BASE_DIR / "RTK2_Palette.json"
+PALETTE_NAME = "palette_rtk2_3"
 SAVE_PATH = BASE_DIR / "Images" / "RTK2_Portraits3.gif"
 PORTRAIT_WIDTH = 64
 PORTRAIT_HEIGHT = 40
 PORTRAITS_PER_ROW = 15
 
-PALETTE = [
-    (0, 0, 0),
-    (84, 84, 252),
-    (252, 84, 84),
-    (252, 84, 252),
-    (84, 252, 84),
-    (84, 252, 252),
-    (252, 252, 84),
-    (252, 252, 252),
-]
-
-
 def read_data_file(path=LOAD_PATH):
     """Read the binary portrait data."""
     return path.read_bytes()
+
+
+def read_palette_file(path=PALETTE_PATH):
+    """Read the RGB palette used by the portrait data."""
+    with path.open("r", encoding="utf-8") as palette_file:
+        return json.load(palette_file)[PALETTE_NAME]
 
 
 def extract_3_bit_palette_indices(byte_data):
@@ -46,7 +43,7 @@ def extract_3_bit_palette_indices(byte_data):
     return palette_indices
 
 
-def save_image(palette_indices, path=SAVE_PATH):
+def save_image(palette_indices, palette, path=SAVE_PATH):
     """Arrange 64-by-40 portraits in rows and save the portrait sheet."""
     portrait_size = PORTRAIT_WIDTH * PORTRAIT_HEIGHT
     if len(palette_indices) % portrait_size:
@@ -63,7 +60,7 @@ def save_image(palette_indices, path=SAVE_PATH):
         start = portrait_index * portrait_size
         end = start + portrait_size
         portrait = Image.new("RGB", (PORTRAIT_WIDTH, PORTRAIT_HEIGHT))
-        portrait.putdata([PALETTE[index] for index in palette_indices[start:end]])
+        portrait.putdata([tuple(palette[index]) for index in palette_indices[start:end]])
         position = (
             (portrait_index % PORTRAITS_PER_ROW) * PORTRAIT_WIDTH,
             (portrait_index // PORTRAITS_PER_ROW) * PORTRAIT_HEIGHT,
@@ -76,6 +73,7 @@ def save_image(palette_indices, path=SAVE_PATH):
 
 if __name__ == "__main__":
     data = read_data_file()
+    palette = read_palette_file()
     palette_indices = extract_3_bit_palette_indices(data)
-    save_image(palette_indices)
+    save_image(palette_indices, palette)
     print(f"Saved {len(palette_indices)} pixels to {SAVE_PATH}")
