@@ -42,6 +42,7 @@ RTK2(Romance of The Three Kingdoms II, KOEI, 1989) ERP
 - [General 1.0 (2021.08.24)](/GamingTools/RTK2/VBA/README.md#general-10-20210824)
 
 [**\<Python>**](/GamingTools/RTK2/Python/)
+- [Get Portraits from `KAODATA.DAT` (Trial 3) (2026.11.07)](/GamingTools/RTK2/Python/README.md#get-portraits-from-kaodatadat-trial-3-20261107)
 - [Read the Save Data in a Linked List Structure (2025.07.06)](/GamingTools/RTK2/Python/README.md#read-the-save-data-in-a-linked-list-structure-20250706)
 - [Get Portraits from `KAODATA.DAT` (Trial 2) (2024.08.05)](/GamingTools/RTK2/Python/README.md#get-portraits-from-kaodatadat-trial-2-20240805)
 - [Get Portraits from `KAODATA.DAT` (Trial 1) (2023.03.09)](/GamingTools/RTK2/Python/README.md#get-portraits-from-kaodatadat-trial-1-20230309)

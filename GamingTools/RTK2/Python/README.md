@@ -5,6 +5,7 @@ a great journey to construct RTK2(Romance of The Three Kingdoms II, KOEI, 1989) 
 
 ## List
 
+- [Get Portraits from `KAODATA.DAT` (Trial 3) (2026.11.07)](#get-portraits-from-kaodatadat-trial-3-20261107)
 - [Read the Save Data in a Linked List Structure (2025.07.06)](#read-the-save-data-in-a-linked-list-structure-20250706)
 - [Get Portraits from `KAODATA.DAT` (Trial 2) (2024.08.05)](#get-portraits-from-kaodatadat-trial-2-20240805)
 - [Get Portraits from `KAODATA.DAT` (Trial 1) (2023.03.09)](#get-portraits-from-kaodatadat-trial-1-20230309)
@@ -13,6 +14,35 @@ a great journey to construct RTK2(Romance of The Three Kingdoms II, KOEI, 1989) 
 - [Get Provinces' Data from the Save File with `Pandas` (2019.08.12)](#get-provinces-data-from-the-save-file-with-pandas-20190812)
 - [Get Provinces' Data from the Save File (2019.07.23)](#get-provinces-data-from-the-save-file-20190723)
 - [Get Provinces Data's Offset from the Save File (2019.07.22)](#get-provinces-datas-offset-from-the-save-file-20190722)
+
+
+# [Get Portraits from `KAODATA.DAT` (Trial 3) (2026.11.07)](#list)
+
+- Decode `KAODATA.DAT` using its 3-bitplane layout: each group of 3 bytes contains 8 pixels.
+- Reconstruct 64-by-40 portraits and arrange 15 portraits per row.
+- Calibrate the 8-color palette against the first three in-game portrait captures.
+- Store the portrait palette (`palette_rtk2_3`) and background colors (`BACKGROUND_COLORS`) in `RTK2_Palette.json`.
+- Save empty sheet areas as transparent by default. GIF and PNG support transparency; JPEG uses a solid background and defaults to white.
+- Supported backgrounds: `transparent`, `white`, `gray`, and `black`.
+- Supported output formats: GIF (default), PNG, JPG, and JPEG.
+- Output: 219 portraits in a 15-column, 960-by-600 sheet.
+
+  ![RTK2 portraits, Trial 3](./Images/RTK2_Portraits3.gif)
+
+- Code : `RTK2_Portraits_3.py`
+- Usage (run from `GamingTools/RTK2/Python`)
+
+  ```bash
+  python RTK2_Portraits_3.py PORTRAITS_PER_ROW=15 PALETTE_NAME=palette_rtk2_3 \
+      IMAGE_FORMAT=gif BACKGROUND=transparent SAVE_PATH=Images/RTK2_Portraits3.gif
+  ```
+
+- Override individual settings as needed, for example:
+
+  ```bash
+  python RTK2_Portraits_3.py IMAGE_FORMAT=png BACKGROUND=gray
+  python RTK2_Portraits_3.py IMAGE_FORMAT=jpg BACKGROUND=white
+  ```
 
 
 # [Read the Save Data in a Linked List Structure (2025.07.06)](#list)
