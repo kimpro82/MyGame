@@ -2,6 +2,7 @@
 
 import json
 from pathlib import Path
+import sys
 
 from PIL import Image
 
@@ -15,15 +16,19 @@ PORTRAIT_WIDTH = 64
 PORTRAIT_HEIGHT = 40
 PORTRAITS_PER_ROW = 15
 
+
 def read_data_file(path=LOAD_PATH):
     """Read the binary portrait data."""
     return path.read_bytes()
 
 
-def read_palette_file(path=PALETTE_PATH):
+def read_palette_file(path=PALETTE_PATH, palette_name=PALETTE_NAME):
     """Read the RGB palette used by the portrait data."""
     with path.open("r", encoding="utf-8") as palette_file:
-        return json.load(palette_file)[PALETTE_NAME]
+        palettes = json.load(palette_file)
+    if palette_name not in palettes:
+        raise ValueError(f"Palette '{palette_name}' was not found in {path}")
+    return palettes[palette_name]
 
 
 def extract_3_bit_palette_indices(byte_data):
@@ -43,17 +48,25 @@ def extract_3_bit_palette_indices(byte_data):
     return palette_indices
 
 
-def save_image(palette_indices, palette, path=SAVE_PATH):
+def save_image(
+    palette_indices,
+    palette,
+    portraits_per_row=PORTRAITS_PER_ROW,
+    path=SAVE_PATH,
+):
     """Arrange 64-by-40 portraits in rows and save the portrait sheet."""
+    if portraits_per_row <= 0:
+        raise ValueError("PORTRAITS_PER_ROW must be a positive integer")
+
     portrait_size = PORTRAIT_WIDTH * PORTRAIT_HEIGHT
     if len(palette_indices) % portrait_size:
         raise ValueError("Pixel count must contain complete 64-by-40 portraits")
 
     portrait_count = len(palette_indices) // portrait_size
-    row_count = (portrait_count + PORTRAITS_PER_ROW - 1) // PORTRAITS_PER_ROW
+    row_count = (portrait_count + portraits_per_row - 1) // portraits_per_row
     image = Image.new(
         "RGB",
-        (PORTRAIT_WIDTH * PORTRAITS_PER_ROW, PORTRAIT_HEIGHT * row_count),
+        (PORTRAIT_WIDTH * portraits_per_row, PORTRAIT_HEIGHT * row_count),
     )
 
     for portrait_index in range(portrait_count):
@@ -62,8 +75,8 @@ def save_image(palette_indices, palette, path=SAVE_PATH):
         portrait = Image.new("RGB", (PORTRAIT_WIDTH, PORTRAIT_HEIGHT))
         portrait.putdata([tuple(palette[index]) for index in palette_indices[start:end]])
         position = (
-            (portrait_index % PORTRAITS_PER_ROW) * PORTRAIT_WIDTH,
-            (portrait_index // PORTRAITS_PER_ROW) * PORTRAIT_HEIGHT,
+            (portrait_index % portraits_per_row) * PORTRAIT_WIDTH,
+            (portrait_index // portraits_per_row) * PORTRAIT_HEIGHT,
         )
         image.paste(portrait, position)
 
@@ -71,9 +84,49 @@ def save_image(palette_indices, palette, path=SAVE_PATH):
     image.save(path)
 
 
+def parse_key_value_args(arguments):
+    """Parse optional PORTRAITS_PER_ROW, PALETTE_NAME, and SAVE_PATH values."""
+    options = {
+        "PORTRAITS_PER_ROW": PORTRAITS_PER_ROW,
+        "PALETTE_NAME": PALETTE_NAME,
+        "SAVE_PATH": SAVE_PATH,
+    }
+    provided_keys = set()
+
+    for argument in arguments:
+        key, separator, value = argument.partition("=")
+        if not separator or not value:
+            raise ValueError(f"Expected KEY=VALUE, got '{argument}'")
+        if key not in options:
+            raise ValueError(f"Unknown option '{key}'")
+        if key in provided_keys:
+            raise ValueError(f"Option '{key}' was provided more than once")
+        options[key] = value
+        provided_keys.add(key)
+
+    try:
+        options["PORTRAITS_PER_ROW"] = int(options["PORTRAITS_PER_ROW"])
+    except ValueError:
+        raise ValueError("PORTRAITS_PER_ROW must be a positive integer") from None
+    if options["PORTRAITS_PER_ROW"] <= 0:
+        raise ValueError("PORTRAITS_PER_ROW must be a positive integer")
+
+    options["SAVE_PATH"] = Path(options["SAVE_PATH"])
+    return options
+
+
 if __name__ == "__main__":
-    data = read_data_file()
-    palette = read_palette_file()
-    palette_indices = extract_3_bit_palette_indices(data)
-    save_image(palette_indices, palette)
-    print(f"Saved {len(palette_indices)} pixels to {SAVE_PATH}")
+    try:
+        options = parse_key_value_args(sys.argv[1:])
+        data = read_data_file()
+        palette = read_palette_file(palette_name=options["PALETTE_NAME"])
+        palette_indices = extract_3_bit_palette_indices(data)
+        save_image(
+            palette_indices,
+            palette,
+            portraits_per_row=options["PORTRAITS_PER_ROW"],
+            path=options["SAVE_PATH"],
+        )
+    except ValueError as error:
+        raise SystemExit(f"Error: {error}") from None
+    print(f"Saved {len(palette_indices)} pixels to {options['SAVE_PATH']}")
