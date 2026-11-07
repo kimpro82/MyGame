@@ -32,17 +32,25 @@ a great journey to construct RTK2(Romance of The Three Kingdoms II, KOEI, 1989) 
 - Code : `RTK2_Portraits_3.py`
 - Usage (run from `GamingTools/RTK2/Python`)
 
-  ```bash
-  python RTK2_Portraits_3.py PORTRAITS_PER_ROW=15 PALETTE_NAME=palette_rtk2_3 \
-      IMAGE_FORMAT=gif BACKGROUND=transparent SAVE_PATH=Images/RTK2_Portraits3.gif
-  ```
+  - Default Usage
 
-- Override individual settings as needed, for example:
+    ```bash
+    python RTK2_Portraits_3.py
+    ```
 
-  ```bash
-  python RTK2_Portraits_3.py IMAGE_FORMAT=png BACKGROUND=gray
-  python RTK2_Portraits_3.py IMAGE_FORMAT=jpg BACKGROUND=white
-  ```
+  - Specify all default values explicitly
+
+    ```bash
+    python RTK2_Portraits_3.py PORTRAITS_PER_ROW=15 PALETTE_NAME=palette_rtk2_3 \
+        IMAGE_FORMAT=gif BACKGROUND=transparent SAVE_PATH=Images/RTK2_Portraits3.gif
+    ```
+
+  - Override individual settings as needed, for example:
+
+    ```bash
+    python RTK2_Portraits_3.py IMAGE_FORMAT=png BACKGROUND=gray
+    python RTK2_Portraits_3.py IMAGE_FORMAT=jpg BACKGROUND=white
+    ```
 
 
 # [Read the Save Data in a Linked List Structure (2025.07.06)](#list)
