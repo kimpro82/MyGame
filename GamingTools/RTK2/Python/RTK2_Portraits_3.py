@@ -5,8 +5,8 @@ Author : kimpro82
 
 Each group of three bytes stores one bitplane byte per color-index bit. Matching
 bit positions across the three bytes form eight palette indices. The decoded
-64-by-40 portraits are arranged into a sheet and colored with the palette in
-RTK2_Palette.json.
+64-by-40 data portraits are enlarged vertically to 64-by-80 for display, then
+arranged into a sheet and colored with the palette in RTK2_Palette.json.
 
 History:
     2026.11.07 : Added configurable palettes and image formats, plus row-based portrait
@@ -36,7 +36,9 @@ SAVE_PATH = BASE_DIR / "Images" / "RTK2_Portraits3.gif"
 IMAGE_FORMAT = "gif"
 BACKGROUND = "transparent"
 PORTRAIT_WIDTH = 64
-PORTRAIT_HEIGHT = 40
+PORTRAIT_DATA_HEIGHT = 40
+PORTRAIT_SCALE_Y = 2
+PORTRAIT_HEIGHT = PORTRAIT_DATA_HEIGHT * PORTRAIT_SCALE_Y
 PORTRAITS_PER_ROW = 15
 BACKGROUND_COLORS_NAME = "BACKGROUND_COLORS"
 
@@ -153,7 +155,7 @@ def save_image(
     Args:
         palette_indices: Flat sequence of decoded 3-bit palette indices.
         palette: Ordered RGB colors used to convert indices to pixels.
-        portraits_per_row: Number of 64-by-40 portraits in each sheet row.
+        portraits_per_row: Number of 64-by-80 displayed portraits in each row.
         path: Destination path. Its parent directories are created if needed.
         image_format: Output format: ``gif``, ``png``, or ``jpg``.
         background: Empty-area style: ``transparent``, ``white``, ``gray``, or
@@ -176,9 +178,9 @@ def save_image(
     if image_format == "jpg" and background == "transparent":
         raise ValueError("JPEG does not support transparency; choose white, gray, or black")
 
-    portrait_size = PORTRAIT_WIDTH * PORTRAIT_HEIGHT
+    portrait_size = PORTRAIT_WIDTH * PORTRAIT_DATA_HEIGHT
     if len(palette_indices) % portrait_size:
-        raise ValueError("Pixel count must contain complete 64-by-40 portraits")
+        raise ValueError("Pixel count must contain complete 64-by-40 data portraits")
 
     portrait_count = len(palette_indices) // portrait_size
     row_count = (portrait_count + portraits_per_row - 1) // portraits_per_row
@@ -199,9 +201,12 @@ def save_image(
         for portrait_index in range(portrait_count):
             start = portrait_index * portrait_size
             end = start + portrait_size
-            portrait = Image.new("P", (PORTRAIT_WIDTH, PORTRAIT_HEIGHT))
+            portrait = Image.new("P", (PORTRAIT_WIDTH, PORTRAIT_DATA_HEIGHT))
             portrait.putpalette(gif_palette)
             portrait.putdata(palette_indices[start:end])
+            portrait = portrait.resize(
+                (PORTRAIT_WIDTH, PORTRAIT_HEIGHT), Image.Resampling.NEAREST
+            )
             position = (
                 (portrait_index % portraits_per_row) * PORTRAIT_WIDTH,
                 (portrait_index // portraits_per_row) * PORTRAIT_HEIGHT,
@@ -222,11 +227,14 @@ def save_image(
         for portrait_index in range(portrait_count):
             start = portrait_index * portrait_size
             end = start + portrait_size
-            portrait = Image.new(mode, (PORTRAIT_WIDTH, PORTRAIT_HEIGHT))
+            portrait = Image.new(mode, (PORTRAIT_WIDTH, PORTRAIT_DATA_HEIGHT))
             if mode == "RGBA":
                 portrait.putdata([(*palette[index], 255) for index in palette_indices[start:end]])
             else:
                 portrait.putdata([tuple(palette[index]) for index in palette_indices[start:end]])
+            portrait = portrait.resize(
+                (PORTRAIT_WIDTH, PORTRAIT_HEIGHT), Image.Resampling.NEAREST
+            )
             position = (
                 (portrait_index % portraits_per_row) * PORTRAIT_WIDTH,
                 (portrait_index // portraits_per_row) * PORTRAIT_HEIGHT,
