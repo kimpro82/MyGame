@@ -8,7 +8,9 @@ from PIL import Image
 BASE_DIR = Path(__file__).resolve().parent
 LOAD_PATH = BASE_DIR / "Data" / "KAODATA.DAT"
 SAVE_PATH = BASE_DIR / "Images" / "RTK2_Portraits3.gif"
-WIDTH = 64
+PORTRAIT_WIDTH = 64
+PORTRAIT_HEIGHT = 40
+PORTRAITS_PER_ROW = 15
 
 PALETTE = [
     (47, 31, 0),
@@ -45,13 +47,29 @@ def extract_3_bit_palette_indices(byte_data):
 
 
 def save_image(palette_indices, path=SAVE_PATH):
-    """Convert palette indices to RGB and save the portrait sheet."""
-    if len(palette_indices) % WIDTH:
-        raise ValueError(f"Pixel count must be divisible by the image width ({WIDTH})")
+    """Arrange 64-by-40 portraits in rows and save the portrait sheet."""
+    portrait_size = PORTRAIT_WIDTH * PORTRAIT_HEIGHT
+    if len(palette_indices) % portrait_size:
+        raise ValueError("Pixel count must contain complete 64-by-40 portraits")
 
-    height = len(palette_indices) // WIDTH
-    image = Image.new("RGB", (WIDTH, height))
-    image.putdata([PALETTE[index] for index in palette_indices])
+    portrait_count = len(palette_indices) // portrait_size
+    row_count = (portrait_count + PORTRAITS_PER_ROW - 1) // PORTRAITS_PER_ROW
+    image = Image.new(
+        "RGB",
+        (PORTRAIT_WIDTH * PORTRAITS_PER_ROW, PORTRAIT_HEIGHT * row_count),
+    )
+
+    for portrait_index in range(portrait_count):
+        start = portrait_index * portrait_size
+        end = start + portrait_size
+        portrait = Image.new("RGB", (PORTRAIT_WIDTH, PORTRAIT_HEIGHT))
+        portrait.putdata([PALETTE[index] for index in palette_indices[start:end]])
+        position = (
+            (portrait_index % PORTRAITS_PER_ROW) * PORTRAIT_WIDTH,
+            (portrait_index // PORTRAITS_PER_ROW) * PORTRAIT_HEIGHT,
+        )
+        image.paste(portrait, position)
+
     path.parent.mkdir(parents=True, exist_ok=True)
     image.save(path)
 
