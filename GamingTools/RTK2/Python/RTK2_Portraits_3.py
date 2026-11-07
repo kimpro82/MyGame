@@ -38,11 +38,7 @@ BACKGROUND = "transparent"
 PORTRAIT_WIDTH = 64
 PORTRAIT_HEIGHT = 40
 PORTRAITS_PER_ROW = 15
-BACKGROUND_COLORS = {
-    "white": (255, 255, 255),
-    "gray": (128, 128, 128),
-    "black": (0, 0, 0),
-}
+BACKGROUND_COLORS_NAME = "BACKGROUND_COLORS"
 
 
 def read_data_file(path=LOAD_PATH):
@@ -80,6 +76,35 @@ def read_palette_file(path=PALETTE_PATH, palette_name=PALETTE_NAME):
     if palette_name not in palettes:
         raise ValueError(f"Palette '{palette_name}' was not found in {path}")
     return palettes[palette_name]
+
+
+def read_background_colors(path=PALETTE_PATH):
+    """Load named background RGB values from the palette JSON file.
+
+    Args:
+        path: Path to the JSON file containing the background colors.
+
+    Returns:
+        A mapping from background names to RGB color triplets.
+
+    Raises:
+        OSError: If the palette file cannot be opened.
+        json.JSONDecodeError: If the file is not valid JSON.
+        ValueError: If the background-color mapping is missing or malformed.
+    """
+    with path.open("r", encoding="utf-8") as palette_file:
+        palettes = json.load(palette_file)
+    background_colors = palettes.get(BACKGROUND_COLORS_NAME)
+    if not isinstance(background_colors, dict):
+        raise ValueError(f"'{BACKGROUND_COLORS_NAME}' must be an object in {path}")
+    for name, color in background_colors.items():
+        if (
+            not isinstance(color, list)
+            or len(color) != 3
+            or any(not isinstance(channel, int) or not 0 <= channel <= 255 for channel in color)
+        ):
+            raise ValueError(f"Background color '{name}' must be an RGB triplet")
+    return background_colors
 
 
 def extract_3_bit_palette_indices(byte_data):
@@ -121,6 +146,7 @@ def save_image(
     path=SAVE_PATH,
     image_format=IMAGE_FORMAT,
     background=BACKGROUND,
+    background_colors=None,
 ):
     """Arrange decoded portraits in a row-major sheet and save the image.
 
@@ -132,6 +158,8 @@ def save_image(
         image_format: Output format: ``gif``, ``png``, or ``jpg``.
         background: Empty-area style: ``transparent``, ``white``, ``gray``, or
             ``black``. JPEG requires an opaque background.
+        background_colors: Mapping of opaque background names to RGB triplets.
+            Loaded from the palette JSON file when omitted.
 
     Raises:
         ValueError: If the row count is non-positive or the pixel count does
@@ -141,7 +169,9 @@ def save_image(
     """
     if portraits_per_row <= 0:
         raise ValueError("PORTRAITS_PER_ROW must be a positive integer")
-    if background not in (*BACKGROUND_COLORS, "transparent"):
+    if background_colors is None:
+        background_colors = read_background_colors()
+    if background not in (*background_colors, "transparent"):
         raise ValueError("BACKGROUND must be transparent, white, gray, or black")
     if image_format == "jpg" and background == "transparent":
         raise ValueError("JPEG does not support transparency; choose white, gray, or black")
@@ -153,7 +183,7 @@ def save_image(
     portrait_count = len(palette_indices) // portrait_size
     row_count = (portrait_count + portraits_per_row - 1) // portraits_per_row
     image_size = (PORTRAIT_WIDTH * portraits_per_row, PORTRAIT_HEIGHT * row_count)
-    background_rgb = BACKGROUND_COLORS.get(background)
+    background_rgb = tuple(background_colors[background]) if background != "transparent" else None
 
     if image_format == "gif":
         # Reserve a separate palette entry for the blank area and its transparency.
@@ -267,7 +297,8 @@ def parse_key_value_args(arguments):
     options["IMAGE_FORMAT"] = image_format
 
     background = str(options["BACKGROUND"]).lower()
-    if background not in (*BACKGROUND_COLORS, "transparent"):
+    background_colors = read_background_colors()
+    if background not in (*background_colors, "transparent"):
         raise ValueError("BACKGROUND must be transparent, white, gray, or black")
     if image_format == "jpg" and background == "transparent":
         if "BACKGROUND" in provided_keys:
@@ -294,6 +325,7 @@ if __name__ == "__main__":
         options = parse_key_value_args(sys.argv[1:])
         data = read_data_file()
         palette = read_palette_file(palette_name=options["PALETTE_NAME"])
+        background_colors = read_background_colors()
         palette_indices = extract_3_bit_palette_indices(data)
         save_image(
             palette_indices,
@@ -302,6 +334,7 @@ if __name__ == "__main__":
             path=options["SAVE_PATH"],
             image_format=options["IMAGE_FORMAT"],
             background=options["BACKGROUND"],
+            background_colors=background_colors,
         )
     except ValueError as error:
         raise SystemExit(f"Error: {error}") from None
