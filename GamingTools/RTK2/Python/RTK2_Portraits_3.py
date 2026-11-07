@@ -1,4 +1,23 @@
-"""Decode RTK2 portraits from the 3-bit-plane KAODATA.DAT format."""
+"""RTK2 > Get Portraits from KAODATA.DAT (Trial 3)
+
+Date   : 2026.11.07
+Author : kimpro82
+
+Each group of three bytes stores one bitplane byte per color-index bit. Matching
+bit positions across the three bytes form eight palette indices. The decoded
+64-by-40 portraits are arranged into a sheet and colored with the palette in
+RTK2_Palette.json.
+
+History:
+    2026.11.07 : Added configurable palettes and image formats, plus row-based portrait
+                layout. GIF is the default output format.
+
+Usage (run from GamingTools/RTK2/Python)::
+
+    python RTK2_Portraits_3.py \
+        PORTRAITS_PER_ROW=15 PALETTE_NAME=palette_rtk2_3 \
+        IMAGE_FORMAT=gif SAVE_PATH=Images/RTK2_Portraits3.gif
+"""
 
 import json
 from pathlib import Path
@@ -19,12 +38,35 @@ PORTRAITS_PER_ROW = 15
 
 
 def read_data_file(path=LOAD_PATH):
-    """Read the binary portrait data."""
+    """Read the binary portrait data from disk.
+
+    Args:
+        path: Path to the KAODATA.DAT file.
+
+    Returns:
+        The file contents as bytes.
+
+    Raises:
+        OSError: If the file cannot be opened or read.
+    """
     return path.read_bytes()
 
 
 def read_palette_file(path=PALETTE_PATH, palette_name=PALETTE_NAME):
-    """Read the RGB palette used by the portrait data."""
+    """Load a named RGB palette from the palette JSON file.
+
+    Args:
+        path: Path to the JSON palette file.
+        palette_name: JSON key containing the ordered RGB colors.
+
+    Returns:
+        A list of RGB color triplets, indexed by decoded pixel value.
+
+    Raises:
+        OSError: If the palette file cannot be opened.
+        json.JSONDecodeError: If the file is not valid JSON.
+        ValueError: If ``palette_name`` is not present in the file.
+    """
     with path.open("r", encoding="utf-8") as palette_file:
         palettes = json.load(palette_file)
     if palette_name not in palettes:
@@ -33,12 +75,27 @@ def read_palette_file(path=PALETTE_PATH, palette_name=PALETTE_NAME):
 
 
 def extract_3_bit_palette_indices(byte_data):
-    """Recombine each group of three bit-plane bytes into eight pixel indices."""
+    """Decode 3-bit color indices from groups of three bitplane bytes.
+
+    Bits are read from most significant to least significant. For each bit
+    position, Plane 2 supplies the high index bit and Plane 0 the low bit.
+
+    Args:
+        byte_data: Binary data arranged as repeated Plane 0, Plane 1, Plane 2
+            byte groups.
+
+    Returns:
+        Eight palette indices per 3-byte group, each in the range 0 through 7.
+
+    Raises:
+        ValueError: If the data ends with an incomplete 3-byte group.
+    """
     if len(byte_data) % 3:
         raise ValueError("3BPP data must contain complete 3-byte plane groups")
 
     palette_indices = []
     for offset in range(0, len(byte_data), 3):
+        # Each byte contributes one bit to each of the eight adjacent pixels.
         plane_0, plane_1, plane_2 = byte_data[offset : offset + 3]
         for bit_position in range(7, -1, -1):
             bit_0 = (plane_0 >> bit_position) & 1
@@ -56,7 +113,20 @@ def save_image(
     path=SAVE_PATH,
     image_format=IMAGE_FORMAT,
 ):
-    """Arrange 64-by-40 portraits in rows and save the portrait sheet."""
+    """Arrange decoded portraits in a row-major sheet and save the image.
+
+    Args:
+        palette_indices: Flat sequence of decoded 3-bit palette indices.
+        palette: Ordered RGB colors used to convert indices to pixels.
+        portraits_per_row: Number of 64-by-40 portraits in each sheet row.
+        path: Destination path. Its parent directories are created if needed.
+        image_format: Output format: ``gif``, ``png``, or ``jpg``.
+
+    Raises:
+        ValueError: If the row count is non-positive or the pixel count does
+            not contain complete portraits.
+        OSError: If the output image cannot be written.
+    """
     if portraits_per_row <= 0:
         raise ValueError("PORTRAITS_PER_ROW must be a positive integer")
 
@@ -88,7 +158,25 @@ def save_image(
 
 
 def parse_key_value_args(arguments):
-    """Parse optional portrait layout, palette, output format, and path values."""
+    """Parse optional command-line settings written as KEY=VALUE arguments.
+
+    Supported keys are ``PORTRAITS_PER_ROW``, ``PALETTE_NAME``,
+    ``IMAGE_FORMAT``, and ``SAVE_PATH``. Missing values retain their defaults.
+    ``IMAGE_FORMAT`` accepts ``gif``, ``png``, ``jpg``, or ``jpeg``; JPEG is
+    normalized to ``jpg``. If the save path is omitted, its extension follows
+    the selected format. An explicitly supplied extension must match the format.
+
+    Args:
+        arguments: Command-line arguments, excluding the program name.
+
+    Returns:
+        A dictionary containing the validated row count, palette key, output
+        format, and destination path.
+
+    Raises:
+        ValueError: If an argument is malformed, duplicated, unknown, or has
+            an invalid value.
+    """
     options = {
         "PORTRAITS_PER_ROW": PORTRAITS_PER_ROW,
         "PALETTE_NAME": PALETTE_NAME,
