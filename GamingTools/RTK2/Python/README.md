@@ -5,6 +5,7 @@ a great journey to construct RTK2(Romance of The Three Kingdoms II, KOEI, 1989) 
 
 ## List
 
+- [Get Portraits from `KAODATA.DAT` (Trial 3) (2026.11.07)](#get-portraits-from-kaodatadat-trial-3-20261107)
 - [Read the Save Data in a Linked List Structure (2025.07.06)](#read-the-save-data-in-a-linked-list-structure-20250706)
 - [Get Portraits from `KAODATA.DAT` (Trial 2) (2024.08.05)](#get-portraits-from-kaodatadat-trial-2-20240805)
 - [Get Portraits from `KAODATA.DAT` (Trial 1) (2023.03.09)](#get-portraits-from-kaodatadat-trial-1-20230309)
@@ -13,6 +14,47 @@ a great journey to construct RTK2(Romance of The Three Kingdoms II, KOEI, 1989) 
 - [Get Provinces' Data from the Save File with `Pandas` (2019.08.12)](#get-provinces-data-from-the-save-file-with-pandas-20190812)
 - [Get Provinces' Data from the Save File (2019.07.23)](#get-provinces-data-from-the-save-file-20190723)
 - [Get Provinces Data's Offset from the Save File (2019.07.22)](#get-provinces-datas-offset-from-the-save-file-20190722)
+
+
+# [Get Portraits from `KAODATA.DAT` (Trial 3) (2026.11.07)](#list)
+
+- Unlike [Trials 1](#get-portraits-from-kaodatadat-trial-1-20230309) and [Trial 2](#get-portraits-from-kaodatadat-trial-2-20240805), this attempt succeeded by correctly understanding the data structure and decoding the 3-bitplane layout.
+- **Processing**
+  - Decode `KAODATA.DAT` using its 3-bitplane layout: each group of 3 bytes contains 8 pixels.
+  - Reconstruct 64-by-40 portrait data, enlarge each portrait vertically to 64-by-80, and arrange 20 per row.
+- **Palette**
+  - Calibrate the 8-color palette against the first three in-game portrait captures.
+  - Store the portrait palette (`palette_rtk2_3`) and background colors (`BACKGROUND_COLORS`) in `RTK2_Palette.json`.
+- **Output**
+  - Save empty sheet areas as transparent by default. GIF and PNG support transparency; JPEG uses a solid background and defaults to white.
+  - Supported backgrounds: `transparent`, `white`, `gray`, and `black`.
+  - Supported output formats: GIF (default), PNG, JPG, and JPEG.
+  - Output: 219 portraits in a 20-column, 1280-by-880 sheet, with one transparent slot at the end.
+
+  ![RTK2 portraits, Trial 3](./Images/RTK2_Portraits3.gif)
+
+- Code : `RTK2_Portraits_3.py`
+- Usage (run from `GamingTools/RTK2/Python`)
+
+  - Default Usage
+
+    ```bash
+    python RTK2_Portraits_3.py
+    ```
+
+  - Specify all default values explicitly
+
+    ```bash
+    python RTK2_Portraits_3.py PORTRAITS_PER_ROW=20 PALETTE_NAME=palette_rtk2_3 \
+        IMAGE_FORMAT=gif BACKGROUND=transparent SAVE_PATH=Images/RTK2_Portraits3.gif
+    ```
+
+  - Override individual settings as needed, for example:
+
+    ```bash
+    python RTK2_Portraits_3.py IMAGE_FORMAT=png BACKGROUND=gray
+    python RTK2_Portraits_3.py IMAGE_FORMAT=jpg BACKGROUND=white
+    ```
 
 
 # [Read the Save Data in a Linked List Structure (2025.07.06)](#list)
