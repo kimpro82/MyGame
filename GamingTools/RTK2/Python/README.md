@@ -18,6 +18,7 @@ a great journey to construct RTK2(Romance of The Three Kingdoms II, KOEI, 1989) 
 
 # [Get Portraits from `KAODATA.DAT` (Trial 3) (2026.11.07)](#list)
 
+- Unlike [Trials 1](#get-portraits-from-kaodatadat-trial-1-20230309) and [Trial 2](#get-portraits-from-kaodatadat-trial-2-20240805), this attempt succeeded by correctly understanding the data structure and decoding the 3-bitplane layout.
 - **Processing**
   - Decode `KAODATA.DAT` using its 3-bitplane layout: each group of 3 bytes contains 8 pixels.
   - Reconstruct 64-by-40 portrait data, enlarge each portrait vertically to 64-by-80, and arrange 20 per row.
